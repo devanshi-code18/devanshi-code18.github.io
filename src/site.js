@@ -5,7 +5,7 @@ export const SITE = {
   shortName: 'Devanshi',
   // One line at the top of the blog page.
   tagline: 'Notes on ML inference systems: LLM serving, GPU kernels, and making models cheaper to run.',
-  url: 'https://devanshi-code18.github.io',
+  url: 'https://dvnxi.github.io',
   // Used for search results and link previews.
   description: 'Devanshi Jain writes about ML inference systems: serving, GPU kernels, and making models cheaper to run.',
   // The two sentences at the top of the home page. Plain HTML is fine.

@@ -1,6 +1,6 @@
-# devanshi-code18.github.io
+# dvnxi.github.io
 
-My personal site and blog: https://devanshi-code18.github.io
+My personal site and blog: https://dvnxi.github.io
 
 Built with [Astro](https://astro.build). Minimal on purpose: a blog home page that lists posts, an About page, and posts with a contents box (long posts), a cite box, and copy buttons on code. Every push to `main` publishes the site with GitHub Actions in about a minute. It also rebuilds every night, so the open-source list on the home page picks up newly merged pull requests by itself.
 

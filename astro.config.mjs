@@ -6,7 +6,7 @@ import rehypeKatex from 'rehype-katex';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 export default defineConfig({
-  site: 'https://devanshi-code18.github.io',
+  site: 'https://dvnxi.github.io',
   trailingSlash: 'always',
   integrations: [sitemap()],
   markdown: {
