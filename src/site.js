@@ -3,8 +3,6 @@ export const SITE = {
   name: 'Devanshi Jain',
   // One line at the top of the blog page.
   tagline: 'Notes on ML inference systems: LLM serving, GPU kernels, and making models cheaper to run.',
-  // Shown on the Contact page if set, e.g. 'me@example.com'.
-  email: '',
   url: 'https://devanshi-code18.github.io',
   // Used for search results and link previews.
   description: 'Devanshi Jain writes about ML inference systems: serving, GPU kernels, and making models cheaper to run.',

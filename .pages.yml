@@ -34,14 +34,6 @@ content:
         type: date
         options:
           format: yyyy-MM-dd
-      - name: cover
-        label: Card picture
-        description: Shown on the post's card on the home page (optional).
-        type: image
-      - name: topic
-        label: Topic
-        description: Posts with the same topic are grouped under one heading on the home page (optional).
-        type: string
       - name: draft
         label: Draft
         description: Drafts stay off the live site. Uncheck to publish.

@@ -1,62 +1,39 @@
 ---
 import Base from '../layouts/Base.astro';
-import Cover from '../components/Cover.astro';
 import { SITE } from '../site.js';
-import { getPosts, fmtDate, readingMinutes } from '../lib/posts.js';
+import { getPosts, fmtDate } from '../lib/posts.js';
 import { getMergedPRs, repoName, allMergedUrl } from '../lib/oss.js';
 
 const posts = await getPosts();
 const prs = (await getMergedPRs()).slice(0, 8);
-
-// Group posts by topic, newest topic first; posts without a topic share one group.
-const groups = [];
-for (const p of posts) {
-  const name = p.data.topic || '';
-  let g = groups.find((x) => x.name === name);
-  if (!g) groups.push((g = { name, posts: [] }));
-  g.posts.push(p);
-}
 ---
 <Base>
-  <p class="lead">{SITE.tagline}</p>
+  <section class="intro">
+    {SITE.intro.map((p) => <p set:html={p} />)}
+  </section>
 
-  {groups.length === 0 && (
-    <div class="cards">
-      <div class="card card-empty">
-        <Cover seed="first-post" />
-        <div class="card-body">
-          <h3>The first post is on its way</h3>
-          <p class="card-desc">Follow along by <a href="/rss.xml">RSS</a>.</p>
-        </div>
-      </div>
-    </div>
-  )}
-
-  {groups.map((g) => (
-    <section class="group">
-      {g.name && <h2 class="section-label">{g.name}</h2>}
-      <div class="cards">
-        {g.posts.map((p) => (
-          <a class="card" href={`/posts/${p.id}/`}>
-            <Cover seed={p.id} src={p.data.cover} />
-            <div class="card-body">
-              <p class="card-meta">
-                <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date, { month: 'short', day: 'numeric', year: 'numeric' })}</time>
-                <span aria-hidden="true"> · </span>{readingMinutes(p.body)} min read
-                {p.data.draft && <span class="badge">draft</span>}
-              </p>
-              <h3>{p.data.title}</h3>
-              {p.data.description && <p class="card-desc">{p.data.description}</p>}
-            </div>
-          </a>
+  <section class="group">
+    <h2 class="section-label">Writing</h2>
+    {posts.length === 0 ? (
+      <p class="muted">The first post is on its way. Follow along by <a href="/rss.xml">RSS</a>.</p>
+    ) : (
+      <ul class="entries posts">
+        {posts.map((p) => (
+          <li>
+            <a href={`/posts/${p.id}/`}>
+              <span class="entry-title">{p.data.title}{p.data.draft && <span class="badge">draft</span>}</span>
+              <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date, { month: 'short', day: 'numeric', year: 'numeric' })}</time>
+            </a>
+            {p.data.description && <p class="entry-desc">{p.data.description}</p>}
+          </li>
         ))}
-      </div>
-    </section>
-  ))}
+      </ul>
+    )}
+  </section>
 
   <section class="group">
     <h2 class="section-label">Open source</h2>
-    <ul class="entries">
+    <ul class="entries oss">
       {prs.map((pr) => (
         <li>
           <a href={pr.url}>

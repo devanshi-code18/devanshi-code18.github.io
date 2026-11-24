@@ -13,10 +13,6 @@ const posts = defineCollection({
     updated: z.coerce.date().nullish(),
     // Drafts show up in `npm run dev` but not on the live site.
     draft: z.boolean().nullish().transform((v) => v ?? false),
-    // Picture on the post's card on the home page, e.g. /images/my-post.png (optional).
-    cover: z.string().nullish(),
-    // Posts with the same topic are grouped under that heading on the home page (optional).
-    topic: z.string().nullish(),
   }),
 });
 

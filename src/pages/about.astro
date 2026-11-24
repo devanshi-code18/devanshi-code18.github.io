@@ -9,10 +9,5 @@ import { SITE } from '../site.js';
       {SITE.intro.map((p) => <p set:html={p} />)}
       <p>Here I write about what I learn making models run faster: serving engines, GPU kernels, quantization, and the measurements behind them. Views here are my own.</p>
     </div>
-    <h2 class="section-label">Elsewhere</h2>
-    <ul class="link-list">
-      {SITE.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
-      <li><a href="/rss.xml">RSS feed</a></li>
-    </ul>
   </article>
 </Base>
