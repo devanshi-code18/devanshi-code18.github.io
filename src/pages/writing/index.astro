@@ -1,0 +1,20 @@
+---
+import Base from '../../layouts/Base.astro';
+import WritingList from '../../components/WritingList.astro';
+import { getWriting } from '../../lib/writing.js';
+
+const writing = await getWriting();
+const years = [...new Set(writing.map((p) => p.date.getUTCFullYear()))];
+---
+<Base title="Writing" description="Posts by Devanshi Jain on ML inference systems.">
+  <article class="page">
+    <h1 class="page-title">Writing</h1>
+    {writing.length === 0 && <p class="empty">First post coming soon. <a href="/rss.xml">RSS</a></p>}
+    {years.map((y) => (
+      <section class="group">
+        <h2 class="section-label">{y}</h2>
+        <WritingList items={writing.filter((p) => p.date.getUTCFullYear() === y)} />
+      </section>
+    ))}
+  </article>
+</Base>

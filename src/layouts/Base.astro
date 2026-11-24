@@ -2,14 +2,14 @@
 import '../styles/global.css';
 import { SITE } from '../site.js';
 
-const { title, description = SITE.description, type = 'website', published } = Astro.props;
+const { title, description = SITE.description, type = 'website', published, home = false } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.name}` : SITE.name;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const ogImage = new URL('/og.png', SITE.url).href;
 const path = Astro.url.pathname;
 const nav = [
-  { href: '/', label: 'Blog', current: path === '/' || path.startsWith('/posts/') },
-  { href: '/about/', label: 'About', current: path.startsWith('/about') },
+  { href: '/', label: 'Home', current: path === '/' },
+  { href: '/writing/', label: 'Writing', current: path.startsWith('/writing') || path.startsWith('/posts/') },
 ];
 ---
 <!doctype html>
@@ -41,7 +41,7 @@ const nav = [
   <body>
     <header class="site-header">
       <div class="wrap">
-        <a href="/" class="site-name">{SITE.shortName}</a>
+        {home ? <span /> : <a href="/" class="site-name">{SITE.shortName}</a>}
         <nav class="site-nav" aria-label="Site">
           {nav.map((n) => <a href={n.href} aria-current={n.current ? 'page' : undefined}>{n.label}</a>)}
         </nav>

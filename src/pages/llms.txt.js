@@ -17,7 +17,8 @@ export async function GET() {
     '',
     '## About',
     '',
-    `- [About](${new URL('/about/', SITE.url).href})`,
+    `- [Home](${SITE.url}/)`,
+    `- [All writing](${new URL('/writing/', SITE.url).href})`,
     ...SITE.links.map((l) => `- [${l.label}](${l.href})`),
     '',
   ];
