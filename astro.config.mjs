@@ -21,7 +21,8 @@ export default defineConfig({
       ],
     }),
     shikiConfig: {
-      themes: { light: 'github-light', dark: 'github-dark-dimmed' },
+      // Colours come from CSS variables in global.css, so code matches the page in light and dark.
+      theme: 'css-variables',
       wrap: false,
     },
   },

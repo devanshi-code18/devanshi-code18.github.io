@@ -12,5 +12,12 @@ export function readingMinutes(body = '') {
   return Math.max(1, Math.round(words / 230));
 }
 
+// Curly quotes and apostrophes for text that skips the Markdown pipeline (titles, summaries).
+export function smart(s = '') {
+  return s
+    .replace(/(^|[\s([{\u2014-])"/g, '$1\u201c').replace(/"/g, '\u201d')
+    .replace(/(^|[\s([{\u2014-])'/g, '$1\u2018').replace(/'/g, '\u2019');
+}
+
 export const fmtDate = (d, opts = { year: 'numeric', month: 'long', day: 'numeric' }) =>
   d.toLocaleDateString('en-US', { timeZone: 'UTC', ...opts });

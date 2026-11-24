@@ -25,7 +25,7 @@ const nav = [
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#f7f3eb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#f9f6ef" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#151311" media="(prefers-color-scheme: dark)" />
     <meta property="og:type" content={type} />
     <meta property="og:title" content={title || SITE.name} />
@@ -40,9 +40,9 @@ const nav = [
   </head>
   <body>
     <header class="site-header">
-      <div class="wrap header-inner">
+      <div class="wrap">
         <a href="/" class="site-name">{SITE.shortName}</a>
-        <nav aria-label="Site">
+        <nav class="site-nav" aria-label="Site">
           {nav.map((n) => <a href={n.href} aria-current={n.current ? 'page' : undefined}>{n.label}</a>)}
         </nav>
       </div>
@@ -51,7 +51,7 @@ const nav = [
       <slot />
     </main>
     <footer class="site-footer">
-      <div class="wrap footer-inner">
+      <div class="wrap">
         <span>© {new Date().getFullYear()} {SITE.name}</span>
         <span class="footer-links">
           {SITE.links.map((l) => <a href={l.href}>{l.label}</a>)}

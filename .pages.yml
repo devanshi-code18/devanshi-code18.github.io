@@ -34,6 +34,10 @@ content:
         type: date
         options:
           format: yyyy-MM-dd
+      - name: topic
+        label: Topic
+        description: Optional. Once posts have topics, the home page groups them under these headings.
+        type: string
       - name: draft
         label: Draft
         description: Drafts stay off the live site. Uncheck to publish.

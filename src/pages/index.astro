@@ -1,48 +1,70 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE } from '../site.js';
-import { getPosts, fmtDate } from '../lib/posts.js';
+import { getPosts, fmtDate, smart } from '../lib/posts.js';
 import { getMergedPRs, repoName, allMergedUrl } from '../lib/oss.js';
 
 const posts = await getPosts();
-const prs = (await getMergedPRs()).slice(0, 8);
+const prs = (await getMergedPRs()).slice(0, 5);
+const [lead, ...rest] = SITE.intro;
+
+// Posts are one list until some have a `topic`; then they are grouped by topic,
+// newest topic first, the way a growing body of work starts to read like a course.
+const topics = [];
+for (const p of posts) {
+  const name = p.data.topic || 'Other';
+  let t = topics.find((x) => x.name === name);
+  if (!t) topics.push((t = { name, posts: [] }));
+  t.posts.push(p);
+}
+// Group only once it helps: at least two topics with two or more posts each.
+const grouped = topics.filter((t) => t.name !== 'Other' && t.posts.length >= 2).length >= 2;
+topics.sort((a, b) => (a.name === 'Other') - (b.name === 'Other'));
 ---
 <Base>
   <section class="intro">
-    {SITE.intro.map((p) => <p set:html={p} />)}
+    <h1 class="lead" set:html={lead} />
+    {rest.map((p) => <p class="sub" set:html={p} />)}
+    <p class="links">
+      {SITE.links.map((l) => <a href={l.href}>{l.label}</a>)}
+      <a href="/rss.xml">RSS</a>
+    </p>
   </section>
 
   <section class="group">
     <h2 class="section-label">Writing</h2>
-    {posts.length === 0 ? (
-      <p class="muted">The first post is on its way. Follow along by <a href="/rss.xml">RSS</a>.</p>
-    ) : (
-      <ul class="entries posts">
-        {posts.map((p) => (
-          <li>
-            <a href={`/posts/${p.id}/`}>
-              <span class="entry-title">{p.data.title}{p.data.draft && <span class="badge">draft</span>}</span>
-              <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date, { month: 'short', day: 'numeric', year: 'numeric' })}</time>
-            </a>
-            {p.data.description && <p class="entry-desc">{p.data.description}</p>}
-          </li>
-        ))}
-      </ul>
-    )}
+    {posts.length === 0 && <p class="empty">First post coming soon.</p>}
+      {(grouped ? topics : [{ name: '', posts }]).map((t) => (
+        <div class="topic">
+          {t.name && <h3 class="topic-label">{t.name}</h3>}
+          <ul class="posts">
+            {t.posts.map((p) => (
+              <li>
+                <a href={`/posts/${p.id}/`}>
+                  <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date, { month: 'short', day: 'numeric', year: 'numeric' })}</time>
+                  <span class="title">{smart(p.data.title)}</span>{p.data.draft && <span class="badge">draft</span>}
+                  {p.data.description && <span class="desc">{smart(p.data.description)}</span>}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
   </section>
 
   <section class="group">
     <h2 class="section-label">Open source</h2>
-    <ul class="entries oss">
+    <ul class="oss">
       {prs.map((pr) => (
         <li>
           <a href={pr.url}>
-            <span class="entry-title"><span class="repo">{repoName(pr.repo)}</span>{pr.title}</span>
-            <time datetime={pr.merged.toISOString()}>{fmtDate(pr.merged, { month: 'short', year: 'numeric' })}</time>
+            <span class="r">{repoName(pr.repo)}</span>
+            <span class="t">{pr.title}</span>
+            <span class="d">{fmtDate(pr.merged, { month: 'short', year: 'numeric' })}</span>
           </a>
         </li>
       ))}
     </ul>
-    <p class="more"><a href={allMergedUrl()}>All merged pull requests →</a></p>
+    <p class="more"><a href="/about/#open-source">More on the About page</a> · <a href={allMergedUrl()}>all merged pull requests</a></p>
   </section>
 </Base>

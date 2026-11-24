@@ -13,6 +13,8 @@ const posts = defineCollection({
     updated: z.coerce.date().nullish(),
     // Drafts show up in `npm run dev` but not on the live site.
     draft: z.boolean().nullish().transform((v) => v ?? false),
+    // Optional. Once posts have topics, the home page groups them under these headings.
+    topic: z.string().nullish(),
   }),
 });
 

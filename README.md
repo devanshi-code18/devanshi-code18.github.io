@@ -2,7 +2,9 @@
 
 My personal site and blog: https://dvnxi.github.io
 
-Built with [Astro](https://astro.build). Minimal on purpose: a blog home page that lists posts, an About page, and posts with a contents box (long posts), a cite box, and copy buttons on code. Every push to `main` publishes the site with GitHub Actions in about a minute. It also rebuilds every night, so the open-source list on the home page picks up newly merged pull requests by itself.
+Built with [Astro](https://astro.build). Minimal on purpose: one text column, a home page that lists posts, and an About page. Design notes, and which blog each idea came from: [docs/design.md](docs/design.md).
+
+In posts: footnotes show in the margin on wide screens, an image followed by an italic line becomes a numbered figure, long posts get a contents box, and every post ends with a cite box. Give posts a `topic:` and the home page groups them once there are enough. Every push to `main` publishes the site with GitHub Actions in about a minute. It also rebuilds every night, so the open-source list on the home page picks up newly merged pull requests by itself.
 
 ## Writing a post
 
