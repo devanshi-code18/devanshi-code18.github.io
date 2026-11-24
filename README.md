@@ -2,7 +2,7 @@
 
 My personal site and blog: https://devanshi-code18.github.io
 
-Built with [Astro](https://astro.build), laid out like [colah's blog](https://colah.github.io): a home page of post cards, About and Contact pages, and posts set in Computer Modern. Every push to `main` publishes the site with GitHub Actions in about a minute. It also rebuilds every night, so the open-source list on the home page picks up newly merged pull requests by itself.
+Built with [Astro](https://astro.build): a blog home page of post cards (each post without a picture gets its own generated cover), plus About and Contact pages. Every push to `main` publishes the site with GitHub Actions in about a minute. It also rebuilds every night, so the open-source list on the home page picks up newly merged pull requests by itself.
 
 ## Writing a post
 
@@ -34,4 +34,4 @@ A post with `draft: true` stays off the live site.
 - Look: [`src/styles/global.css`](src/styles/global.css)
 - Link preview image and icons: `public/og.png`, `public/favicon.*`, `public/apple-touch-icon.png`
 
-Writing is mine; code is MIT licensed. The Computer Modern fonts in `public/fonts` are under the SIL Open Font License (`public/fonts/OFL.txt`).
+Writing is mine; code is MIT licensed.

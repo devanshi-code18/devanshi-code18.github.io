@@ -2,15 +2,17 @@
 import Base from '../layouts/Base.astro';
 import { SITE } from '../site.js';
 ---
-<Base title="About" variant="dark">
-  <div class="container">
-    <div class="profile">
-      <h2>{SITE.name}</h2>
+<Base title="About">
+  <article class="page">
+    <h1 class="page-title">About</h1>
+    <div class="prose">
       {SITE.intro.map((p) => <p set:html={p} />)}
-      <p>This blog doesn't reflect the views of any organization I'm affiliated with.</p>
-      <p class="profile-links">
-        {SITE.links.map((l, i) => <>{i > 0 && ' · '}<a href={l.href}>{l.label}</a></>)}
-      </p>
+      <p>Here I write about what I learn making models run faster: serving engines, GPU kernels, quantization, and the measurements behind them. Views here are my own.</p>
     </div>
-  </div>
+    <h2 class="section-label">Elsewhere</h2>
+    <ul class="link-list">
+      {SITE.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      <li><a href="/rss.xml">RSS feed</a></li>
+    </ul>
+  </article>
 </Base>

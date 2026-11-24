@@ -3,7 +3,7 @@ import { render } from 'astro:content';
 import 'katex/dist/katex.min.css';
 import Base from '../../layouts/Base.astro';
 import { SITE } from '../../site.js';
-import { getPosts, fmtDate } from '../../lib/posts.js';
+import { getPosts, fmtDate, readingMinutes } from '../../lib/posts.js';
 
 export async function getStaticPaths() {
   const posts = await getPosts();
@@ -16,17 +16,23 @@ const { title, description, date, updated, draft } = post.data;
 const shareX = `https://x.com/intent/post?text=${encodeURIComponent(title)}&url=${encodeURIComponent(new URL(`/posts/${post.id}/`, SITE.url).href)}`;
 ---
 <Base title={title} description={description || SITE.description} type="article" published={date}>
-  <div class="container">
-    <article class="post">
-      <h1>{title}{draft && <span class="badge">draft</span>}</h1>
-      <p class="info">Posted on {fmtDate(date)}{updated && <>, updated {fmtDate(updated)}</>}</p>
-      <div class="prose">
-        <Content />
-      </div>
-      <p class="post-end">
-        <a href="/">← More posts</a>
-        <span><a href={shareX}>Share on X</a> · <a href="/rss.xml">RSS</a></span>
+  <article class="post">
+    <header class="post-header">
+      <p class="post-meta">
+        <time datetime={date.toISOString()}>{fmtDate(date)}</time>
+        <span aria-hidden="true"> · </span>{readingMinutes(post.body)} min read
+        {updated && <><span aria-hidden="true"> · </span>updated {fmtDate(updated)}</>}
+        {draft && <span class="badge">draft</span>}
       </p>
-    </article>
-  </div>
+      <h1>{title}</h1>
+      {description && <p class="post-dek">{description}</p>}
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+    <footer class="post-footer">
+      <a href="/">← All posts</a>
+      <span><a href={shareX}>Share on X</a><span aria-hidden="true"> · </span><a href="/rss.xml">RSS</a></span>
+    </footer>
+  </article>
 </Base>
