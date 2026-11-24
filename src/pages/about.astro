@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site.js';
+---
+<Base title="About" variant="dark">
+  <div class="container">
+    <div class="profile">
+      <h2>{SITE.name}</h2>
+      {SITE.intro.map((p) => <p set:html={p} />)}
+      <p>This blog doesn't reflect the views of any organization I'm affiliated with.</p>
+      <p class="profile-links">
+        {SITE.links.map((l, i) => <>{i > 0 && ' · '}<a href={l.href}>{l.label}</a></>)}
+      </p>
+    </div>
+  </div>
+</Base>

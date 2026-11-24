@@ -2,6 +2,10 @@
 import Base from '../layouts/Base.astro';
 ---
 <Base title="Not found">
-  <h1 class="page-title">Not found</h1>
-  <p>That page doesn't exist. Try the <a href="/">home page</a> or <a href="/writing/">all writing</a>.</p>
+  <div class="container">
+    <article class="post">
+      <h1>Not found</h1>
+      <div class="prose"><p>That page doesn't exist. Try the <a href="/">blog</a>.</p></div>
+    </article>
+  </div>
 </Base>

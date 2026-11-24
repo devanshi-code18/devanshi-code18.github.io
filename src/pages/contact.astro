@@ -1,0 +1,17 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site.js';
+const byLabel = Object.fromEntries(SITE.links.map((l) => [l.label, l.href]));
+---
+<Base title="Contact">
+  <div class="container">
+    <article class="post">
+      <h1>Contact</h1>
+      <div class="prose">
+        <p>The easiest way to reach me is a message on <a href={byLabel.X}>X ({SITE.x})</a> or <a href={byLabel.LinkedIn}>LinkedIn</a>.</p>
+        {SITE.email && <p>You can also email me at <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>}
+        <p>My code is on <a href={byLabel.GitHub}>GitHub</a>, and comments on a post are welcome as an issue on <a href={`https://github.com/${SITE.github}/${SITE.github}.github.io/issues`}>this site's repository</a>.</p>
+      </div>
+    </article>
+  </div>
+</Base>

@@ -1,54 +1,72 @@
 ---
 import Base from '../layouts/Base.astro';
-import { SITE } from '../site.js';
-import { getPosts, fmtDate } from '../lib/posts.js';
+import { getPosts } from '../lib/posts.js';
 import { getMergedPRs, repoName, allMergedUrl } from '../lib/oss.js';
 
-const posts = (await getPosts()).slice(0, 6);
-const prs = (await getMergedPRs()).slice(0, 7);
+const posts = await getPosts();
+const prs = (await getMergedPRs()).slice(0, 8);
+
+// Group posts by topic, newest topic first; posts without a topic go under "Posts".
+const groups = [];
+for (const p of posts) {
+  const name = p.data.topic || 'Posts';
+  let g = groups.find((x) => x.name === name);
+  if (!g) groups.push((g = { name, posts: [] }));
+  g.posts.push(p);
+}
+
+const REPO_STYLE = {
+  'vllm-project/vllm': 'vllm',
+  'vllm-project/humming': 'vllm',
+  'vllm-project/flash-attention': 'flash',
+  'Dao-AILab/flash-attention': 'flash',
+  'pytorch/ao': 'torch',
+};
 ---
-<Base home>
-  <section class="intro">
-    <h1>{SITE.name}</h1>
-    {SITE.intro.map((p) => <p set:html={p} />)}
-    <p class="links">
-      {SITE.links.map((l) => <a href={l.href}>{l.label}</a>)}
-      <a href="/rss.xml">RSS</a>
-    </p>
-  </section>
-
-  <section>
-    <h2 class="section-label">Writing</h2>
-    {posts.length ? (
-      <ul class="entries">
-        {posts.map((p) => (
-          <li>
-            <a href={`/writing/${p.id}/`}>
-              <span class="entry-title">{p.data.title}{p.data.draft && <span class="badge">draft</span>}</span>
-              <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date, { month: 'short', day: 'numeric', year: 'numeric' })}</time>
-            </a>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p class="muted">The first post is on its way. <a href="/rss.xml">Follow by RSS</a>.</p>
-    )}
-    {posts.length > 0 && <p class="more"><a href="/writing/">All writing →</a></p>}
-  </section>
-
-  <section>
-    <h2 class="section-label">Open source</h2>
-    <ul class="entries oss">
-      {prs.map((pr) => (
-        <li>
-          <a href={pr.url}>
-            <span class="entry-title"><span class="repo">{repoName(pr.repo)}</span> {pr.title}</span>
-            <time datetime={pr.merged.toISOString()}>{fmtDate(pr.merged, { month: 'short', year: 'numeric' })}</time>
-          </a>
-        </li>
+<Base variant="home">
+  <div class="container">
+    <div class="panel">
+      {groups.length === 0 && (
+        <>
+          <h2>Posts</h2>
+          <div class="cards">
+            <div class="card card-empty">
+              <div class="cover cover-text"><span>First post coming soon</span></div>
+              <h3>Follow along by <a href="/rss.xml">RSS</a></h3>
+            </div>
+          </div>
+        </>
+      )}
+      {groups.map((g) => (
+        <>
+          <h2>{g.name}</h2>
+          <div class="cards">
+            {g.posts.map((p) => (
+              <a class="card" href={`/posts/${p.id}/`}>
+                {p.data.cover
+                  ? <img class="cover" src={p.data.cover} alt="" loading="lazy" />
+                  : <div class="cover cover-text">{p.data.description && <span>{p.data.description}</span>}</div>}
+                <h3>{p.data.title}{p.data.draft && <span class="badge">draft</span>}</h3>
+              </a>
+            ))}
+          </div>
+        </>
       ))}
-    </ul>
-    <p class="more"><a href={allMergedUrl()}>All merged pull requests →</a></p>
-  </section>
 
+      <h2>Open source</h2>
+      <div class="cards">
+        {prs.map((pr) => (
+          <a class="card" href={pr.url}>
+            <div class={`cover cover-repo repo-${REPO_STYLE[pr.repo] || 'other'}`}>
+              <span class="cover-repo-name">{repoName(pr.repo)}</span>
+              <span class="cover-repo-num">#{pr.number}</span>
+            </div>
+            <h3>{pr.title}</h3>
+            <h4>On {repoName(pr.repo)}</h4>
+          </a>
+        ))}
+      </div>
+      <p class="more"><a href={allMergedUrl()}>All merged pull requests →</a></p>
+    </div>
+  </div>
 </Base>
