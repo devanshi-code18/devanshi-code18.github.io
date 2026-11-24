@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 280" font-family="Iowan Old Style, Georgia, serif">
+  <rect width="640" height="280" rx="10" fill="#efe8db"/>
+  <g fill="none" stroke="#9b3b22" stroke-width="3" stroke-linecap="round">
+    <path d="M60 210 C 160 205, 200 120, 300 110 S 460 70, 580 60"/>
+  </g>
+  <g fill="#9b3b22"><circle cx="60" cy="210" r="5"/><circle cx="300" cy="110" r="5"/><circle cx="580" cy="60" r="5"/></g>
+  <text x="60" y="250" font-size="20" fill="#6e675d">An example image</text>
+</svg>

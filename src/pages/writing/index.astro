@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getPosts, fmtDate } from '../../lib/posts.js';
+
+const posts = await getPosts();
+const years = [...new Set(posts.map((p) => p.data.date.getUTCFullYear()))];
+---
+<Base title="Writing" description="Posts by Devanshi Jain on ML inference systems.">
+  <h1 class="page-title">Writing</h1>
+  {posts.length === 0 && <p class="muted">The first post is on its way. <a href="/rss.xml">Follow by RSS</a>.</p>}
+  {years.map((y) => (
+    <section>
+      <h2 class="section-label">{y}</h2>
+      <ul class="entries">
+        {posts.filter((p) => p.data.date.getUTCFullYear() === y).map((p) => (
+          <li>
+            <a href={`/writing/${p.id}/`}>
+              <span class="entry-title">{p.data.title}{p.data.draft && <span class="badge">draft</span>}</span>
+              <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date, { month: 'short', day: 'numeric' })}</time>
+            </a>
+            {p.data.description && <p class="entry-desc">{p.data.description}</p>}
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+  <p class="more"><a href="/rss.xml">RSS feed</a></p>
+</Base>

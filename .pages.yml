@@ -1,0 +1,47 @@
+# Pages CMS (https://app.pagescms.org): a web editor for this site.
+# Sign in with GitHub, pick this repository, and write posts in a normal editor.
+# Saving commits the post to the repo; the site republishes about a minute later.
+media:
+  input: public/images
+  output: /images
+  rename: safe
+content:
+  - name: posts
+    label: Writing
+    type: collection
+    path: src/content/posts
+    filename:
+      template: "{primary}.md"
+      field: create
+    view:
+      fields: [title, date, draft]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: description
+        label: Summary
+        description: One sentence. Shown under the title in the list of posts and in link previews.
+        type: text
+      - name: date
+        label: Date
+        type: date
+        options:
+          format: yyyy-MM-dd
+      - name: draft
+        label: Draft
+        description: Drafts stay off the live site. Uncheck to publish.
+        type: boolean
+        default: true
+      - name: body
+        label: Post
+        type: rich-text
+        options:
+          format: markdown
+          switcher: true

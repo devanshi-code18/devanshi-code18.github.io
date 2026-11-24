@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE } from '../site.js';
+import { getPosts, fmtDate } from '../lib/posts.js';
+import { getMergedPRs, repoName, allMergedUrl } from '../lib/oss.js';
+
+const posts = (await getPosts()).slice(0, 6);
+const prs = (await getMergedPRs()).slice(0, 7);
+---
+<Base home>
+  <section class="intro">
+    <h1>{SITE.name}</h1>
+    {SITE.intro.map((p) => <p set:html={p} />)}
+    <p class="links">
+      {SITE.links.map((l) => <a href={l.href}>{l.label}</a>)}
+      <a href="/rss.xml">RSS</a>
+    </p>
+  </section>
+
+  <section>
+    <h2 class="section-label">Writing</h2>
+    {posts.length ? (
+      <ul class="entries">
+        {posts.map((p) => (
+          <li>
+            <a href={`/writing/${p.id}/`}>
+              <span class="entry-title">{p.data.title}{p.data.draft && <span class="badge">draft</span>}</span>
+              <time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date, { month: 'short', day: 'numeric', year: 'numeric' })}</time>
+            </a>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="muted">The first post is on its way. <a href="/rss.xml">Follow by RSS</a>.</p>
+    )}
+    {posts.length > 0 && <p class="more"><a href="/writing/">All writing →</a></p>}
+  </section>
+
+  <section>
+    <h2 class="section-label">Open source</h2>
+    <ul class="entries oss">
+      {prs.map((pr) => (
+        <li>
+          <a href={pr.url}>
+            <span class="entry-title"><span class="repo">{repoName(pr.repo)}</span> {pr.title}</span>
+            <time datetime={pr.merged.toISOString()}>{fmtDate(pr.merged, { month: 'short', year: 'numeric' })}</time>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="more"><a href={allMergedUrl()}>All merged pull requests →</a></p>
+  </section>
+
+</Base>
