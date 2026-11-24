@@ -1,6 +1,8 @@
 // Everything about you that the site shows. Edit here; the pages read it.
 export const SITE = {
   name: 'Devanshi Jain',
+  // What the header shows.
+  shortName: 'Devanshi',
   // One line at the top of the blog page.
   tagline: 'Notes on ML inference systems: LLM serving, GPU kernels, and making models cheaper to run.',
   url: 'https://devanshi-code18.github.io',

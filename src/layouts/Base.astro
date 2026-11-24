@@ -41,7 +41,7 @@ const nav = [
   <body>
     <header class="site-header">
       <div class="wrap header-inner">
-        <a href="/" class="site-name">{SITE.name}</a>
+        <a href="/" class="site-name">{SITE.shortName}</a>
         <nav aria-label="Site">
           {nav.map((n) => <a href={n.href} aria-current={n.current ? 'page' : undefined}>{n.label}</a>)}
         </nav>
