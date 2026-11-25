@@ -8,7 +8,6 @@ const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const ogImage = new URL('/og.png', SITE.url).href;
 const path = Astro.url.pathname;
 const nav = [
-  { href: '/', label: 'Home', current: path === '/' },
   { href: '/writing/', label: 'Writing', current: path.startsWith('/writing') || path.startsWith('/posts/') },
 ];
 ---
@@ -25,8 +24,7 @@ const nav = [
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="alternate" type="application/rss+xml" title={SITE.name} href="/rss.xml" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <meta name="theme-color" content="#f9f6ef" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#151311" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" />
     <meta property="og:type" content={type} />
     <meta property="og:title" content={title || SITE.name} />
     <meta property="og:description" content={description} />
@@ -41,7 +39,7 @@ const nav = [
   <body>
     <header class="site-header">
       <div class="wrap">
-        {home ? <span /> : <a href="/" class="site-name">{SITE.shortName}</a>}
+        <a href="/" class="site-name">{SITE.name}</a>
         <nav class="site-nav" aria-label="Site">
           {nav.map((n) => <a href={n.href} aria-current={n.current ? 'page' : undefined}>{n.label}</a>)}
         </nav>

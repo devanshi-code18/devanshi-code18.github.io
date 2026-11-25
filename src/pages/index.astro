@@ -1,41 +1,26 @@
 ---
 import Base from '../layouts/Base.astro';
-import WritingList from '../components/WritingList.astro';
 import { SITE } from '../site.js';
-import { getWriting } from '../lib/writing.js';
 import { allMergedUrl } from '../lib/oss.js';
-
-const writing = await getWriting();
-const latest = writing.slice(0, 5);
 ---
 <Base home>
-  <section class="profile">
-    <img class="photo" src={SITE.photo} alt={SITE.name} width="400" height="400" />
-    <div class="profile-text">
-      <h1>{SITE.name}</h1>
-      <p class="role">{SITE.role}</p>
-      {SITE.bio.map((p) => <p set:html={p} />)}
-      <p class="links">
-        {SITE.links.map((l) => <a href={l.href}>{l.label}</a>)}
-        {SITE.substack && <a href={SITE.substack}>Substack</a>}
-        <a href="/rss.xml">RSS</a>
-      </p>
-    </div>
+  <section class="hero">
+    <h1>{SITE.headline}</h1>
+    <img class="hero-art" src="/images/ink/hero.png" alt="A stick figure cranks a box that feeds a model, which runs on three GPUs." width="1600" height="678" />
+    <p class="one-liner" set:html={SITE.oneLiner} />
   </section>
 
-  <section class="group">
-    <h2 class="section-label">Selected work</h2>
-    <ul class="selected">
-      {SITE.selected.map((w) => (
-        <li><a href={w.href} set:html={w.text} /> <span class="where">{w.where}</span></li>
-      ))}
-    </ul>
-    <p class="more"><a href={allMergedUrl()}>All merged pull requests →</a></p>
-  </section>
-
-  <section class="group">
-    <h2 class="section-label">Writing</h2>
-    {latest.length ? <WritingList items={latest} /> : <p class="empty">First post coming soon.</p>}
-    {writing.length > latest.length && <p class="more"><a href="/writing/">All writing →</a></p>}
+  <section class="work">
+    {SITE.work.map((w) => (
+      <article class="work-item">
+        <img src={w.img} alt="" loading="lazy" />
+        <div>
+          <h2>{w.title}</h2>
+          <p>{w.text}</p>
+          <p class="prs">{w.prs.map(([label, href]) => <a href={href}>{label}</a>)}</p>
+        </div>
+      </article>
+    ))}
+    <p class="more"><a href={allMergedUrl()}>All merged pull requests</a></p>
   </section>
 </Base>

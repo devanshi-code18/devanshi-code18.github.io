@@ -6,21 +6,37 @@ export const SITE = {
   url: 'https://dvnxi.github.io',
   // Used for search results and link previews.
   description: 'Devanshi Jain writes about ML inference systems: serving, GPU kernels, and making models cheaper to run.',
-  // Your photo on the home page (public/images/me.jpg). Currently your GitHub picture.
-  photo: '/images/me.jpg',
-  role: 'Software engineer, inference systems at Meta',
-  // Home page bio. Plain HTML is fine.
-  bio: [
-    'I make machine learning models serve faster and on fewer GPUs. At Meta I work on GPU inference efficiency; in open source I work on LLM serving, mostly <a href="https://github.com/vllm-project/vllm">vLLM</a> and <a href="https://github.com/pytorch/ao">torchao</a>, PyTorch’s quantization library.',
-    'I studied mathematics and computer science at UC San Diego. I write about what I learn: how serving engines and GPU kernels behave, and the measurements behind them.',
-  ],
-  // "Selected work" on the home page: a few things worth knowing you for, newest first.
-  selected: [
-    { text: 'Faster int4 decode on A100s: data-parallel decode tiles for dense W4A16 matmuls', where: 'Humming', href: 'https://github.com/vllm-project/humming/pull/218' },
-    { text: 'Fixed torchao AWQ models in vLLM by applying each fused shard’s activation scale', where: 'vLLM', href: 'https://github.com/vllm-project/vllm/pull/69002' },
-    { text: 'Kept serving-benchmark warmups out of the prefix cache, so results measure the model, not the cache', where: 'vLLM', href: 'https://github.com/vllm-project/vllm/pull/66701' },
-    { text: 'Made torchao load older quantized checkpoints whose configs still carry removed fields', where: 'torchao', href: 'https://github.com/pytorch/ao/pull/5092' },
-    { text: 'Made <code>import torchao</code> fork-safe on CUDA builds', where: 'torchao', href: 'https://github.com/pytorch/ao/pull/5088' },
+  // The home page: one headline, one line, and the work.
+  headline: 'Faster models on fewer GPUs',
+  oneLiner: 'I work on ML inference efficiency at Meta, and on LLM serving in open source: <a href="https://github.com/vllm-project/vllm">vLLM</a> and <a href="https://github.com/pytorch/ao">torchao</a>.',
+  // Each item: a drawing in public/images/ink, a title, one sentence, and the pull requests behind it.
+  work: [
+    {
+      img: '/images/ink/quantization.png',
+      title: 'Quantized models that work',
+      text: 'Fixes that make 4-bit and 8-bit models load and run correctly: AWQ scales applied per fused shard in vLLM, older torchao checkpoints loading again, a fork-safe torchao import.',
+      prs: [
+        ['vLLM #69002', 'https://github.com/vllm-project/vllm/pull/69002'],
+        ['torchao #5092', 'https://github.com/pytorch/ao/pull/5092'],
+        ['torchao #5088', 'https://github.com/pytorch/ao/pull/5088'],
+        ['torchao #5152', 'https://github.com/pytorch/ao/pull/5152'],
+      ],
+    },
+    {
+      img: '/images/ink/tiles.png',
+      title: 'Faster decode kernels',
+      text: 'Data-parallel decode tiles for int4 (W4A16) matrix multiplies on A100 GPUs.',
+      prs: [['Humming #218', 'https://github.com/vllm-project/humming/pull/218']],
+    },
+    {
+      img: '/images/ink/cache.png',
+      title: 'Benchmarks that measure the model',
+      text: 'Kept warmup requests out of the prefix cache, and stopped counting sibling cache hits, so serving numbers measure the model rather than the cache.',
+      prs: [
+        ['vLLM #66701', 'https://github.com/vllm-project/vllm/pull/66701'],
+        ['vLLM #66720', 'https://github.com/vllm-project/vllm/pull/66720'],
+      ],
+    },
   ],
   // Set to your Substack address (e.g. 'https://devanshi.substack.com') to list its posts here too.
   substack: '',
