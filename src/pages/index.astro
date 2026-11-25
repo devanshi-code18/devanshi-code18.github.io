@@ -29,7 +29,7 @@ const earlier = SITE.career.filter((c) => c.earlier);
         <li>
           <p class="when">{c.dates}</p>
           <div>
-            <h3>{c.role}<span class="org"> · {c.org}</span></h3>
+            <h3>{c.role}<span class="sep"> · </span><span class="org">{c.org}</span></h3>
             <ul>{c.points.map((p) => <li set:html={p} />)}</ul>
           </div>
         </li>
@@ -41,14 +41,14 @@ const earlier = SITE.career.filter((c) => c.earlier);
         <li>
           <p class="when">{c.dates}</p>
           <div>
-            <h3>{c.role}<span class="org"> · {c.org}</span></h3>
+            <h3>{c.role}<span class="sep"> · </span><span class="org">{c.org}</span></h3>
             <p set:html={c.text} />
           </div>
         </li>
       ))}
       <li>
         <p class="when">{SITE.education.dates}</p>
-        <div><h3>{SITE.education.degree}<span class="org"> · {SITE.education.school}</span></h3></div>
+        <div><h3>{SITE.education.degree}<span class="sep"> · </span><span class="org">{SITE.education.school}</span></h3></div>
       </li>
     </ol>
   </section>
