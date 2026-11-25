@@ -2,12 +2,10 @@
 import Base from '../layouts/Base.astro';
 import OssCard from '../components/OssCard.astro';
 import { SITE } from '../site.js';
-import { getMergedPRs, repoName, repoLogo, allMergedUrl } from '../lib/oss.js';
+import { getMergedPRs, repoName, repoLogo, projectName, allMergedUrl } from '../lib/oss.js';
 import { fmtDate } from '../lib/posts.js';
 
-// The cards already show their pull requests; the list below has the rest.
-const inCards = new Set(SITE.oss.flatMap((i) => i.prs.map(([, href]) => href)));
-const merged = (await getMergedPRs()).filter((p) => !inCards.has(p.url));
+const merged = await getMergedPRs();
 const repos = [...new Set(merged.map((p) => p.repo))];
 ---
 <Base title="Open source" description="Devanshi Jain's open-source work on vLLM, PyTorch torchao and Humming: quantized inference, kernels and honest benchmarks.">
@@ -23,12 +21,13 @@ const repos = [...new Set(merged.map((p) => p.repo))];
     </section>
 
     <section class="block">
-      <h2 class="label">More pull requests</h2>
+      <h2 class="label">Full list</h2>
       {repos.map((r) => (
         <div class="repo-group">
-          <h3 class="sublabel">{repoLogo(repoName(r))
-            ? <img class="logo logo-lg" src={repoLogo(repoName(r))} alt={repoName(r)} title={repoName(r)} width="160" height="160" />
-            : repoName(r)}</h3>
+          <h3 class="repo-head">
+            {repoLogo(repoName(r)) && <img class="logo logo-lg" src={repoLogo(repoName(r))} alt="" width="160" height="160" />}
+            <span>{projectName(repoName(r))}</span>
+          </h3>
           <ul class="pr-list">
             {merged.filter((p) => p.repo === r).map((p) => (
               <li><a href={p.url}><span class="t">{p.title}</span><span class="n">#{p.number}</span><time datetime={p.merged.toISOString()}>{fmtDate(p.merged, { month: 'short', year: 'numeric' })}</time></a></li>

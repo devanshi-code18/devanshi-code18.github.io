@@ -108,7 +108,8 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
 .logo { width: 1.75rem; height: 1.75rem; vertical-align: middle; object-fit: contain; }
 .oss-card .prs .logo { margin-right: .1rem; }
 .logo-lg { width: 2.6rem; height: 2.6rem; }
-.repo-group .sublabel { margin-bottom: .6rem; }
+.repo-head { display: flex; align-items: center; gap: .6rem; font-weight: 400; font-size: 1.15rem; margin: 0 0 .5rem; }
+.oss-card .repo { display: inline-flex; align-items: center; gap: .35rem; color: var(--muted); }
 
 .oss-card p, .career li, .career.compact p, .service span, .pr-list .t, .one-liner { text-wrap: pretty; }
 .career > li > div, .wins { max-width: 38rem; }
