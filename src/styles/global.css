@@ -98,7 +98,9 @@ body:has(.hero) main { display: flex; flex-direction: column; justify-content: c
 .hero { margin: 0; padding: 3rem 0; }
 .hero h1 { font-weight: 400; font-size: 4rem; line-height: 1; letter-spacing: .01em; text-transform: uppercase; margin: 0 0 2.5rem; }
 .hero-art { display: block; width: 100%; height: auto; margin: 0 0 2rem; }
-.ink-grid { position: relative; width: 100%; height: 16rem; margin: 0 0 2.5rem; touch-action: pan-y; cursor: crosshair; }
+.ink-grid { position: relative; width: 100%; height: 16rem; margin: 0 0 2.5rem; touch-action: none; cursor: crosshair; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent;
+  background: url('/images/ink/grid-still.png') center / 100% 100% no-repeat; }
+.ink-grid.live { background: none; }
 .ink-grid canvas, .ink-grid img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .ink-grid img { object-fit: contain; }
 .one-liner { max-width: 36rem; margin: 0; color: var(--muted); }
@@ -304,7 +306,7 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
   .role > img, .oss-card > img, .service-col > img { width: 100%; max-width: none; }
   .earlier li { grid-template-columns: 1fr; }
   .hero-art { margin: 0 0 1.5rem; }
-  .ink-grid { height: 12rem; margin: 0 0 2rem; }
+  .ink-grid { height: 12rem; margin: 0 0 2rem; background-image: url('/images/ink/grid-still-phone.png'); }
   .career .when { margin: 0 0 .2rem; }
   .pr-list a { grid-template-columns: 1fr; }
   .pr-list time { display: none; }
