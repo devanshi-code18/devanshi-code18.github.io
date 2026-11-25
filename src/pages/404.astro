@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import { getPosts, fmtDate, smart } from '../lib/posts.js';
 const posts = (await getPosts()).slice(0, 3);
 ---
-<Base title="Not found">
+<Base title="Not found" noindex>
   <article class="page">
     <h1 class="page-title">Not found</h1>
     <div class="prose"><p>There’s nothing at this address. Try the <a href="/">home page</a> or <a href="/writing/">all writing</a>.</p></div>
