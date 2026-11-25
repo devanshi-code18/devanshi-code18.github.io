@@ -64,5 +64,13 @@ const nav = [
         </span>
       </div>
     </footer>
+    <script is:inline>
+      (() => {
+        const h = document.querySelector('.site-header');
+        const f = () => h && h.classList.toggle('scrolled', window.scrollY > 4);
+        addEventListener('scroll', f, { passive: true });
+        f();
+      })();
+    </script>
   </body>
 </html>
