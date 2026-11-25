@@ -1,71 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import OssCard from '../components/OssCard.astro';
 import { SITE } from '../site.js';
-
-const main = SITE.career.filter((c) => !c.earlier);
-const earlier = SITE.career.filter((c) => c.earlier);
 ---
 <Base home>
   <section class="hero">
     <h1>{SITE.name}</h1>
-    <img class="hero-art" src="/images/ink/hero.png" alt="A stick figure cranks a box that feeds a model, which runs on three GPUs." width="1600" height="678" />
+    <img class="hero-art" src="/images/ink/hero.png" alt={SITE.heroAlt} width="1600" height="678" />
     <p class="one-liner" set:html={SITE.oneLiner} />
     <p class="links">{SITE.links.map((l) => <a href={l.href}>{l.label}</a>)}</p>
-  </section>
-
-  <section class="block">
-    <h2 class="label">Open source</h2>
-    <div class="oss-grid">
-      {SITE.oss.slice(0, 4).map((item) => <OssCard item={item} />)}
-    </div>
-    <p class="more"><a href="/open-source/">All open-source work →</a></p>
-  </section>
-
-  <section class="block">
-    <h2 class="label">Career</h2>
-    <ol class="career">
-      {main.map((c) => (
-        <li>
-          <p class="when">{c.dates}</p>
-          <div>
-            <h3>{c.role}<span class="sep"> · </span><span class="org">{c.org}</span></h3>
-            <ul>{c.points.map((p) => <li set:html={p} />)}</ul>
-          </div>
-        </li>
-      ))}
-    </ol>
-    <ol class="career compact">
-      {earlier.map((c) => (
-        <li>
-          <p class="when">{c.dates}</p>
-          <div><h3>{c.role}<span class="sep"> · </span><span class="org">{c.org}</span>{c.note && <span class="note"> · <Fragment set:html={c.note} /></span>}</h3></div>
-        </li>
-      ))}
-    </ol>
-  </section>
-
-  <section class="block">
-    <h2 class="label">Service and awards</h2>
-    <div class="three-col">
-      <div>
-        <h3 class="sublabel">Reviewer</h3>
-        <ul class="service">
-          {SITE.reviewer.map((r) => <li><a href={r.href}>{r.venue}</a><span>{r.what}</span></li>)}
-        </ul>
-      </div>
-      <div>
-        <h3 class="sublabel">Hackathon judge</h3>
-        <ul class="service">
-          {SITE.judge.map((r) => <li><a href={r.href}>{r.venue}</a><span>{r.what}</span></li>)}
-        </ul>
-      </div>
-      <div>
-        <h3 class="sublabel">Hackathon wins</h3>
-        <ul class="service">
-          {SITE.wins.map((w) => <li>{w.href ? <a href={w.href}>{w.name}</a> : <strong>{w.name}</strong>}<span>{w.what}</span></li>)}
-        </ul>
-      </div>
-    </div>
   </section>
 </Base>

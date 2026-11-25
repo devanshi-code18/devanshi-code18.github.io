@@ -9,6 +9,7 @@ const ogImage = new URL('/og.png', SITE.url).href;
 const path = Astro.url.pathname;
 const nav = [
   { href: '/', label: 'Home', current: path === '/' },
+  { href: '/work/', label: 'Work', current: path.startsWith('/work') },
   { href: '/open-source/', label: 'Open source', current: path.startsWith('/open-source') },
   { href: '/writing/', label: 'Writing', current: path.startsWith('/writing') || path.startsWith('/posts/') },
 ];

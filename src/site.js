@@ -7,6 +7,7 @@ export const SITE = {
   description: 'Devanshi Jain, systems engineer at Meta working on inference performance for video recommendation models, and open-source contributor to PyTorch and vLLM.',
   // The line under the name on the home page. Plain HTML is fine.
   oneLiner: 'Systems engineer at Meta working on inference performance for video recommendation models. I contribute to open source, mostly <a href="https://github.com/pytorch/ao">PyTorch</a> and <a href="https://github.com/vllm-project/vllm">vLLM</a>. B.S. in Mathematics and Computer Science from UC San Diego.',
+  heroAlt: 'A small, smiling GPU card with legs sprints ahead carrying a compact neural network, leaving behind a line of GPU cards hauling a giant network on a cart.',
   links: [
     { label: 'GitHub', href: 'https://github.com/devanshi-code18' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/djain18' },
@@ -73,36 +74,43 @@ export const SITE = {
     },
   ],
 
-  // Career, newest first. `earlier: true` entries are shown in a compact list.
+  // The Work page, newest first. Each main role has a wordless sketch in public/images/work.
   career: [
     {
-      org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now',
+      org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now', img: '/images/work/meta-perf.png',
+      alt: 'Videos ride a conveyor through a GPU faster once the waiting is removed.',
+      summary: 'Inference performance for Facebook’s video recommendation models.',
       points: [
-        '23.4% higher inference QPS per GPU (AMD MI300X, 80&nbsp;ms p99) on a video ranking model: host syncs cut 7×, GEMMs fused.',
-        '$14.18M/yr in GPU savings across video recommendation inference, including latency&#8209;stopper and autoscaling fixes.',
+        '23.4% more inference queries per second per GPU on a video ranking model (AMD MI300X, 80&nbsp;ms p99), by cutting host syncs 7× and fusing GEMMs.',
+        '$14.18M a year in GPU savings across video recommendation inference.',
+        'Caught a silent output bug that had passed 10+ load tests, and built a check that compares served outputs with the original model before publishing.',
       ],
     },
     {
-      org: 'Meta', role: 'Software Engineer', dates: 'Apr 2025 – Jul 2026',
+      org: 'Meta', role: 'Software Engineer', dates: 'Apr 2025 – Jul 2026', img: '/images/work/meta-login.png',
+      alt: 'A robot repairs a locked door by itself while people walk through.',
+      summary: 'LLM post-training data, then login reliability for Facebook and Instagram.',
       points: [
         'Built 15+ LLM post-training tasks whose data shipped in Muse Spark 1.2.',
-        'Led the reliability work that cut “Can’t Log In” user-reported bugs 55%, with an AI pipeline that auto-patches regressions.',
+        'Led the reliability work that cut “Can’t Log In” bug reports 55%, with an AI pipeline that patches regressions automatically.',
       ],
     },
     {
-      org: 'Amazon', role: 'Software Development Engineer Intern', dates: 'Sep – Dec 2024',
-      points: ['Shipped a feature-flag service adopted by 50+ Global Logistics engineers for instant production control without redeploys.'],
+      org: 'Amazon', role: 'Software Development Engineer Intern', dates: 'Sep – Dec 2024', img: '/images/work/amazon-flags.png',
+      alt: 'A switch on a control panel turns something on in a warehouse that keeps running.',
+      summary: 'A feature-flag service for Global Logistics.',
+      points: ['Adopted by 50+ engineers to change production behavior instantly, without a redeploy.'],
     },
     {
-      org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024',
-      points: ['Migrated 64M+ users from a deprecated database to a secure login system.'],
+      org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024', img: '/images/work/meta-migration.png',
+      alt: 'A line of people crosses a bridge from an old building to a new locked one.',
+      summary: 'Login security.',
+      points: ['Moved 64M+ users from a deprecated database to a secure login system.'],
     },
-    { earlier: true, org: 'UC San Diego School of Medicine', role: 'Web Developer', dates: '2023 – 2024' },
-    { earlier: true, org: 'UC San Diego Center for Energy Research', role: 'Software Engineering Intern', dates: '2022 – 2024' },
-    { earlier: true, org: 'UC San Diego Flow Physics Lab', role: 'Student Researcher', dates: '2023', note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Paper</a>' },
-    { earlier: true, org: 'UC San Diego Kastner Research Group', role: 'Embedded Systems Lead, RoboSub', dates: '2021 – 2023' },
+    { earlier: true, org: 'UC San Diego Center for Energy Research', role: 'Software Engineering Intern', dates: '2022 – 2024', note: '20% more energy-efficient scheduling across 9+ buildings' },
+    { earlier: true, org: 'UC San Diego Flow Physics Lab', role: 'Student Researcher', dates: '2023', note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Published in The Catalyst</a>' },
+    { earlier: true, org: 'UC San Diego, RoboSub', role: 'Embedded Systems Lead', dates: '2021 – 2023', note: 'Real-time C++ for a semifinalist autonomous submarine' },
   ],
-  education: { school: 'University of California, San Diego', degree: 'B.S. Mathematics & Computer Science', dates: '2021 – 2025' },
 
   // Peer review and judging. Only roles that are confirmed.
   reviewer: [
