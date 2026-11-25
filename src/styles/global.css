@@ -140,7 +140,7 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
 .earlier li { display: grid; grid-template-columns: 9.5rem 1fr; gap: 0 1.5rem; padding: .55rem 0; border-top: 1px solid var(--line); font-size: .98rem; }
 .earlier strong { font-weight: 400; }
 .earlier .when { color: var(--muted); font-size: .9rem; }
-.service-col img { width: 100%; max-width: 12rem; height: auto; margin: 0 0 .75rem; }
+.service-col img { width: 100%; height: auto; margin: 0 0 .75rem; }
 
 /* career */
 .career { list-style: none; margin: 0; padding: 0; }
@@ -292,7 +292,7 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
   .oss-grid, .two-col, .three-col { grid-template-columns: 1fr; gap: 2.5rem; }
   .career > li { grid-template-columns: 1fr; }
   .role { grid-template-columns: 1fr; gap: 1rem; }
-  .role img { max-width: 16rem; }
+  .role img, .oss-card img, .service-col img { width: 100%; max-width: none; }
   .earlier li { grid-template-columns: 1fr; }
   .hero-art { margin: 0 0 1.5rem; }
   .ink-grid { height: 12rem; margin: 0 0 1.5rem; }
