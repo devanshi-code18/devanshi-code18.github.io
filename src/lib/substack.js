@@ -10,7 +10,7 @@ export async function getSubstackPosts() {
   cache = [];
   if (!SITE.substack) return cache;
   try {
-    const res = await fetch(`${SITE.substack.replace(/\/$/, '')}/feed`, { signal: AbortSignal.timeout(15000), headers: { 'User-Agent': 'dvnxi.github.io' } });
+    const res = await fetch(`${SITE.substack.replace(/\/$/, '')}/feed`, { signal: AbortSignal.timeout(15000), headers: { 'User-Agent': 'devanshi-code18.github.io' } });
     if (!res.ok) throw new Error(`Substack answered ${res.status}`);
     const xml = await res.text();
     cache = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)].map(([, it]) => ({
