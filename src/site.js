@@ -74,42 +74,23 @@ export const SITE = {
     },
   ],
 
-  // The Work page, newest first. Each main role has a wordless sketch in public/images/work.
+  // The Work page, newest first: one line per role. Main roles have a wordless sketch in public/images/work.
   career: [
-    {
-      org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now', img: '/images/work/meta-perf.png',
+    { org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now', img: '/images/work/meta-perf.png',
       alt: 'Videos ride a conveyor through a GPU faster once the waiting is removed.',
-      summary: 'Making video ranking models serve more requests per GPU.',
-      points: [
-        'Cut host syncs 7× and fused GEMMs in a video ranking model on AMD MI300X: 23.4% more queries per second per GPU at 80&nbsp;ms p99.',
-        '$14.18M a year in GPU savings across video recommendation inference, from latency and autoscaling fixes.',
-        'Caught a silent output bug that had passed 10+ load tests, and built a check that compares served outputs with the original model before publishing.',
-      ],
-    },
-    {
-      org: 'Meta', role: 'Software Engineer', dates: 'Apr 2025 – Jul 2026', img: '/images/work/meta-login.png',
+      line: '23.4% more queries per GPU on a video ranking model; $14.18M a year in GPU savings.' },
+    { org: 'Meta', role: 'Software Engineer', dates: 'Apr 2025 – Jul 2026', img: '/images/work/meta-login.png',
       alt: 'A robot repairs a locked door by itself while people walk through.',
-      summary: 'LLM post-training data and login reliability for Facebook and Instagram.',
-      points: [
-        'Built 15+ post-training tasks whose data shipped in Muse Spark 1.2.',
-        'Led the reliability work that cut user-reported “Can’t Log In” bugs 55%, and built an AI pipeline that patches regressions automatically.',
-      ],
-    },
-    {
-      org: 'Amazon', role: 'Software Development Engineer Intern', dates: 'Sep – Dec 2024', img: '/images/work/amazon-flags.png',
+      line: 'Post-training data for Muse Spark 1.2; cut “Can’t Log In” bugs 55%.' },
+    { org: 'Amazon', role: 'SDE Intern', dates: 'Sep – Dec 2024', img: '/images/work/amazon-flags.png',
       alt: 'A switch on a control panel turns something on in a warehouse that keeps running.',
-      summary: 'A feature-flag service for Global Logistics.',
-      points: ['Adopted by 50+ engineers to change production behavior instantly, without a redeploy.'],
-    },
-    {
-      org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024', img: '/images/work/meta-migration.png',
+      line: 'A feature-flag service used by 50+ logistics engineers.' },
+    { org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024', img: '/images/work/meta-migration.png',
       alt: 'A line of people crosses a bridge from an old building to a new locked one.',
-      summary: 'Login security.',
-      points: ['Moved 64M+ users off a deprecated database onto the new login system.'],
-    },
-    { earlier: true, org: 'Center for Energy Research', role: 'Software Engineering Intern', dates: '2022 – 2024', note: '20% more energy‑efficient scheduling across 9+ buildings' },
-    { earlier: true, org: 'Flow Physics Lab', role: 'Student Researcher', dates: '2023', note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Published in The Catalyst</a>' },
-    { earlier: true, org: 'RoboSub', role: 'Embedded Systems Lead', dates: '2021 – 2023', note: 'Real-time C++ for a semifinalist autonomous submarine' },
+      line: 'Moved 64M+ users onto a new login system.' },
+    { earlier: true, org: 'Center for Energy Research', role: 'Software Engineering Intern', dates: '2022 – 2024' },
+    { earlier: true, org: 'Flow Physics Lab', role: 'Student Researcher', dates: '2023', note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Paper</a>' },
+    { earlier: true, org: 'RoboSub', role: 'Embedded Systems Lead', dates: '2021 – 2023' },
   ],
 
   // Peer review and judging. Only roles that are confirmed.
@@ -120,13 +101,13 @@ export const SITE = {
     { venue: 'WSDM 2027', what: 'AutoResearch for IR & RecSys Workshop', href: 'https://www.wsdm-conference.org/2027/accepted-workshops.html' },
   ],
   judge: [
-    { venue: 'Silicon Valley Innovation Challenge', what: 'San José State University, Nov–Dec 2026', href: 'https://www.sjsu.edu/svic/' },
+    { venue: 'Silicon Valley Innovation Challenge', what: 'San José State University, Nov⁠–⁠Dec 2026', href: 'https://www.sjsu.edu/svic/' },
     { venue: 'Cal Hacks 13.0', what: 'UC Berkeley, Oct 2026', href: 'https://www.calhacks.io/' },
     { venue: 'LA AI Hackathon', what: 'UCLA, Oct 2026', href: 'https://la-ai-hackathon-2026.devpost.com/' },
   ],
   wins: [
-    { name: 'Meta Global Hackathon', what: 'Global Judges’ Choice Award, top 6 of 198 projects, spring 2026' },
-    { name: 'Base × Ohara Vibe Coding Buildathon', what: 'Prize winner, Coinbase HQ, Apr 2025' },
-    { name: 'TreeHacks 2025', what: '2nd prize, Liquid AI track: ExecuTorch C++ on-device kernels and a memory-aware scheduler, Feb 2025', href: 'https://devpost.com/software/optimized-convolution-kernels-for-edge-ai' },
+    { name: 'Meta Global Hackathon', what: 'Judges’ Choice, 2026' },
+    { name: 'Base × Ohara Buildathon', what: 'Prize winner, 2025' },
+    { name: 'TreeHacks 2025', what: '2nd prize, Liquid AI track', href: 'https://devpost.com/software/optimized-convolution-kernels-for-edge-ai' },
   ],
 };
