@@ -104,6 +104,10 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
 .oss-card code, .career code { font-family: var(--mono); font-size: .85em; background: var(--code-bg); padding: .05em .3em; border-radius: 3px; }
 .oss-card .prs { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .9rem; font-size: .9rem; margin: 0; }
 .oss-card .repo { color: var(--muted); }
+.logo { width: 1.75rem; height: 1.75rem; vertical-align: middle; object-fit: contain; }
+.oss-card .prs .logo { margin-right: .1rem; }
+.logo-lg { width: 2.6rem; height: 2.6rem; }
+.repo-group .sublabel { margin-bottom: .6rem; }
 
 .oss-card p, .career li, .career.compact p, .service span, .pr-list .t, .one-liner { text-wrap: pretty; }
 .career > li > div, .wins { max-width: 38rem; }

@@ -27,6 +27,10 @@ export function cleanTitle(t) {
 
 export const repoName = (repo) => NAMES[repo] || repo.split('/')[1];
 
+// Hand-drawn logo marks in public/images/logos, by display name.
+const LOGOS = { vLLM: '/images/logos/vllm.png', torchao: '/images/logos/pytorch.png', Humming: '/images/logos/humming.png', 'FlashAttention (vLLM)': '/images/logos/vllm.png' };
+export const repoLogo = (name) => LOGOS[name] || null;
+
 let cache;
 export async function getMergedPRs() {
   if (cache) return cache;

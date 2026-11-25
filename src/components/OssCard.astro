@@ -1,4 +1,5 @@
 ---
+import { repoLogo } from '../lib/oss.js';
 // One open-source highlight: a wordless sketch, a title, what changed, and its pull requests.
 const { item } = Astro.props;
 ---
@@ -6,5 +7,10 @@ const { item } = Astro.props;
   <img src={item.img} alt={item.alt} width="960" height="720" loading="lazy" />
   <h3>{item.title}</h3>
   <p set:html={item.text} />
-  <p class="prs"><span class="repo">{item.repo}</span>{item.prs.map(([label, href]) => <a href={href}>{label}</a>)}</p>
+  <p class="prs">
+    {repoLogo(item.repo)
+      ? <img class="logo" src={repoLogo(item.repo)} alt={item.repo} title={item.repo} width="160" height="160" />
+      : <span class="repo">{item.repo}</span>}
+    {item.prs.map(([label, href]) => <a href={href}>{label}</a>)}
+  </p>
 </article>
