@@ -5,7 +5,9 @@ import { SITE } from '../site.js';
 import { getMergedPRs, repoName, repoLogo, allMergedUrl } from '../lib/oss.js';
 import { fmtDate } from '../lib/posts.js';
 
-const merged = await getMergedPRs();
+// The cards already show their pull requests; the list below has the rest.
+const inCards = new Set(SITE.oss.flatMap((i) => i.prs.map(([, href]) => href)));
+const merged = (await getMergedPRs()).filter((p) => !inCards.has(p.url));
 const repos = [...new Set(merged.map((p) => p.repo))];
 ---
 <Base title="Open source" description="Devanshi Jain's open-source work on vLLM, PyTorch torchao and Humming: quantized inference, kernels and honest benchmarks.">
@@ -21,7 +23,7 @@ const repos = [...new Set(merged.map((p) => p.repo))];
     </section>
 
     <section class="block">
-      <h2 class="label">Full list</h2>
+      <h2 class="label">More pull requests</h2>
       {repos.map((r) => (
         <div class="repo-group">
           <h3 class="sublabel">{repoLogo(repoName(r))
