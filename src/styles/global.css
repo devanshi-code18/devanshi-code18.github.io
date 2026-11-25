@@ -93,7 +93,7 @@ body:has(.hero) .footer-links { display: none; }
 .hero { margin: 2.5rem 0 4.5rem; }
 .hero h1 { font-weight: 400; font-size: 4rem; line-height: 1; letter-spacing: .01em; text-transform: uppercase; margin: 0 0 2rem; }
 .hero-art { display: block; width: 100%; height: auto; margin: 0 0 2rem; }
-.ink-grid { position: relative; width: 100%; height: 17rem; margin: 0 0 2rem; touch-action: pan-y; cursor: crosshair; }
+.ink-grid { position: relative; width: 100%; height: 16rem; margin: 0 0 2rem; touch-action: pan-y; cursor: crosshair; }
 .ink-grid canvas, .ink-grid img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .ink-grid img { object-fit: contain; }
 .one-liner { max-width: 36rem; margin: 0; color: var(--muted); }

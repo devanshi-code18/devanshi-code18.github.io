@@ -1,142 +1,162 @@
 ---
-// The home page's main visual: a hand-inked grid standing in for a model's weights.
-// Touch it and the weights near the pointer get "quantized": squares shrink into
-// small ink blobs, then relax back. A ghost pointer wanders when nobody is touching it.
+// The home page's main visual: a hand-inked weight matrix. Touch it and the weights
+// near the pointer get "quantized" (2-bit: four drawn states) from open pen squares into
+// solid ink blobs, then relax back as hollow rings, leaving a small trail. A ghost
+// pointer wanders when nobody is touching it. Black ink only, no words.
 ---
 <div class="ink-grid" aria-hidden="true">
   <canvas></canvas>
-  <noscript><img src="/images/ink/hero.png" alt="" width="1600" height="678" /></noscript>
 </div>
 
 <script>
-  const box = document.querySelector('.ink-grid');
-  const canvas = box?.querySelector('canvas');
-  if (canvas && canvas.getContext) {
-    const ctx = canvas.getContext('2d');
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let W = 0, H = 0, cell = 22, cols = 0, rows = 0, ox = 0, oy = 0;
-    let q = new Float32Array(0);
-    let seed = 1;
-    const pointer = { x: -1e4, y: -1e4, active: false, last: 0 };
-    let ghostT = Math.random() * 100;
-
-    // Small deterministic noise so each cell's ink wobble is stable between "boil" ticks.
-    const rnd = (i, k) => {
-      const v = Math.sin(i * 127.1 + k * 311.7 + seed * 74.7) * 43758.5453;
-      return v - Math.floor(v) - 0.5;
+  const root = document.querySelector('.ink-grid');
+  const cv = root?.querySelector('canvas');
+  if (cv && cv.getContext) {
+    const P = {
+      cell: 28, cellPhone: 24, half: 0.3, lw: 1.4, lwVar: 0.15, wob: 1.1, rot: 3, sizeVar: 0.06,
+      over: 1.6, bow: 0.6, radMin: 70, radMax: 130, radK: 0.13, attack: 0.012, relax: 0.00055,
+      boilMs: 160, boilN: 3, levels: 3, fillAt: 0.5, stick: 0.03,
     };
+    const g = cv.getContext('2d');
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let W = 0, H = 0, o = 28, cols = 0, rows = 0, x0 = 0, y0 = 0, inset = 0, boil = 1;
+    let d = new Float32Array(), dir = new Int8Array(), hold = new Float64Array();
+    const ptr = { x: -1e4, y: -1e4, active: false, last: 0 };
+    let ph = Math.random() * 100, gx = -1e4, gy = -1e4;
 
-    function resize() {
-      const r = box.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Deterministic noise: `h` changes with each ink "boil" frame, `hs` never changes.
+    const hb = (e, t, f) => { const n = Math.sin(e * 127.1 + t * 311.7 + f * 74.7) * 43758.5453; return n - Math.floor(n) - 0.5; };
+    const h = (e, t) => hb(e, t, boil);
+    const hs = (e, t) => hb(e, t, 0);
+
+    function layout() {
+      const r = root.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 2);
       W = r.width; H = r.height;
-      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      cell = W < 520 ? 18 : 22;
-      cols = Math.floor(W / cell); rows = Math.floor(H / cell);
-      ox = (W - cols * cell) / 2 + cell / 2; oy = (H - rows * cell) / 2 + cell / 2;
-      q = new Float32Array(cols * rows);
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      o = W < 520 ? P.cellPhone : P.cell;
+      inset = Math.max(14, o * 0.7);
+      cols = Math.floor((W - 2 * inset) / o); rows = Math.floor(H / o);
+      x0 = (W - cols * o) / 2 + o / 2; y0 = (H - rows * o) / 2 + o / 2;
+      d = new Float32Array(cols * rows); dir = new Int8Array(cols * rows); hold = new Float64Array(cols * rows);
+    }
+
+    // One side of a hand-drawn square: a slightly bowed pen stroke that overshoots its corner.
+    function strokeSeg(ax, ay, bx, by, i, s) {
+      const dx = bx - ax, dy = by - ay, L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
+      const o0 = P.over * (0.5 + hs(i, 50 + s)), o1 = P.over * (0.2 + hs(i, 60 + s) * 0.8);
+      const sx = ax - ux * o0 * 0.3, sy = ay - uy * o0 * 0.3, ex = bx + ux * o1, ey = by + uy * o1;
+      const b = P.bow * (hs(i, 70 + s) * 2) + h(i, 80 + s) * P.wob * 0.5;
+      g.moveTo(sx, sy);
+      g.quadraticCurveTo((sx + ex) / 2 - uy * b, (sy + ey) / 2 + ux * b, ex, ey);
+    }
+
+    // A wobbly shape between a square (q = 0) and a circle (q = 1).
+    function shape(cx, cy, t, q, i, rotA) {
+      const N = 20, pts = [], ca = Math.cos(rotA), sa = Math.sin(rotA);
+      for (let k = 0; k < N; k++) {
+        const a = (k / N) * Math.PI * 2 + Math.PI / 4;
+        const sq = 1 / Math.max(Math.abs(Math.cos(a)), Math.abs(Math.sin(a)));
+        const rr = t * ((1 - q) * sq + q) + h(i, 100 + k) * P.wob * 0.9;
+        const px = Math.cos(a) * rr, py = Math.sin(a) * rr;
+        pts.push([cx + px * ca - py * sa, cy + px * sa + py * ca]);
+      }
+      return pts;
     }
 
     function draw() {
-      ctx.clearRect(0, 0, W, H);
-      ctx.lineWidth = 1.3;
-      ctx.lineJoin = 'round';
-      ctx.strokeStyle = '#111';
-      ctx.fillStyle = '#111';
-      const half = cell * 0.34;
-      for (let j = 0; j < rows; j++) {
-        for (let i = 0; i < cols; i++) {
-          const n = j * cols + i;
-          const t = q[n];
-          const cx = ox + i * cell + rnd(n, 1) * 0.9;
-          const cy = oy + j * cell + rnd(n, 2) * 0.9;
-          if (t < 0.02) {
-            // A plain weight: a slightly wobbly hand-drawn square.
-            const w = 0.8;
-            ctx.beginPath();
-            ctx.moveTo(cx - half + rnd(n, 3) * w, cy - half + rnd(n, 4) * w);
-            ctx.lineTo(cx + half + rnd(n, 5) * w, cy - half + rnd(n, 6) * w);
-            ctx.lineTo(cx + half + rnd(n, 7) * w, cy + half + rnd(n, 8) * w);
-            ctx.lineTo(cx - half + rnd(n, 9) * w, cy + half + rnd(n, 10) * w);
-            ctx.closePath();
-            ctx.stroke();
-          } else {
-            // A quantized weight: smaller, rounder, filled with ink.
-            const s = half * (1 - 0.42 * t);
-            const radius = s * Math.min(1, t * 1.15);
-            ctx.beginPath();
-            if (ctx.roundRect) ctx.roundRect(cx - s, cy - s, 2 * s, 2 * s, radius);
-            else ctx.rect(cx - s, cy - s, 2 * s, 2 * s);
-            ctx.globalAlpha = 1;
-            ctx.stroke();
-            ctx.globalAlpha = Math.min(1, t * 1.25);
-            ctx.fill();
-            ctx.globalAlpha = 1;
-          }
+      g.clearRect(0, 0, W, H);
+      g.lineJoin = 'round'; g.lineCap = 'round'; g.strokeStyle = '#111'; g.fillStyle = '#111';
+      const e = o * P.half, now = performance.now();
+      for (let rr = 0; rr < rows; rr++) for (let cc = 0; cc < cols; cc++) {
+        const i = rr * cols + cc;
+        const cx = x0 + cc * o + h(i, 1) * 0.9, cy = y0 + rr * o + h(i, 2) * 0.9;
+        g.lineWidth = P.lw + hs(i, 90) * 2 * P.lwVar;
+        const ee = e * (1 + hs(i, 91) * 2 * P.sizeVar);
+        const rotA = (hs(i, 92) * 2 * P.rot * Math.PI) / 180;
+        const q = Math.round(d[i] * P.levels) / P.levels; // 2-bit: four drawn states
+        if (q <= 0) {
+          const ca = Math.cos(rotA), sa = Math.sin(rotA), w = P.wob;
+          const C = [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([sx, sy], k) => {
+            const px = sx * ee + hs(i, 3 + 2 * k) * w * 1.2 + h(i, 3 + 2 * k) * w;
+            const py = sy * ee + hs(i, 4 + 2 * k) * w * 1.2 + h(i, 4 + 2 * k) * w;
+            return [cx + px * ca - py * sa, cy + px * sa + py * ca];
+          });
+          g.beginPath();
+          for (let s = 0; s < 4; s++) strokeSeg(C[s][0], C[s][1], C[(s + 1) % 4][0], C[(s + 1) % 4][1], i, s);
+          g.stroke();
+          continue;
         }
+        const t = ee * (1 - 0.45 * q);
+        const pts = shape(cx, cy, t, Math.min(1, q * 1.1), i, rotA);
+        g.beginPath(); g.moveTo(pts[0][0], pts[0][1]);
+        for (let k = 1; k < pts.length; k++) g.lineTo(pts[k][0], pts[k][1]);
+        g.closePath();
+        const relaxing = dir[i] < 0 && hold[i] < now;
+        if (relaxing || q < P.fillAt) { g.stroke(); continue; } // hollow rings: the trail
+        g.fill(); g.stroke();
       }
+      // Hand-drawn matrix brackets, so the grid reads as a matrix of weights.
+      const L = x0 - o / 2 - inset * 0.55, R = x0 + (cols - 0.5) * o + inset * 0.55;
+      const T = y0 - o / 2 + 2, B = y0 + (rows - 0.5) * o - 2, s = Math.min(10, inset * 0.6);
+      const j = (k) => h(999, k) * P.wob;
+      g.lineWidth = P.lw * 1.35; g.beginPath();
+      g.moveTo(L + s + j(1), T + j(2)); g.lineTo(L + j(3), T + 1 + j(4)); g.quadraticCurveTo(L - 1.5 + j(5), (T + B) / 2, L + j(6), B - 1 + j(7)); g.lineTo(L + s + j(8), B + j(9));
+      g.moveTo(R - s + j(11), T + j(12)); g.lineTo(R + j(13), T + 1 + j(14)); g.quadraticCurveTo(R + 1.5 + j(15), (T + B) / 2, R + j(16), B - 1 + j(17)); g.lineTo(R - s + j(18), B + j(19));
+      g.stroke();
     }
 
     function step(dt) {
-      // Where the "pen" is: the real pointer, or a ghost that wanders on its own.
-      let px = pointer.x, py = pointer.y;
-      if (!pointer.active || performance.now() - pointer.last > 2500) {
-        ghostT += dt * 0.00035;
-        px = W * (0.5 + 0.42 * Math.sin(ghostT * 1.3));
-        py = H * (0.5 + 0.38 * Math.sin(ghostT * 2.1 + 1.2));
+      let tx = ptr.x, ty = ptr.y;
+      const now = performance.now();
+      const ghost = !ptr.active || now - ptr.last > 2500;
+      if (ghost) {
+        ph += dt * 3.5e-4;
+        tx = W * (0.5 + 0.42 * Math.sin(ph * 1.3)); ty = H * (0.5 + 0.38 * Math.sin(ph * 2.1 + 1.2));
       }
-      const R = Math.max(60, Math.min(110, W * 0.09));
-      let moving = false;
-      for (let j = 0; j < rows; j++) {
-        for (let i = 0; i < cols; i++) {
-          const n = j * cols + i;
-          const dx = ox + i * cell - px, dy = oy + j * cell - py;
-          const target = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / R);
-          const cur = q[n];
-          // Quantize fast, relax slowly.
-          const next = target > cur ? cur + (target - cur) * Math.min(1, dt * 0.012) : cur - Math.min(cur, dt * 0.00055);
-          if (Math.abs(next - cur) > 1e-4) moving = true;
-          q[n] = next;
-        }
+      // The ghost eases in from wherever the pointer was; the real pointer is followed directly.
+      if (gx < -1e3) { gx = tx; gy = ty; }
+      const k = ghost ? Math.min(1, dt * 0.003) : 1;
+      gx += (tx - gx) * k; gy += (ty - gy) * k;
+      const R = Math.max(P.radMin, Math.min(P.radMax, W * P.radK));
+      for (let rr = 0; rr < rows; rr++) for (let cc = 0; cc < cols; cc++) {
+        const i = rr * cols + cc, dx = x0 + cc * o - gx, dy = y0 + rr * o - gy;
+        const tgt = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / R), cur = d[i];
+        if (tgt > cur) {
+          d[i] = cur + (tgt - cur) * Math.min(1, dt * P.attack); dir[i] = 1;
+          // A few weights stay quantized for a while.
+          if (cur < 0.9 && d[i] >= 0.9 && hs(i, 33) + 0.5 < P.stick) hold[i] = now + 2500 + (hs(i, 34) + 0.5) * 4000;
+        } else if (hold[i] > now) d[i] = Math.max(cur, 1);
+        else { const nv = cur - Math.min(cur, dt * P.relax); if (nv < cur) dir[i] = -1; d[i] = nv; }
       }
-      return moving;
     }
 
-    let last = performance.now(), lastBoil = 0, visible = true, raf = 0;
-    function frame(now) {
-      const dt = Math.min(64, now - last);
-      last = now;
+    let last = performance.now(), lastBoil = 0, vis = true, raf = 0;
+    function frame(t) {
+      const dt = Math.min(64, t - last); last = t;
       step(dt);
-      if (now - lastBoil > 140) { seed = (seed % 7) + 1; lastBoil = now; } // ink "boil"
+      if (t - lastBoil > P.boilMs) { boil = (boil % P.boilN) + 1; lastBoil = t; }
       draw();
-      raf = visible ? requestAnimationFrame(frame) : 0;
+      raf = vis ? requestAnimationFrame(frame) : 0;
     }
+    const mv = (ev) => { const r = cv.getBoundingClientRect(); ptr.x = ev.clientX - r.left; ptr.y = ev.clientY - r.top; ptr.active = true; ptr.last = performance.now(); };
+    cv.addEventListener('pointermove', mv);
+    cv.addEventListener('pointerdown', mv);
+    cv.addEventListener('pointerleave', () => { ptr.active = false; });
 
-    function toLocal(e) {
-      const r = canvas.getBoundingClientRect();
-      pointer.x = e.clientX - r.left; pointer.y = e.clientY - r.top;
-      pointer.active = true; pointer.last = performance.now();
-    }
-    canvas.addEventListener('pointermove', toLocal);
-    canvas.addEventListener('pointerdown', toLocal);
-    canvas.addEventListener('pointerleave', () => { pointer.active = false; });
-
-    resize();
-    if (reduce) {
-      // Still picture: a band of quantized weights across the middle.
-      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
-        const d = Math.abs(i / cols - 0.5 - (j / rows - 0.5) * 0.6);
-        q[j * cols + i] = Math.max(0, 1 - d * 5);
-      }
-      draw();
-    } else {
-      new IntersectionObserver(([e]) => {
-        visible = e.isIntersecting;
-        if (visible && !raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
-      }).observe(box);
-    }
+    // Reduced motion: one still picture, a diagonal band of quantized weights.
+    const seedStill = () => { for (let rr = 0; rr < rows; rr++) for (let cc = 0; cc < cols; cc++) { const n = Math.abs(cc / cols - 0.5 - (rr / rows - 0.5) * 0.6); d[rr * cols + cc] = Math.max(0, 1 - n * 5); } };
+    layout();
     let rt;
-    window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { resize(); draw(); }, 120); });
+    addEventListener('resize', () => {
+      clearTimeout(rt);
+      rt = setTimeout(() => {
+        const r = root.getBoundingClientRect();
+        if (Math.abs(r.width - W) < 1 && Math.abs(r.height - H) < 1) return; // e.g. the phone's address bar
+        layout(); if (reduced) seedStill(); draw();
+      }, 120);
+    });
+    if (reduced) { seedStill(); draw(); }
+    else new IntersectionObserver(([en]) => { vis = en.isIntersecting; if (vis && !raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }).observe(root);
   }
 </script>
