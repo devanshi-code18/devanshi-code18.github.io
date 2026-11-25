@@ -60,8 +60,7 @@ const nav = [
       <div class="wrap">
         <span>© {new Date().getFullYear()} {SITE.name}</span>
         <span class="footer-links">
-          {SITE.links.map((l) => <a href={l.href}>{l.label}</a>)}
-          <a href="/rss.xml">RSS</a>
+          {SITE.links.filter((l) => l.label !== 'Google Scholar').map((l) => <a href={l.href}>{l.label}</a>)}
         </span>
       </div>
     </footer>
