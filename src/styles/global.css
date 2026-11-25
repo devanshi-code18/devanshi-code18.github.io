@@ -72,7 +72,8 @@ a:hover { text-decoration-color: currentColor; }
 .site-nav a[aria-current] { color: var(--text); text-decoration: underline 2px var(--accent); text-underline-offset: .45em; }
 
 /* footer */
-.site-footer { margin-top: 4rem; }
+.site-footer { margin-top: 4.5rem; }
+body:has(.hero) .site-footer { margin-top: 0; }
 .site-footer .wrap { font-family: var(--serif) !important; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0 1.5rem; padding-top: 1rem; padding-bottom: 1.5rem; border-top: 1px solid var(--line); font-family: var(--sans); font-size: .875rem; color: var(--faint); background-clip: content-box; }
 .site-footer .wrap { border-top: 0; position: relative; }
 .site-footer .wrap::before { content: ""; position: absolute; top: 0; left: 1.5rem; right: 1.5rem; border-top: 1px solid var(--line); }
@@ -89,10 +90,12 @@ a:hover { text-decoration-color: currentColor; }
 .site-header .wrap { justify-content: flex-end; }
 .wrap { max-width: 56rem; }
 .post, .page > .prose { max-width: 40rem; }
-.hero { margin: 2.5rem 0 4.5rem; }
-.hero h1 { font-weight: 400; font-size: 4rem; line-height: 1; letter-spacing: .01em; text-transform: uppercase; margin: 0 0 2rem; }
+/* Home: name, grid and line sit in the middle of the window, evenly spaced. */
+body:has(.hero) main { display: flex; flex-direction: column; justify-content: center; }
+.hero { margin: 0; padding: 3rem 0; }
+.hero h1 { font-weight: 400; font-size: 4rem; line-height: 1; letter-spacing: .01em; text-transform: uppercase; margin: 0 0 2.5rem; }
 .hero-art { display: block; width: 100%; height: auto; margin: 0 0 2rem; }
-.ink-grid { position: relative; width: 100%; height: 16rem; margin: 0 0 2rem; touch-action: pan-y; cursor: crosshair; }
+.ink-grid { position: relative; width: 100%; height: 16rem; margin: 0 0 2.5rem; touch-action: pan-y; cursor: crosshair; }
 .ink-grid canvas, .ink-grid img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .ink-grid img { object-fit: contain; }
 .one-liner { max-width: 36rem; margin: 0; color: var(--muted); }
@@ -181,15 +184,15 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
 .pr-list .n, .pr-list time { font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* about, 404 */
-.page { margin-top: 2.5rem; }
-.page-title { font-size: 3rem; line-height: 1; font-weight: 400; letter-spacing: .01em; text-transform: uppercase; margin: 0 0 2rem; }
+.page { margin-top: 3rem; }
+.page-title { font-size: 3rem; line-height: 1; font-weight: 400; letter-spacing: .01em; text-transform: uppercase; margin: 0 0 2.5rem; }
 .page .group { margin-top: 2.5rem; }
 .elsewhere { list-style: none; margin: 0; padding: 0; }
 .elsewhere li { display: flex; gap: 1rem; padding: .3rem 0; }
 .elsewhere .k { width: 9rem; flex: none; color: var(--muted); white-space: nowrap; }
 
 /* posts */
-.post { margin-top: 2.5rem; }
+.post { margin-top: 3rem; }
 .post-header { margin-bottom: 2.5rem; }
 .post-header h1 { font-size: 2.4rem; line-height: 1.15; font-weight: 400; letter-spacing: -.015em; margin: 0; text-wrap: balance; }
 .post-dek { margin: 1rem 0 0; font-size: 1.3rem; line-height: 1.4; font-style: italic; color: var(--muted); text-wrap: pretty; }
@@ -288,8 +291,8 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
   .wrap { padding: 0 1.25rem; }
   .site-footer .wrap::before { left: 1.25rem; right: 1.25rem; }
   .site-header .wrap { padding-top: 1rem; }
-  .hero { margin: 1.5rem 0 3rem; }
-  .hero h1 { font-size: 2.6rem; }
+  .hero { padding: 2rem 0; }
+  .hero h1 { font-size: 2.6rem; margin-bottom: 2rem; }
   .block { margin-top: 3.25rem; }
   .label { font-size: 1.25rem; }
   .oss-grid, .two-col, .three-col { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -298,7 +301,7 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
   .role > img, .oss-card > img, .service-col > img { width: 100%; max-width: none; }
   .earlier li { grid-template-columns: 1fr; }
   .hero-art { margin: 0 0 1.5rem; }
-  .ink-grid { height: 12rem; margin: 0 0 1.5rem; }
+  .ink-grid { height: 12rem; margin: 0 0 2rem; }
   .career .when { margin: 0 0 .2rem; }
   .pr-list a { grid-template-columns: 1fr; }
   .pr-list time { display: none; }
