@@ -35,7 +35,6 @@ const earlier = SITE.career.filter((c) => c.earlier);
         </li>
       ))}
     </ol>
-    <h3 class="sublabel">Before Meta</h3>
     <ol class="career compact">
       {earlier.map((c) => (
         <li>
@@ -44,18 +43,11 @@ const earlier = SITE.career.filter((c) => c.earlier);
         </li>
       ))}
     </ol>
-    <h3 class="sublabel">Education</h3>
-    <ol class="career compact">
-      <li>
-        <p class="when">{SITE.education.dates}</p>
-        <div><h3>{SITE.education.degree}<span class="sep"> · </span><span class="org">{SITE.education.school}</span></h3></div>
-      </li>
-    </ol>
   </section>
 
   <section class="block">
-    <h2 class="label">Peer review and judging</h2>
-    <div class="two-col">
+    <h2 class="label">Service and awards</h2>
+    <div class="three-col">
       <div>
         <h3 class="sublabel">Reviewer</h3>
         <ul class="service">
@@ -68,13 +60,12 @@ const earlier = SITE.career.filter((c) => c.earlier);
           {SITE.judge.map((r) => <li><a href={r.href}>{r.venue}</a><span>{r.what}</span></li>)}
         </ul>
       </div>
+      <div>
+        <h3 class="sublabel">Hackathon wins</h3>
+        <ul class="service">
+          {SITE.wins.map((w) => <li>{w.href ? <a href={w.href}>{w.name}</a> : <strong>{w.name}</strong>}<span>{w.what}</span></li>)}
+        </ul>
+      </div>
     </div>
-  </section>
-
-  <section class="block">
-    <h2 class="label">Hackathon wins</h2>
-    <ul class="service wins">
-      {SITE.wins.map((w) => <li>{w.href ? <a href={w.href}>{w.name}</a> : <strong>{w.name}</strong>}<span>{w.what}</span></li>)}
-    </ul>
   </section>
 </Base>

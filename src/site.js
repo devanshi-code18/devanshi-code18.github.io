@@ -4,9 +4,9 @@ export const SITE = {
   shortName: 'Devanshi',
   url: 'https://devanshi-code18.github.io',
   // Used for search results and link previews.
-  description: 'Devanshi Jain, systems engineer at Meta working on ML inference efficiency, and open-source contributor to vLLM and PyTorch torchao.',
+  description: 'Devanshi Jain, systems engineer at Meta working on inference performance for video recommendation models, and open-source contributor to PyTorch and vLLM.',
   // The line under the name on the home page. Plain HTML is fine.
-  oneLiner: 'Systems engineer at Meta, making ML inference faster on fewer GPUs. In open source I work on LLM serving: <a href="https://github.com/vllm-project/vllm">vLLM</a> and <a href="https://github.com/pytorch/ao">PyTorch torchao</a>.',
+  oneLiner: 'Systems engineer at Meta working on inference performance for video recommendation models. I contribute to open source, mostly <a href="https://github.com/pytorch/ao">PyTorch</a> and <a href="https://github.com/vllm-project/vllm">vLLM</a>. B.S. in Mathematics and Computer Science from UC San Diego.',
   links: [
     { label: 'GitHub', href: 'https://github.com/devanshi-code18' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/djain18' },
