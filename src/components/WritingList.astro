@@ -7,7 +7,7 @@ const { items } = Astro.props;
     <li>
       <a href={p.url}>
         <time datetime={p.date.toISOString()}>{fmtDate(p.date, { month: 'short', day: 'numeric', year: 'numeric' })}</time>
-        <span class="title">{smart(p.title)}</span>{p.draft && <span class="badge">draft</span>}{p.external && <span class="ext"> · on Substack</span>}
+        <span class="title">{smart(p.title)}</span>{p.draft && <span class="badge">draft</span>}{p.external && <span class="ext" aria-label="on Substack"> ↗</span>}
         {p.description && <span class="desc">{smart(p.description)}</span>}
       </a>
     </li>

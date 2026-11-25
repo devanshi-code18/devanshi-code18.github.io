@@ -74,8 +74,8 @@ const bibtex = `@article{${key},
 
     {(older || newer) && (
       <nav class="post-nav" aria-label="More posts">
-        {older ? <a href={`/posts/${older.id}/`} class="older"><span class="k">« Older</span><span class="t">{smart(older.data.title)}</span></a> : <span />}
-        {newer ? <a href={`/posts/${newer.id}/`} class="newer"><span class="k">Newer »</span><span class="t">{smart(newer.data.title)}</span></a> : <span />}
+        {older ? <a href={`/posts/${older.id}/`} class="older"><span class="k">← Older</span><span class="t">{smart(older.data.title)}</span></a> : <span />}
+        {newer ? <a href={`/posts/${newer.id}/`} class="newer"><span class="k">Newer →</span><span class="t">{smart(newer.data.title)}</span></a> : <span />}
       </nav>
     )}
   </article>
