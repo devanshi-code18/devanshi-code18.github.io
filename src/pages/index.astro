@@ -1,11 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import InkGrid from '../components/InkGrid.astro';
 import { SITE } from '../site.js';
 ---
 <Base home>
   <section class="hero">
     <h1>{SITE.name}</h1>
-    <img class="hero-art" src="/images/ink/hero.png" alt={SITE.heroAlt} width="1600" height="678" />
+    <InkGrid />
     <p class="one-liner" set:html={SITE.oneLiner} />
     <p class="links">{SITE.links.map((l) => <a href={l.href}>{l.label}</a>)}</p>
   </section>

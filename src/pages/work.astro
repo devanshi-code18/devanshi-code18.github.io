@@ -28,7 +28,7 @@ const service = [
       ))}
     </ol>
 
-    <h2 class="sublabel">Earlier</h2>
+    <h2 class="sublabel">Earlier, at UC San Diego</h2>
     <ul class="earlier">
       {earlier.map((c) => (
         <li><span class="when">{c.dates}</span><span><strong>{c.role}</strong>, {c.org}{c.note && <> · <Fragment set:html={c.note} /></>}</span></li>

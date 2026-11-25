@@ -6,7 +6,7 @@ export const SITE = {
   // Used for search results and link previews.
   description: 'Devanshi Jain, systems engineer at Meta working on inference performance for video recommendation models, and open-source contributor to PyTorch and vLLM.',
   // The line under the name on the home page. Plain HTML is fine.
-  oneLiner: 'Systems engineer at Meta working on inference performance for video recommendation models. I contribute to open source, mostly <a href="https://github.com/pytorch/ao">PyTorch</a> and <a href="https://github.com/vllm-project/vllm">vLLM</a>. B.S. in Mathematics and Computer Science from UC San Diego.',
+  oneLiner: 'Systems engineer at Meta working on inference performance for video recommendation models. I contribute to open source, mostly <a href="https://github.com/pytorch/ao">PyTorch</a> and <a href="https://github.com/vllm-project/vllm">vLLM</a>. B.S. in Mathematics and Computer Science from UC&nbsp;San&nbsp;Diego.',
   heroAlt: 'A small, smiling GPU card with legs sprints ahead carrying a compact neural network, leaving behind a line of GPU cards hauling a giant network on a cart.',
   links: [
     { label: 'GitHub', href: 'https://github.com/devanshi-code18' },
@@ -52,7 +52,7 @@ export const SITE = {
       img: '/images/ink/benchmarks.png',
       alt: 'A race where a runner’s shortcut through a box is crossed out and the honest runner is timed.',
       title: 'Benchmarks that measured the cache',
-      text: 'vLLM’s benchmark warmed up with the same prompt it then measured, so the first “real” request hit the cache and looked about 4× faster than it was. Warmups can’t hit the cache anymore, and requests that sample several outputs stop counting their siblings’ cache hits.',
+      text: 'vLLM’s benchmark warmed up with the same prompt it then measured, so the first “real” request hit the cache and looked about 4× faster than it was. Warmups now use different prompts, and requests that sample several outputs no longer count their siblings’ cache hits.',
       repo: 'vLLM',
       prs: [['#66701', 'https://github.com/vllm-project/vllm/pull/66701'], ['#66720', 'https://github.com/vllm-project/vllm/pull/66720']],
     },
@@ -79,10 +79,10 @@ export const SITE = {
     {
       org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now', img: '/images/work/meta-perf.png',
       alt: 'Videos ride a conveyor through a GPU faster once the waiting is removed.',
-      summary: 'Inference performance for Facebook’s video recommendation models.',
+      summary: 'Making video ranking models serve more requests per GPU.',
       points: [
         '23.4% more inference queries per second per GPU on a video ranking model (AMD MI300X, 80&nbsp;ms p99), by cutting host syncs 7× and fusing GEMMs.',
-        '$14.18M a year in GPU savings across video recommendation inference.',
+        '$14.18M a year in GPU savings.',
         'Caught a silent output bug that had passed 10+ load tests, and built a check that compares served outputs with the original model before publishing.',
       ],
     },
@@ -91,8 +91,8 @@ export const SITE = {
       alt: 'A robot repairs a locked door by itself while people walk through.',
       summary: 'LLM post-training data, then login reliability for Facebook and Instagram.',
       points: [
-        'Built 15+ LLM post-training tasks whose data shipped in Muse Spark 1.2.',
-        'Led the reliability work that cut “Can’t Log In” bug reports 55%, with an AI pipeline that patches regressions automatically.',
+        'Built 15+ post-training tasks whose data shipped in Muse Spark 1.2.',
+        'Cut “Can’t Log In” bug reports 55%, with an AI pipeline that patches regressions automatically.',
       ],
     },
     {
@@ -105,11 +105,11 @@ export const SITE = {
       org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024', img: '/images/work/meta-migration.png',
       alt: 'A line of people crosses a bridge from an old building to a new locked one.',
       summary: 'Login security.',
-      points: ['Moved 64M+ users from a deprecated database to a secure login system.'],
+      points: ['Moved 64M+ users off a deprecated database onto the new login system.'],
     },
-    { earlier: true, org: 'UC San Diego Center for Energy Research', role: 'Software Engineering Intern', dates: '2022 – 2024', note: '20% more energy-efficient scheduling across 9+ buildings' },
-    { earlier: true, org: 'UC San Diego Flow Physics Lab', role: 'Student Researcher', dates: '2023', note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Published in The Catalyst</a>' },
-    { earlier: true, org: 'UC San Diego, RoboSub', role: 'Embedded Systems Lead', dates: '2021 – 2023', note: 'Real-time C++ for a semifinalist autonomous submarine' },
+    { earlier: true, org: 'Center for Energy Research', role: 'Software Engineering Intern', dates: '2022 – 2024', note: '20% more energy‑efficient scheduling across 9+ buildings' },
+    { earlier: true, org: 'Flow Physics Lab', role: 'Student Researcher', dates: '2023', note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Published in The Catalyst</a>' },
+    { earlier: true, org: 'RoboSub', role: 'Embedded Systems Lead', dates: '2021 – 2023', note: 'Real-time C++ for a semifinalist autonomous submarine' },
   ],
 
   // Peer review and judging. Only roles that are confirmed.
@@ -117,16 +117,16 @@ export const SITE = {
     { venue: 'CPAL 2027', what: 'Conference on Parsimony and Learning, Proceedings Track (PMLR)', href: 'https://cpal.cc/' },
     { venue: 'AAAI 2027', what: 'Deployable AI (DAI) Workshop', href: 'https://dai-workshop.github.io/' },
     { venue: 'WWW 2027', what: 'LLM and Agents for Recommendation Systems (LARS) Workshop', href: 'https://www2027.thewebconf.org/workshops/#workshop-lars' },
-    { venue: 'WSDM 2027', what: 'AutoResearch for IR & RecSys Workshop, program committee', href: 'https://www.wsdm-conference.org/2027/accepted-workshops.html' },
+    { venue: 'WSDM 2027', what: 'AutoResearch for IR & RecSys Workshop', href: 'https://www.wsdm-conference.org/2027/accepted-workshops.html' },
   ],
   judge: [
-    { venue: 'Silicon Valley Innovation Challenge', what: 'San José State University, Nov – Dec 2026', href: 'https://www.sjsu.edu/svic/' },
+    { venue: 'Silicon Valley Innovation Challenge', what: 'San José State University, Nov–Dec 2026', href: 'https://www.sjsu.edu/svic/' },
     { venue: 'Cal Hacks 13.0', what: 'UC Berkeley, Oct 2026', href: 'https://www.calhacks.io/' },
     { venue: 'LA AI Hackathon', what: 'UCLA, Oct 2026', href: 'https://la-ai-hackathon-2026.devpost.com/' },
   ],
   wins: [
     { name: 'Meta Global Hackathon', what: 'Global Judges’ Choice Award, top 6 of 198 projects, spring 2026' },
-    { name: 'TreeHacks 2025', what: '2nd prize, Liquid AI track: ExecuTorch C++ on-device kernels and a memory-aware scheduler, Feb 2025', href: 'https://devpost.com/software/optimized-convolution-kernels-for-edge-ai' },
     { name: 'Base × Ohara Vibe Coding Buildathon', what: 'Prize winner, Coinbase HQ, Apr 2025' },
+    { name: 'TreeHacks 2025', what: '2nd prize, Liquid AI track: ExecuTorch C++ on-device kernels and a memory-aware scheduler, Feb 2025', href: 'https://devpost.com/software/optimized-convolution-kernels-for-edge-ai' },
   ],
 };

@@ -1,0 +1,142 @@
+---
+// The home page's main visual: a hand-inked grid standing in for a model's weights.
+// Touch it and the weights near the pointer get "quantized": squares shrink into
+// small ink blobs, then relax back. A ghost pointer wanders when nobody is touching it.
+---
+<div class="ink-grid" aria-hidden="true">
+  <canvas></canvas>
+  <noscript><img src="/images/ink/hero.png" alt="" width="1600" height="678" /></noscript>
+</div>
+
+<script>
+  const box = document.querySelector('.ink-grid');
+  const canvas = box?.querySelector('canvas');
+  if (canvas && canvas.getContext) {
+    const ctx = canvas.getContext('2d');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let W = 0, H = 0, cell = 22, cols = 0, rows = 0, ox = 0, oy = 0;
+    let q = new Float32Array(0);
+    let seed = 1;
+    const pointer = { x: -1e4, y: -1e4, active: false, last: 0 };
+    let ghostT = Math.random() * 100;
+
+    // Small deterministic noise so each cell's ink wobble is stable between "boil" ticks.
+    const rnd = (i, k) => {
+      const v = Math.sin(i * 127.1 + k * 311.7 + seed * 74.7) * 43758.5453;
+      return v - Math.floor(v) - 0.5;
+    };
+
+    function resize() {
+      const r = box.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = r.width; H = r.height;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cell = W < 520 ? 18 : 22;
+      cols = Math.floor(W / cell); rows = Math.floor(H / cell);
+      ox = (W - cols * cell) / 2 + cell / 2; oy = (H - rows * cell) / 2 + cell / 2;
+      q = new Float32Array(cols * rows);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      ctx.lineWidth = 1.3;
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = '#111';
+      ctx.fillStyle = '#111';
+      const half = cell * 0.34;
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const n = j * cols + i;
+          const t = q[n];
+          const cx = ox + i * cell + rnd(n, 1) * 0.9;
+          const cy = oy + j * cell + rnd(n, 2) * 0.9;
+          if (t < 0.02) {
+            // A plain weight: a slightly wobbly hand-drawn square.
+            const w = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(cx - half + rnd(n, 3) * w, cy - half + rnd(n, 4) * w);
+            ctx.lineTo(cx + half + rnd(n, 5) * w, cy - half + rnd(n, 6) * w);
+            ctx.lineTo(cx + half + rnd(n, 7) * w, cy + half + rnd(n, 8) * w);
+            ctx.lineTo(cx - half + rnd(n, 9) * w, cy + half + rnd(n, 10) * w);
+            ctx.closePath();
+            ctx.stroke();
+          } else {
+            // A quantized weight: smaller, rounder, filled with ink.
+            const s = half * (1 - 0.42 * t);
+            const radius = s * Math.min(1, t * 1.15);
+            ctx.beginPath();
+            if (ctx.roundRect) ctx.roundRect(cx - s, cy - s, 2 * s, 2 * s, radius);
+            else ctx.rect(cx - s, cy - s, 2 * s, 2 * s);
+            ctx.globalAlpha = 1;
+            ctx.stroke();
+            ctx.globalAlpha = Math.min(1, t * 1.25);
+            ctx.fill();
+            ctx.globalAlpha = 1;
+          }
+        }
+      }
+    }
+
+    function step(dt) {
+      // Where the "pen" is: the real pointer, or a ghost that wanders on its own.
+      let px = pointer.x, py = pointer.y;
+      if (!pointer.active || performance.now() - pointer.last > 2500) {
+        ghostT += dt * 0.00035;
+        px = W * (0.5 + 0.42 * Math.sin(ghostT * 1.3));
+        py = H * (0.5 + 0.38 * Math.sin(ghostT * 2.1 + 1.2));
+      }
+      const R = Math.max(60, Math.min(110, W * 0.09));
+      let moving = false;
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const n = j * cols + i;
+          const dx = ox + i * cell - px, dy = oy + j * cell - py;
+          const target = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / R);
+          const cur = q[n];
+          // Quantize fast, relax slowly.
+          const next = target > cur ? cur + (target - cur) * Math.min(1, dt * 0.012) : cur - Math.min(cur, dt * 0.00055);
+          if (Math.abs(next - cur) > 1e-4) moving = true;
+          q[n] = next;
+        }
+      }
+      return moving;
+    }
+
+    let last = performance.now(), lastBoil = 0, visible = true, raf = 0;
+    function frame(now) {
+      const dt = Math.min(64, now - last);
+      last = now;
+      step(dt);
+      if (now - lastBoil > 140) { seed = (seed % 7) + 1; lastBoil = now; } // ink "boil"
+      draw();
+      raf = visible ? requestAnimationFrame(frame) : 0;
+    }
+
+    function toLocal(e) {
+      const r = canvas.getBoundingClientRect();
+      pointer.x = e.clientX - r.left; pointer.y = e.clientY - r.top;
+      pointer.active = true; pointer.last = performance.now();
+    }
+    canvas.addEventListener('pointermove', toLocal);
+    canvas.addEventListener('pointerdown', toLocal);
+    canvas.addEventListener('pointerleave', () => { pointer.active = false; });
+
+    resize();
+    if (reduce) {
+      // Still picture: a band of quantized weights across the middle.
+      for (let j = 0; j < rows; j++) for (let i = 0; i < cols; i++) {
+        const d = Math.abs(i / cols - 0.5 - (j / rows - 0.5) * 0.6);
+        q[j * cols + i] = Math.max(0, 1 - d * 5);
+      }
+      draw();
+    } else {
+      new IntersectionObserver(([e]) => {
+        visible = e.isIntersecting;
+        if (visible && !raf) { last = performance.now(); raf = requestAnimationFrame(frame); }
+      }).observe(box);
+    }
+    let rt;
+    window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { resize(); draw(); }, 120); });
+  }
+</script>

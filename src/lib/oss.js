@@ -21,8 +21,9 @@ const FALLBACK = [
 export function cleanTitle(t) {
   const s = t.replace(/^(\s*\[[^\]]*\]\s*)+/, '').replace(/^[a-z]+\([^)]*\):\s*/, '').trim();
   // Keep a leading lowercase name like "torchao:" as it is.
-  if (/^[a-z0-9_.-]+:/.test(s)) return s;
-  return s.charAt(0).toUpperCase() + s.slice(1);
+  const out = /^[a-z0-9_.-]+:/.test(s) ? s : s.charAt(0).toUpperCase() + s.slice(1);
+  // House style: the project is "torchao", and ranges use an en dash.
+  return out.replace(/\bTorchAO\b/g, 'torchao').replace(/(\d)-(\d)/g, '$1–$2');
 }
 
 export const repoName = (repo) => NAMES[repo] || repo.split('/')[1];

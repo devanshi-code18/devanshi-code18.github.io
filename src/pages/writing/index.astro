@@ -9,7 +9,7 @@ const years = [...new Set(writing.map((p) => p.date.getUTCFullYear()))];
 <Base title="Writing" description="Posts by Devanshi Jain on ML inference systems.">
   <article class="page">
     <h1 class="page-title">Writing</h1>
-    {writing.length === 0 && <p class="empty">First post coming soon. <a href="/rss.xml">RSS</a></p>}
+    {writing.length === 0 && <p class="empty">First post coming soon.</p>}
     {years.map((y) => (
       <section class="group">
         <h2 class="section-label">{y}</h2>
