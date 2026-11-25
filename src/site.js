@@ -78,17 +78,15 @@ export const SITE = {
     {
       org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now',
       points: [
-        '23.4% higher inference QPS per GPU (AMD MI300X, 80 ms p99) on a video ranking model: host syncs cut 7×, GEMMs fused.',
+        '23.4% higher inference QPS per GPU (AMD MI300X, 80&nbsp;ms p99) on a video ranking model: host syncs cut 7×, GEMMs fused.',
         '$14.18M/yr in GPU savings across video recommendation inference, including latency&#8209;stopper and autoscaling fixes.',
-        'Stopped a silent output bug that passed 10+ load tests; built a pre-publish check that compares served and original outputs.',
       ],
     },
     {
       org: 'Meta', role: 'Software Engineer', dates: 'Apr 2025 – Jul 2026',
       points: [
         'Built 15+ LLM post-training tasks whose data shipped in Muse Spark 1.2.',
-        'Led the reliability workstream that cut “Can’t Log In” user-reported bugs 55%; built an AI pipeline that auto-patches regressions.',
-        'Added 14M+ monthly active users through 30+ login and registration experiments on Facebook and Instagram.',
+        'Led the reliability work that cut “Can’t Log In” user-reported bugs 55%, with an AI pipeline that auto-patches regressions.',
       ],
     },
     {
@@ -97,33 +95,30 @@ export const SITE = {
     },
     {
       org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024',
-      points: [
-        'Migrated 64M+ users from a deprecated database to a secure login system.',
-        'Designed an Instagram ML model that picks the authentication challenge most likely to succeed for each user.',
-      ],
+      points: ['Migrated 64M+ users from a deprecated database to a secure login system.'],
     },
-    { earlier: true, org: 'UC San Diego, Center for Energy Research', role: 'Software Engineering Intern', dates: '2022 – 2024', text: 'Improved energy efficiency 20% across 9+ buildings by optimizing the on/off control scheduler.' },
-    { earlier: true, org: 'UC San Diego School of Medicine, Biomedical Informatics', role: 'Web Developer', dates: '2023 – 2024', text: 'Built an Angular word-association app used to test memory retention in 120+ sleep apnea patients.' },
-    { earlier: true, org: 'UC San Diego, Computational Modelling & Flow Physics Lab', role: 'Student Researcher', dates: '2023', text: 'Raised the pressure ratio of the first four stages of NASA’s compressor 12.5% with CFD optimization; <a href="https://escholarship.org/uc/item/8rs4v3pq">published in The Catalyst (2024)</a>.' },
-    { earlier: true, org: 'UC San Diego, Kastner Research Group', role: 'Embedded Systems Lead', dates: '2021 – 2023', text: 'Built a RoboSub 2023 semifinalist autonomous submarine; made its real-time C++ audio analysis 15% more accurate.' },
+    { earlier: true, org: 'UC San Diego School of Medicine', role: 'Web Developer', dates: '2023 – 2024' },
+    { earlier: true, org: 'UC San Diego Center for Energy Research', role: 'Software Engineering Intern', dates: '2022 – 2024' },
+    { earlier: true, org: 'UC San Diego Flow Physics Lab', role: 'Student Researcher', dates: '2023', note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Paper</a>' },
+    { earlier: true, org: 'UC San Diego Kastner Research Group', role: 'Embedded Systems Lead, RoboSub', dates: '2021 – 2023' },
   ],
   education: { school: 'University of California, San Diego', degree: 'B.S. Mathematics & Computer Science', dates: '2021 – 2025' },
 
   // Peer review and judging. Only roles that are confirmed.
   reviewer: [
     { venue: 'CPAL 2027', what: 'Conference on Parsimony and Learning, Proceedings Track (PMLR)', href: 'https://cpal.cc/' },
-    { venue: 'AAAI-27', what: 'Deployable AI (DAI) Workshop', href: 'https://dai-workshop.github.io/' },
+    { venue: 'AAAI 2027', what: 'Deployable AI (DAI) Workshop', href: 'https://dai-workshop.github.io/' },
     { venue: 'WWW 2027', what: 'LLM and Agents for Recommendation Systems (LARS) Workshop', href: 'https://www2027.thewebconf.org/workshops/#workshop-lars' },
     { venue: 'WSDM 2027', what: 'AutoResearch for IR & RecSys Workshop, program committee', href: 'https://www.wsdm-conference.org/2027/accepted-workshops.html' },
   ],
   judge: [
+    { venue: 'Silicon Valley Innovation Challenge', what: 'San José State University, Nov – Dec 2026', href: 'https://www.sjsu.edu/svic/' },
     { venue: 'Cal Hacks 13.0', what: 'UC Berkeley, Oct 2026', href: 'https://www.calhacks.io/' },
     { venue: 'LA Hacks', what: 'AI hackathon, UCLA, Oct 2026', href: 'https://lahacks.com/' },
-    { venue: 'Silicon Valley Innovation Challenge', what: 'San José State University, Dec 2026', href: 'https://www.sjsu.edu/svic/' },
   ],
   wins: [
-    { name: 'Meta Global Hackathon, Spring 2026', what: 'Global Judges’ Choice Award: top 6 of 198 projects' },
-    { name: 'TreeHacks 2025', what: '2nd prize, Liquid AI track: ExecuTorch C++ on-device kernels and a memory-aware scheduler', href: 'https://devpost.com/software/optimized-convolution-kernels-for-edge-ai' },
+    { name: 'Meta Global Hackathon', what: 'Global Judges’ Choice Award, top 6 of 198 projects, spring 2026' },
+    { name: 'TreeHacks 2025', what: '2nd prize, Liquid AI track: ExecuTorch C++ on-device kernels and a memory-aware scheduler, Feb 2025', href: 'https://devpost.com/software/optimized-convolution-kernels-for-edge-ai' },
     { name: 'Base × Ohara Vibe Coding Buildathon', what: 'Prize winner, Coinbase HQ, Apr 2025' },
   ],
 };

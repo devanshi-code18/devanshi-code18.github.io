@@ -40,12 +40,12 @@ const earlier = SITE.career.filter((c) => c.earlier);
       {earlier.map((c) => (
         <li>
           <p class="when">{c.dates}</p>
-          <div>
-            <h3>{c.role}<span class="sep"> · </span><span class="org">{c.org}</span></h3>
-            <p set:html={c.text} />
-          </div>
+          <div><h3>{c.role}<span class="sep"> · </span><span class="org">{c.org}</span>{c.note && <span class="note"> · <Fragment set:html={c.note} /></span>}</h3></div>
         </li>
       ))}
+    </ol>
+    <h3 class="sublabel">Education</h3>
+    <ol class="career compact">
       <li>
         <p class="when">{SITE.education.dates}</p>
         <div><h3>{SITE.education.degree}<span class="sep"> · </span><span class="org">{SITE.education.school}</span></h3></div>
