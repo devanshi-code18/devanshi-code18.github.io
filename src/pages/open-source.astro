@@ -2,13 +2,10 @@
 import Base from '../layouts/Base.astro';
 import OssCard from '../components/OssCard.astro';
 import { SITE } from '../site.js';
-import { getMergedPRs, getOpenPRs, repoName, allMergedUrl } from '../lib/oss.js';
+import { getMergedPRs, repoName, allMergedUrl } from '../lib/oss.js';
 import { fmtDate } from '../lib/posts.js';
 
 const merged = await getMergedPRs();
-// In review: skip ones that repeat a merged pull request, and show at most four.
-const mergedTitles = new Set(merged.map((p) => p.title.toLowerCase()));
-const open = (await getOpenPRs()).filter((p) => !mergedTitles.has(p.title.toLowerCase()) && !/warmups and ready check out of the prefix cache/i.test(p.title)).slice(0, 4);
 const repos = [...new Set(merged.map((p) => p.repo))];
 ---
 <Base title="Open source" description="Devanshi Jain's open-source work on vLLM, PyTorch torchao and Humming: quantized inference, kernels and honest benchmarks.">
@@ -24,7 +21,7 @@ const repos = [...new Set(merged.map((p) => p.repo))];
     </section>
 
     <section class="block">
-      <h2 class="label">Every merged pull request</h2>
+      <h2 class="label">Full list</h2>
       {repos.map((r) => (
         <div class="repo-group">
           <h3 class="sublabel">{repoName(r)}</h3>
@@ -38,15 +35,5 @@ const repos = [...new Set(merged.map((p) => p.repo))];
       <p class="more"><a href={allMergedUrl()}>See them on GitHub →</a></p>
     </section>
 
-    {open.length > 0 && (
-      <section class="block">
-        <h2 class="label">In review</h2>
-        <ul class="pr-list">
-          {open.map((p) => (
-            <li><a href={p.url}><span class="t">{p.title}</span><span class="n">{repoName(p.repo)} #{p.number}</span></a></li>
-          ))}
-        </ul>
-      </section>
-    )}
   </article>
 </Base>
