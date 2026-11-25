@@ -360,3 +360,22 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
   .site-nav, .site-footer, .post-nav, .toc, .copy { display: none; }
   body { background: #fff; color: #000; }
 }
+
+/* Phones: the tabs move to a bar at the bottom, in thumb reach, with small ink icons. */
+.tab-icon { display: none; }
+@media (max-width: 40rem) {
+  .site-header { position: fixed; top: auto; bottom: 0; left: 0; right: 0; box-shadow: 0 -1px 0 var(--line); padding-bottom: env(safe-area-inset-bottom); }
+  .site-header.scrolled { box-shadow: 0 -1px 0 var(--line); }
+  .site-header .wrap { padding: .15rem .25rem .1rem; justify-content: center; max-width: none; }
+  .site-nav { width: 100%; justify-content: space-around; gap: 0; margin: 0; }
+  .site-nav a { display: flex; flex-direction: column; align-items: center; gap: .2rem; min-width: 4.25rem; padding: .45rem .25rem .4rem; font-size: .72rem; letter-spacing: .01em; line-height: 1; text-decoration: none; color: var(--muted); -webkit-tap-highlight-color: transparent; }
+  .site-nav a[aria-current] { color: var(--text); text-decoration: none; }
+  .site-nav a[aria-current] .tab-icon { stroke-width: 2.1; }
+  .site-nav a:active .tab-icon { transform: scale(.92); }
+  .tab-icon { display: block; width: 1.65rem; height: 1.65rem; transition: transform .1s; }
+  body { padding-top: env(safe-area-inset-top); padding-bottom: calc(3.9rem + env(safe-area-inset-bottom)); }
+  html { scroll-padding-top: 1rem; }
+  .prose h2, .prose h3, .prose h4 { scroll-margin-top: 1rem; }
+  .page, .post { margin-top: 2rem; }
+  .hero { padding: 2.5rem 0 2rem; }
+}

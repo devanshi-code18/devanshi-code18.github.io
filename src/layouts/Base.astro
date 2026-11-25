@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { SITE } from '../site.js';
+import TabIcon from '../components/TabIcon.astro';
 
 const { title, description = SITE.description, type = 'website', published, home = false, noindex = false } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.name}` : SITE.name;
@@ -8,17 +9,17 @@ const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const ogImage = new URL('/og.png', SITE.url).href;
 const path = Astro.url.pathname;
 const nav = [
-  { href: '/', label: 'Home', current: path === '/' },
-  { href: '/work/', label: 'Work', current: path.startsWith('/work') },
-  { href: '/open-source/', label: 'Open source', current: path.startsWith('/open-source') },
-  { href: '/writing/', label: 'Writing', current: path.startsWith('/writing') || path.startsWith('/posts/') },
+  { href: '/', label: 'Home', icon: 'home', current: path === '/' },
+  { href: '/work/', label: 'Work', icon: 'work', current: path.startsWith('/work') },
+  { href: '/open-source/', label: 'Open source', icon: 'open-source', current: path.startsWith('/open-source') },
+  { href: '/writing/', label: 'Writing', icon: 'writing', current: path.startsWith('/writing') || path.startsWith('/posts/') },
 ];
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
@@ -49,7 +50,7 @@ const nav = [
     <header class="site-header">
       <div class="wrap">
         <nav class="site-nav" aria-label="Site">
-          {nav.map((n) => <a href={n.href} aria-current={n.current ? 'page' : undefined}>{n.label}</a>)}
+          {nav.map((n) => <a href={n.href} aria-current={n.current ? 'page' : undefined}><TabIcon name={n.icon} /><span>{n.label}</span></a>)}
         </nav>
       </div>
     </header>
