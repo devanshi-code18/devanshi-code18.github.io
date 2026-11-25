@@ -52,6 +52,13 @@ a { color: var(--accent); text-decoration-line: underline; text-decoration-color
 a:hover { text-decoration-color: currentColor; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
 
+/* page changes: fade between pages and keep the top bar still (browsers without support just load normally) */
+@view-transition { navigation: auto; }
+.site-header { view-transition-name: site-header; }
+::view-transition-group(site-header) { animation: none; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .16s; }
+@media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
+
 /* header */
 .site-header .wrap { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; padding-bottom: .5rem; }
 .site-name { font-size: 1.35rem; font-weight: 400; color: var(--text); text-decoration: none; letter-spacing: -.005em; }
