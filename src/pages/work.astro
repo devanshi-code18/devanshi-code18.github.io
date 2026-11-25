@@ -17,7 +17,7 @@ const service = [
     <ol class="roles">
       {main.map((c) => (
         <li class="role">
-          <img src={c.img} alt={c.alt} width="960" height="720" loading="lazy" />
+          <img src={c.img} alt={c.alt} width="720" height="540" loading={main.indexOf(c) < 2 ? "eager" : "lazy"} />
           <div>
             <p class="when">{c.dates}</p>
             <h2>{c.role}<span class="sep"> · </span><span class="org">{c.org}</span></h2>
@@ -40,7 +40,7 @@ const service = [
       <div class="three-col">
         {service.map((s) => (
           <div class="service-col">
-            <img src={s.img} alt={s.alt} width="960" height="720" loading="lazy" />
+            <img src={s.img} alt={s.alt} width="720" height="540" loading="lazy" />
             <h3 class="sublabel">{s.title}</h3>
             <ul class="service">
               {s.items.map((i) => <li>{i.href ? <a href={i.href}>{i.name}</a> : <strong>{i.name}</strong>}<span>{i.what}</span></li>)}

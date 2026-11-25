@@ -16,7 +16,7 @@ const repos = [...new Set(merged.map((p) => p.repo))];
     <section class="block">
       <h2 class="label">Highlights</h2>
       <div class="oss-grid">
-        {SITE.oss.map((item) => <OssCard item={item} />)}
+        {SITE.oss.map((item, i) => <OssCard item={{ ...item, eager: i < 2 }} />)}
       </div>
     </section>
 

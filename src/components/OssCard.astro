@@ -4,7 +4,7 @@ import { repoLogo, projectName } from '../lib/oss.js';
 const { item } = Astro.props;
 ---
 <article class="oss-card">
-  <img src={item.img} alt={item.alt} width="960" height="720" loading="lazy" />
+  <img src={item.img} alt={item.alt} width="800" height="600" loading={item.eager ? "eager" : "lazy"} />
   <h3>{item.title}</h3>
   <p set:html={item.text} />
   <p class="prs">
