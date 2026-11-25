@@ -18,6 +18,8 @@ export async function GET() {
     '## About',
     '',
     `- [Home](${SITE.url}/)`,
+    `- [Work](${new URL('/work/', SITE.url).href})`,
+    `- [Open source](${new URL('/open-source/', SITE.url).href})`,
     `- [All writing](${new URL('/writing/', SITE.url).href})`,
     ...SITE.links.map((l) => `- [${l.label}](${l.href})`),
     '',

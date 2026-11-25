@@ -59,6 +59,9 @@ a:hover { text-decoration-color: currentColor; }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .16s; }
 @media (prefers-reduced-motion: reduce) { ::view-transition-old(root), ::view-transition-new(root) { animation: none; } }
 
+.skip { position: absolute; left: -999px; top: .5rem; background: var(--bg); padding: .5rem .75rem; z-index: 10; }
+.skip:focus { left: .5rem; }
+
 /* header */
 .site-header .wrap { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; padding-bottom: .5rem; }
 .site-name { font-size: 1.35rem; font-weight: 400; color: var(--text); text-decoration: none; letter-spacing: -.005em; }

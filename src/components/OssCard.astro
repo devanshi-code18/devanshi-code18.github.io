@@ -9,6 +9,6 @@ const { item } = Astro.props;
   <p set:html={item.text} />
   <p class="prs">
     <span class="repo">{repoLogo(item.repo) && <img class="logo" src={repoLogo(item.repo)} alt="" width="160" height="160" />}{projectName(item.repo)}</span>
-    {item.prs.map(([label, href]) => <a href={href}>{label}</a>)}
+    {item.prs.map(([label, href]) => <a href={href} aria-label={`${projectName(item.repo)} pull request ${label.replace('#', '')}`}>{label}</a>)}
   </p>
 </article>

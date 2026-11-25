@@ -48,7 +48,7 @@ $$
 
 Put images in `public/images/`. An image followed by a line in italics becomes a numbered figure with a caption:
 
-![A short description of the image for screen readers](/images/example.svg)
+![A short description of the image for screen readers](/images/ink/decode-tiles.png)
 *What the reader should notice in this figure, in one sentence.*
 
 [^1]: Footnotes are for caveats: hardware details, versions, "why not X". They keep the main text moving.
