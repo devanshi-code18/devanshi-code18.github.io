@@ -57,6 +57,9 @@ const nav = [
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
+    <div class="top-links wrap">
+      {SITE.links.filter((l) => l.label !== 'Google Scholar').map((l) => <a href={l.href}>{l.label}</a>)}
+    </div>
     <header class="site-header">
       <div class="wrap">
         <nav class="site-nav" aria-label="Site">

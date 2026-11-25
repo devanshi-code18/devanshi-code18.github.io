@@ -394,3 +394,15 @@ html[data-dir="prev"]::view-transition-new(root) { animation: vt-in-left .24s ea
 @media (prefers-reduced-motion: reduce) {
   html[data-dir]::view-transition-old(root), html[data-dir]::view-transition-new(root) { animation: none; }
 }
+
+/* Phones: GitHub, LinkedIn and X sit in a small row at the top (the tabs are at the bottom). */
+.top-links { display: none; }
+@media (max-width: 40rem) {
+  .top-links { display: flex; justify-content: flex-end; gap: 0; padding-top: .35rem; font-size: .9rem; }
+  .top-links a { color: var(--muted); text-decoration: none; padding: .65rem .7rem; min-width: 44px; text-align: center; }
+  .top-links a:last-child { margin-right: -.7rem; }
+  .top-links a:active { color: var(--text); }
+  .site-footer { display: none; }
+  .page, .post { margin-top: .75rem; }
+  .hero { padding: 1.5rem 0 2rem; }
+}
