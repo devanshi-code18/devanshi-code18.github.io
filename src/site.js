@@ -3,7 +3,7 @@ export const SITE = {
   name: 'Devanshi Jain',
   // What the header shows.
   shortName: 'Devanshi',
-  url: 'https://dvnxi.github.io',
+  url: 'https://devanshi-code18.github.io',
   // Used for search results and link previews.
   description: 'Devanshi Jain writes about ML inference systems: serving, GPU kernels, and making models cheaper to run.',
   // The home page: one headline, one line, and the work.

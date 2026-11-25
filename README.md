@@ -1,6 +1,6 @@
-# dvnxi.github.io
+# devanshi-code18.github.io
 
-My personal site and blog: https://dvnxi.github.io
+My personal site and blog: https://devanshi-code18.github.io
 
 Built with [Astro](https://astro.build). Minimal on purpose: one text column, a home page that lists posts, and an About page. Design notes, and which blog each idea came from: [docs/design.md](docs/design.md).
 
