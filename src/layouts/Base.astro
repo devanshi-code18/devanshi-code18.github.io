@@ -44,6 +44,11 @@ const nav = [
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:creator" content={SITE.x} />
     <meta name="author" content={SITE.name} />
+    {nav.filter((n) => !n.current).map((n) => <link rel="prefetch" href={n.href} />)}
+    <script is:inline>
+      // Which way the next page slides in (set by a tap on a tab or a swipe).
+      try { const d = sessionStorage.getItem('vt-dir'); if (d) { document.documentElement.dataset.dir = d; sessionStorage.removeItem('vt-dir'); } } catch (e) {}
+    </script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
@@ -71,6 +76,30 @@ const nav = [
         const f = () => h && h.classList.toggle('scrolled', window.scrollY > 4);
         addEventListener('scroll', f, { passive: true });
         f();
+
+        // Tabs in order. Tapping a tab or swiping sideways slides the next page in from that side.
+        const order = ['/', '/work/', '/open-source/', '/writing/'];
+        const p = location.pathname;
+        const here = p.startsWith('/posts/') ? 3 : order.indexOf(p.endsWith('/') ? p : p + '/');
+        const mark = (d) => { try { sessionStorage.setItem('vt-dir', d); } catch (e) {} };
+        document.querySelectorAll('.site-nav a').forEach((a, i) => a.addEventListener('click', () => { if (here >= 0 && i !== here) mark(i > here ? 'next' : 'prev'); }));
+        if (here < 0) return;
+        let sx = 0, sy = 0, st = 0, ok = false;
+        addEventListener('touchstart', (e) => {
+          if (e.touches.length !== 1) { ok = false; return; }
+          const t = e.touches[0]; sx = t.clientX; sy = t.clientY; st = Date.now();
+          // Leave the screen edges to the browser's own back gesture, and let the grid and wide code scroll.
+          ok = sx > 24 && sx < innerWidth - 24 && !e.target.closest('pre, table, .katex-display, .ink-grid, input, textarea');
+        }, { passive: true });
+        addEventListener('touchend', (e) => {
+          if (!ok) return;
+          const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+          if (Date.now() - st > 700 || Math.abs(dx) < 70 || Math.abs(dx) < 2 * Math.abs(dy)) return;
+          const i = dx < 0 ? here + 1 : here - 1;
+          if (i < 0 || i >= order.length) return;
+          mark(dx < 0 ? 'next' : 'prev');
+          location.href = order[i];
+        }, { passive: true });
       })();
     </script>
   </body>

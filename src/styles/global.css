@@ -379,3 +379,16 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
   .page, .post { margin-top: 2rem; }
   .hero { padding: 2.5rem 0 2rem; }
 }
+
+/* Sliding between tabs (in the direction you tapped or swiped). */
+@keyframes vt-out-left { to { transform: translateX(-14%); opacity: 0; } }
+@keyframes vt-in-right { from { transform: translateX(14%); opacity: 0; } }
+@keyframes vt-out-right { to { transform: translateX(14%); opacity: 0; } }
+@keyframes vt-in-left { from { transform: translateX(-14%); opacity: 0; } }
+html[data-dir="next"]::view-transition-old(root) { animation: vt-out-left .2s ease-in both; }
+html[data-dir="next"]::view-transition-new(root) { animation: vt-in-right .24s ease-out both; }
+html[data-dir="prev"]::view-transition-old(root) { animation: vt-out-right .2s ease-in both; }
+html[data-dir="prev"]::view-transition-new(root) { animation: vt-in-left .24s ease-out both; }
+@media (prefers-reduced-motion: reduce) {
+  html[data-dir]::view-transition-old(root), html[data-dir]::view-transition-new(root) { animation: none; }
+}
