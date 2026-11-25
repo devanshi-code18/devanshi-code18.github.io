@@ -74,23 +74,65 @@ a:hover { text-decoration-color: currentColor; }
 .muted { color: var(--muted); }
 .badge { font-family: var(--sans); font-size: .7rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--accent); border: 1px solid currentColor; border-radius: 4px; padding: 0 .3rem; margin-left: .5rem; vertical-align: .2em; }
 
-/* home: one headline, one drawing, the work */
-.site-name { font-size: 1rem; font-weight: 400; letter-spacing: .02em; text-transform: uppercase; }
-.hero { margin: 3rem 0 4.5rem; }
-.hero h1 { font-weight: 400; font-size: 3rem; line-height: 1.05; letter-spacing: .01em; text-transform: uppercase; margin: 0 0 2rem; max-width: 12em; }
+/* home and open-source page: the approved ink format (tag format-v1) */
+.site-header .wrap { justify-content: flex-end; }
+body:has(.hero) .wrap, body:has(.oss-grid) .wrap { max-width: 56rem; }
+.hero { margin: 2.5rem 0 4.5rem; }
+.hero h1 { font-weight: 400; font-size: 4rem; line-height: 1; letter-spacing: .01em; text-transform: uppercase; margin: 0 0 2rem; }
 .hero-art { display: block; width: 100%; height: auto; margin: 0 0 2rem; }
-.one-liner { max-width: 34rem; margin: 0; color: var(--muted); }
-.one-liner a, .work a { color: var(--text); }
+.one-liner { max-width: 36rem; margin: 0; color: var(--muted); }
+.one-liner a, .oss-card a, .career a, .service a, .pr-list a, .links a { color: var(--text); }
+.links { display: flex; flex-wrap: wrap; gap: 0 1.25rem; margin: 1.25rem 0 0; font-size: .95rem; }
+.links a { display: inline-block; padding: .3rem 0; }
 a { text-decoration-color: rgba(17, 17, 17, .35); }
 a:hover { color: var(--text); text-decoration-color: currentColor; }
-.work-item { display: grid; grid-template-columns: 15rem 1fr; gap: 0 2.5rem; align-items: center; padding: 2rem 0; border-top: 1px solid var(--line); }
-.work-item img { width: 100%; height: auto; }
-.work-item h2 { font-weight: 400; font-size: 1.15rem; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 .6rem; }
-.work-item p { margin: 0 0 .6rem; max-width: 30rem; }
-.work-item .prs { display: flex; flex-wrap: wrap; gap: .25rem 1rem; font-size: .9rem; margin: 0; }
-.work .more { margin: 2rem 0 0; padding-top: 1.5rem; border-top: 1px solid var(--line); font-size: .9rem; }
-body:has(.hero) .footer-links { display: flex; }
 .empty { color: var(--muted); font-size: 1rem; margin: 0; }
+
+.block { margin-top: 4.5rem; }
+.label { font-weight: 400; font-size: 1.5rem; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 1.75rem; padding-bottom: .75rem; border-bottom: 1px solid var(--text); }
+.sublabel { font-weight: 400; font-size: .85rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 2rem 0 1rem; }
+.more { margin: 2rem 0 0; font-size: .95rem; }
+.more a { color: var(--text); }
+
+/* open-source cards: two columns */
+.oss-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem 2.75rem; }
+.oss-card img { display: block; width: 100%; height: auto; margin: 0 0 1rem; }
+.oss-card h3 { font-weight: 400; font-size: 1.05rem; line-height: 1.3; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 .5rem; }
+.oss-card p { margin: 0 0 .6rem; font-size: .98rem; line-height: 1.55; }
+.oss-card code, .career code { font-family: var(--mono); font-size: .85em; background: var(--code-bg); padding: .05em .3em; border-radius: 3px; }
+.oss-card .prs { display: flex; flex-wrap: wrap; align-items: baseline; gap: .25rem .9rem; font-size: .9rem; margin: 0; }
+.oss-card .repo { color: var(--muted); }
+
+/* career */
+.career { list-style: none; margin: 0; padding: 0; }
+.career > li { display: grid; grid-template-columns: 9.5rem 1fr; gap: 0 1.5rem; padding: 1.1rem 0; border-top: 1px solid var(--line); }
+.career > li:first-child { border-top: 0; padding-top: 0; }
+.career .when { margin: .15rem 0 0; font-size: .9rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.career h3 { font-weight: 400; font-size: 1.05rem; letter-spacing: .02em; margin: 0 0 .35rem; }
+.career .org { color: var(--muted); }
+.career ul { margin: .25rem 0 0; padding-left: 1.1em; }
+.career ul li { margin: .2rem 0; font-size: .98rem; line-height: 1.5; }
+.career ul li::marker { color: var(--faint); }
+.career.compact > li { padding: .8rem 0; }
+.career.compact p:not(.when) { margin: 0; font-size: .95rem; color: var(--muted); }
+.career.compact h3 { margin-bottom: .15rem; }
+
+/* peer review, judging, wins */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2.75rem; }
+.two-col .sublabel { margin-top: 0; }
+.service { list-style: none; margin: 0; padding: 0; }
+.service li { padding: .55rem 0; border-top: 1px solid var(--line); }
+.service li:first-child { border-top: 0; padding-top: 0; }
+.service a, .service strong { font-weight: 400; display: block; }
+.service span { display: block; font-size: .92rem; color: var(--muted); line-height: 1.45; }
+
+/* every pull request */
+.repo-group + .repo-group { margin-top: 1.5rem; }
+.pr-list { list-style: none; margin: 0; padding: 0; }
+.pr-list li { border-top: 1px solid var(--line); }
+.pr-list a { display: grid; grid-template-columns: 1fr auto auto; gap: 0 1rem; align-items: baseline; padding: .5rem 0; text-decoration: none; }
+.pr-list a:hover .t { text-decoration: underline; text-underline-offset: .18em; }
+.pr-list .n, .pr-list time { font-size: .85rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
 
 /* about, 404 */
 .page { margin-top: 2.5rem; }
@@ -200,10 +242,15 @@ body:has(.hero) .footer-links { display: flex; }
   .wrap { padding: 0 1.25rem; }
   .site-footer .wrap::before { left: 1.25rem; right: 1.25rem; }
   .site-header .wrap { padding-top: 1rem; }
-  .hero { margin: 2rem 0 3rem; }
-  .hero h1 { font-size: 2.1rem; }
-  .work-item { grid-template-columns: 1fr; gap: 1rem; }
-  .work-item img { max-width: 18rem; }
+  .hero { margin: 1.5rem 0 3rem; }
+  .hero h1 { font-size: 2.6rem; }
+  .block { margin-top: 3.25rem; }
+  .label { font-size: 1.25rem; }
+  .oss-grid, .two-col { grid-template-columns: 1fr; gap: 2.5rem; }
+  .career > li { grid-template-columns: 1fr; }
+  .career .when { margin: 0 0 .2rem; }
+  .pr-list a { grid-template-columns: 1fr auto; }
+  .pr-list time { display: none; }
   .group + .group { margin-top: 3rem; }
   .post-header h1, .page-title { font-size: 1.9rem; }
   .post-dek { font-size: 1.12rem; }

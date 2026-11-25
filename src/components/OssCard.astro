@@ -1,0 +1,10 @@
+---
+// One open-source highlight: a wordless sketch, a title, what changed, and its pull requests.
+const { item } = Astro.props;
+---
+<article class="oss-card">
+  <img src={item.img} alt={item.alt} width="960" height="720" loading="lazy" />
+  <h3>{item.title}</h3>
+  <p set:html={item.text} />
+  <p class="prs"><span class="repo">{item.repo}</span>{item.prs.map(([label, href]) => <a href={href}>{label}</a>)}</p>
+</article>

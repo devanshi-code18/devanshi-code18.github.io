@@ -53,6 +53,26 @@ export async function getMergedPRs() {
   return cache;
 }
 
+// Open pull requests (in review), newest first. Empty if GitHub can't be reached.
+let openCache;
+export async function getOpenPRs() {
+  if (openCache) return openCache;
+  const orgs = SITE.ossOrgs.map((o) => `org:${o}`).join(' ');
+  const q = encodeURIComponent(`author:${SITE.github} is:pr is:open ${orgs}`);
+  try {
+    const headers = { Accept: 'application/vnd.github+json', 'User-Agent': `${SITE.github}-site` };
+    if (process.env.GITHUB_TOKEN) headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+    const res = await fetch(`https://api.github.com/search/issues?q=${q}&per_page=100&sort=created&order=desc`, { headers, signal: AbortSignal.timeout(15000) });
+    if (!res.ok) throw new Error(`GitHub answered ${res.status}`);
+    const { items } = await res.json();
+    openCache = items.filter((i) => !i.draft).map((i) => ({ repo: i.repository_url.split('/repos/')[1], number: i.number, title: cleanTitle(i.title), url: i.html_url }));
+  } catch (err) {
+    console.warn(`[oss] no open pull requests listed: ${err.message}`);
+    openCache = [];
+  }
+  return openCache;
+}
+
 export const allMergedUrl = () => {
   const orgs = SITE.ossOrgs.map((o) => `org:${o}`).join('+');
   return `https://github.com/search?q=author%3A${SITE.github}+is%3Apr+is%3Amerged+${orgs.replace(/:/g, '%3A')}&type=pullrequests`;

@@ -1,26 +1,80 @@
 ---
 import Base from '../layouts/Base.astro';
+import OssCard from '../components/OssCard.astro';
 import { SITE } from '../site.js';
-import { allMergedUrl } from '../lib/oss.js';
+
+const main = SITE.career.filter((c) => !c.earlier);
+const earlier = SITE.career.filter((c) => c.earlier);
 ---
 <Base home>
   <section class="hero">
-    <h1>{SITE.headline}</h1>
+    <h1>{SITE.name}</h1>
     <img class="hero-art" src="/images/ink/hero.png" alt="A stick figure cranks a box that feeds a model, which runs on three GPUs." width="1600" height="678" />
     <p class="one-liner" set:html={SITE.oneLiner} />
+    <p class="links">{SITE.links.map((l) => <a href={l.href}>{l.label}</a>)}</p>
   </section>
 
-  <section class="work">
-    {SITE.work.map((w) => (
-      <article class="work-item">
-        <img src={w.img} alt="" loading="lazy" />
-        <div>
-          <h2>{w.title}</h2>
-          <p>{w.text}</p>
-          <p class="prs">{w.prs.map(([label, href]) => <a href={href}>{label}</a>)}</p>
-        </div>
-      </article>
-    ))}
-    <p class="more"><a href={allMergedUrl()}>All merged pull requests</a></p>
+  <section class="block">
+    <h2 class="label">Open source</h2>
+    <div class="oss-grid">
+      {SITE.oss.slice(0, 4).map((item) => <OssCard item={item} />)}
+    </div>
+    <p class="more"><a href="/open-source/">All open-source work →</a></p>
+  </section>
+
+  <section class="block">
+    <h2 class="label">Career</h2>
+    <ol class="career">
+      {main.map((c) => (
+        <li>
+          <p class="when">{c.dates}</p>
+          <div>
+            <h3>{c.role}<span class="org"> · {c.org}</span></h3>
+            <ul>{c.points.map((p) => <li set:html={p} />)}</ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <h3 class="sublabel">Before Meta</h3>
+    <ol class="career compact">
+      {earlier.map((c) => (
+        <li>
+          <p class="when">{c.dates}</p>
+          <div>
+            <h3>{c.role}<span class="org"> · {c.org}</span></h3>
+            <p set:html={c.text} />
+          </div>
+        </li>
+      ))}
+      <li>
+        <p class="when">{SITE.education.dates}</p>
+        <div><h3>{SITE.education.degree}<span class="org"> · {SITE.education.school}</span></h3></div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="block">
+    <h2 class="label">Peer review and judging</h2>
+    <div class="two-col">
+      <div>
+        <h3 class="sublabel">Reviewer</h3>
+        <ul class="service">
+          {SITE.reviewer.map((r) => <li><a href={r.href}>{r.venue}</a><span>{r.what}</span></li>)}
+        </ul>
+      </div>
+      <div>
+        <h3 class="sublabel">Hackathon judge</h3>
+        <ul class="service">
+          {SITE.judge.map((r) => <li><a href={r.href}>{r.venue}</a><span>{r.what}</span></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2 class="label">Hackathon wins</h2>
+    <ul class="service wins">
+      {SITE.wins.map((w) => <li>{w.href ? <a href={w.href}>{w.name}</a> : <strong>{w.name}</strong>}<span>{w.what}</span></li>)}
+    </ul>
   </section>
 </Base>

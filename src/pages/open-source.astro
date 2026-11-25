@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import OssCard from '../components/OssCard.astro';
+import { SITE } from '../site.js';
+import { getMergedPRs, getOpenPRs, repoName, allMergedUrl } from '../lib/oss.js';
+import { fmtDate } from '../lib/posts.js';
+
+const merged = await getMergedPRs();
+const open = await getOpenPRs();
+const repos = [...new Set(merged.map((p) => p.repo))];
+---
+<Base title="Open source" description="Devanshi Jain's open-source work on vLLM, PyTorch torchao and Humming: quantized inference, kernels and honest benchmarks.">
+  <article class="page">
+    <h1 class="page-title">Open source</h1>
+    <p class="one-liner">I work on LLM serving in the open: making quantized models correct and fast in <a href="https://github.com/vllm-project/vllm">vLLM</a> and <a href="https://github.com/pytorch/ao">PyTorch torchao</a>, tuning kernels in <a href="https://github.com/vllm-project/humming">Humming</a>, and keeping benchmarks honest. Highlights first, most impact first; every merged pull request below.</p>
+
+    <section class="block">
+      <h2 class="label">Highlights</h2>
+      <div class="oss-grid">
+        {SITE.oss.map((item) => <OssCard item={item} />)}
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="label">Every merged pull request</h2>
+      {repos.map((r) => (
+        <div class="repo-group">
+          <h3 class="sublabel">{repoName(r)}</h3>
+          <ul class="pr-list">
+            {merged.filter((p) => p.repo === r).map((p) => (
+              <li><a href={p.url}><span class="t">{p.title}</span><span class="n">#{p.number}</span><time datetime={p.merged.toISOString()}>{fmtDate(p.merged, { month: 'short', year: 'numeric' })}</time></a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <p class="more"><a href={allMergedUrl()}>See them on GitHub →</a></p>
+    </section>
+
+    {open.length > 0 && (
+      <section class="block">
+        <h2 class="label">In review</h2>
+        <ul class="pr-list">
+          {open.map((p) => (
+            <li><a href={p.url}><span class="t">{p.title}</span><span class="n">{repoName(p.repo)} #{p.number}</span></a></li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+</Base>
