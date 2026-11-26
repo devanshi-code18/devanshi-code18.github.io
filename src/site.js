@@ -80,7 +80,7 @@ export const SITE = {
     { org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now', start: 2026.58,
       line: '23.4% more queries per GPU on a video ranking model; $14.18M a year in GPU savings.' },
     { org: 'Meta', role: 'Software Engineer', dates: 'Apr 2025 – Jul 2026', start: 2025.25,
-      line: 'Post-training data for Muse Spark 1.2; cut “Can’t Log In” bugs 55%.' },
+      line: 'Post-training data for Muse Spark 1.2; cut unstructured account access reports by 55%.' },
     { org: 'Amazon', role: 'SDE Intern', dates: 'Sep – Dec 2024', start: 2024.67,
       line: 'A feature-flag service used by 50+ logistics engineers.' },
     { org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024', start: 2024.42,
