@@ -27,14 +27,14 @@ export const SITE = {
     {
       img: '/images/ink/awq.png',
       alt: 'One shared dial for three layer sections, then each section with its own dial.',
-      title: 'AWQ models in vLLM now give the right answers (0% → 86% on GSM8K).',
+      title: 'AWQ models like Qwen3-8B now give the right answers in vLLM (0% → 86% on GSM8K).',
       repo: 'vLLM',
       prs: [['#69002', 'https://github.com/vllm-project/vllm/pull/69002']],
     },
     {
       img: '/images/ink/decode-tiles.png',
       alt: 'A big tile sawed apart and glued back together, next to small tiles each finished by its own worker.',
-      title: 'Up to 8% faster int4 decoding on A100.',
+      title: 'Up to 8% faster int4 decoding for Qwen3-8B on A100.',
       repo: 'Humming',
       prs: [['#218', 'https://github.com/vllm-project/humming/pull/218']],
     },
