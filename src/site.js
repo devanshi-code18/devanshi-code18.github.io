@@ -74,23 +74,20 @@ export const SITE = {
     },
   ],
 
-  // The Work page, newest first: one line per role. Main roles have a wordless sketch in public/images/work.
+  // The Work page, newest first: one line per role. `start` (fractional year) places each role on the
+  // hand-inked career line at the top of the page.
   career: [
-    { org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now', img: '/images/work/meta-perf.png', imgW: 512, imgH: 175,
-      alt: 'Videos ride a conveyor through a GPU faster once the waiting is removed.',
+    { org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now', start: 2026.58,
       line: '23.4% more queries per GPU on a video ranking model; $14.18M a year in GPU savings.' },
-    { org: 'Meta', role: 'Software Engineer', dates: 'Apr 2025 – Jul 2026', img: '/images/work/meta-login.png', imgW: 512, imgH: 401,
-      alt: 'A robot repairs a locked door by itself while people walk through.',
+    { org: 'Meta', role: 'Software Engineer', dates: 'Apr 2025 – Jul 2026', start: 2025.25,
       line: 'Post-training data for Muse Spark 1.2; cut “Can’t Log In” bugs 55%.' },
-    { org: 'Amazon', role: 'SDE Intern', dates: 'Sep – Dec 2024', img: '/images/work/amazon-flags.png', imgW: 512, imgH: 304,
-      alt: 'A switch on a control panel turns something on in a warehouse that keeps running.',
+    { org: 'Amazon', role: 'SDE Intern', dates: 'Sep – Dec 2024', start: 2024.67,
       line: 'A feature-flag service used by 50+ logistics engineers.' },
-    { org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024', img: '/images/work/meta-migration.png', imgW: 512, imgH: 167,
-      alt: 'A line of people crosses a bridge from an old building to a new locked one.',
+    { org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024', start: 2024.42,
       line: 'Moved 64M+ users onto a new login system.' },
-    { earlier: true, org: 'Center for Energy Research', role: 'Software Engineering Intern', dates: '2022 – 2024' },
-    { earlier: true, org: 'Flow Physics Lab', role: 'Student Researcher', dates: '2023', note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Paper</a>' },
-    { earlier: true, org: 'RoboSub', role: 'Embedded Systems Lead', dates: '2021 – 2023' },
+    { earlier: true, org: 'Center for Energy Research', role: 'Software Engineering Intern', dates: '2022 – 2024', start: 2022.0 },
+    { earlier: true, org: 'Flow Physics Lab', role: 'Student Researcher', dates: '2023', start: 2023.0, note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Paper</a>' },
+    { earlier: true, org: 'RoboSub', role: 'Embedded Systems Lead', dates: '2021 – 2023', start: 2021.67 },
   ],
 
   // Peer review and judging. Only roles that are confirmed.

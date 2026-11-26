@@ -1,0 +1,189 @@
+---
+// The Work page's one visual: a hand-inked career path. Each role is an ink mark on the
+// line, in order; older marks are open pen squares and recent ones are solid ink blobs, the
+// same four drawn states as the home page grid. The pen draws the line in when it first
+// comes into view. Hovering or tapping a role lights its mark; hovering or tapping a mark
+// lights its role and scrolls to it. Black ink only, no words.
+// If scripts don't run, a still picture of the line shows instead (CSS background).
+const { stations } = Astro.props; // [{ u, q, size, row }] in path order, oldest first
+---
+<div class="career-line" aria-hidden="true" data-stations={JSON.stringify(stations)}>
+  <canvas></canvas>
+</div>
+
+<script>
+  const root = document.querySelector('.career-line');
+  const cv = root?.querySelector('canvas');
+  const g = cv && cv.getContext ? cv.getContext('2d') : null;
+  if (g) {
+    const S = JSON.parse(root.dataset.stations || '[]');
+    const n = S.length;
+    const P = { lw: 1.4, wob: 1.0, boilMs: 160, boilN: 3, drawMs: 1500, inkMs: 320 };
+    const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let W = 0, H = 0, boil = 1, prog = reduced ? 1 : 0, t0 = 0, seen = false, onScreen = true;
+    const lit = new Float32Array(n), want = new Float32Array(n), inkAt = new Float64Array(n).fill(-1);
+    const rows = S.map((s) => document.querySelector(`[data-station="${s.row}"]`));
+
+    const hb = (e, t, f) => { const v = Math.sin(e * 127.1 + t * 311.7 + f * 74.7) * 43758.5453; return v - Math.floor(v) - 0.5; };
+    const h = (e, t) => hb(e, t, boil);
+    const hs = (e, t) => hb(e, t, 0);
+
+    function layout() {
+      const w = root.clientWidth, hh = root.clientHeight;
+      if (w < 10 || hh < 10) return false;
+      if (Math.abs(w - W) < 1 && Math.abs(hh - H) < 1) return true;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = w; H = hh;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      g.setTransform(dpr, 0, 0, dpr, 0, 0);
+      root.classList.add('live');
+      return true;
+    }
+
+    // Path geometry: u in [0, 1] runs left to right and gently rises, like a trajectory.
+    const padL = () => Math.max(14, W * 0.02), padR = () => Math.max(30, W * 0.045);
+    const X = (u) => padL() + u * (W - padL() - padR());
+    const Y = (u) => H * 0.82 - H * 0.64 * Math.pow(u, 1.6);
+    const scale = () => Math.min(1, Math.max(0.72, W / 760));
+
+    // One pen stroke from a to b, slightly bowed; f < 1 draws only the first part (the pen is still moving).
+    function stroke(ax, ay, bx, by, i, f) {
+      const dx = bx - ax, dy = by - ay, L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
+      const bow = (hs(i, 7) * 2) * Math.min(6, L * 0.05) + h(i, 8) * P.wob * 0.6;
+      const cx = (ax + bx) / 2 - uy * bow, cy = (ay + by) / 2 + ux * bow;
+      const sx = ax - ux * 1.2, sy = ay - uy * 1.2;
+      let ex = bx + ux * 1.2, ey = by + uy * 1.2, qx = cx, qy = cy;
+      if (f < 1) { // split the quadratic at f (de Casteljau)
+        const p01x = sx + (cx - sx) * f, p01y = sy + (cy - sy) * f;
+        const p12x = cx + (ex - cx) * f, p12y = cy + (ey - cy) * f;
+        ex = p01x + (p12x - p01x) * f; ey = p01y + (p12y - p01y) * f; qx = p01x; qy = p01y;
+      }
+      g.beginPath(); g.moveTo(sx, sy); g.quadraticCurveTo(qx, qy, ex, ey); g.stroke();
+    }
+
+    // A wobbly shape between a square (q = 0) and a circle (q = 1), as on the home grid.
+    function shape(cx, cy, t, q, i) {
+      const N = 20, rot = hs(i, 9) * 0.1;
+      g.beginPath();
+      for (let k = 0; k <= N; k++) {
+        const a = (k / N) * Math.PI * 2 + Math.PI / 4 + rot;
+        const sq = 1 / Math.max(Math.abs(Math.cos(a)), Math.abs(Math.sin(a)));
+        const r = t * ((1 - q) * sq + q) + h(i, 100 + (k % N)) * P.wob * 0.7;
+        const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+        k ? g.lineTo(x, y) : g.moveTo(x, y);
+      }
+      g.closePath();
+    }
+
+    function draw(now) {
+      if (!W) return;
+      g.clearRect(0, 0, W, H);
+      g.lineCap = 'round'; g.lineJoin = 'round'; g.strokeStyle = '#111'; g.fillStyle = '#111'; g.lineWidth = P.lw;
+      const pts = [[X(0), Y(0)], ...S.map((s) => [X(s.u), Y(s.u)]), [X(1), Y(1)]];
+      const us = [0, ...S.map((s) => s.u), 1];
+      // the line, segment by segment, up to where the pen has got to
+      for (let k = 0; k < pts.length - 1; k++) {
+        if (prog <= us[k]) break;
+        const f = Math.min(1, (prog - us[k]) / Math.max(1e-6, us[k + 1] - us[k]));
+        stroke(pts[k][0], pts[k][1], pts[k + 1][0], pts[k + 1][1], k, f);
+      }
+      // arrow tip once the pen reaches the end: the path keeps going
+      if (prog >= 1) {
+        const [ex, ey] = pts[pts.length - 1], [px, py] = pts[pts.length - 2];
+        const a = Math.atan2(ey - py, ex - px), L = 9 * scale();
+        stroke(ex, ey, ex - Math.cos(a - 0.5) * L, ey - Math.sin(a - 0.5) * L, 50, 1);
+        stroke(ex, ey, ex - Math.cos(a + 0.5) * L, ey - Math.sin(a + 0.5) * L, 51, 1);
+      }
+      // the marks
+      for (let i = 0; i < n; i++) {
+        const s = S[i];
+        if (prog < s.u) continue;
+        if (inkAt[i] < 0) inkAt[i] = now;
+        const a = reduced ? 1 : Math.min(1, (now - inkAt[i]) / P.inkMs);
+        const l = lit[i];
+        const e = s.size * scale() * (1 + 0.28 * l) * (0.85 + 0.15 * a);
+        const q = Math.min(1, Math.round((s.q * a + l) * 3) / 3); // four drawn states
+        const cx = pts[i + 1][0] + h(i, 1) * 0.6, cy = pts[i + 1][1] + h(i, 2) * 0.6;
+        const t = e * (1 - 0.45 * q);
+        // paper under the mark so the line doesn't show through
+        g.save(); g.fillStyle = '#fff'; shape(cx, cy, t + 2, Math.min(1, q + 0.3), i); g.fill(); g.restore();
+        shape(cx, cy, t, Math.min(1, q * 1.1), i);
+        if (q >= 0.5) g.fill();
+        g.stroke();
+        // a quick pen circle around a lit mark
+        if (l > 0.05) {
+          g.save(); g.globalAlpha = Math.min(1, l * 1.4);
+          const R = e * 1.9 + 3, a0 = hs(i, 11) * 6;
+          g.beginPath();
+          for (let k = 0; k <= 26; k++) {
+            const ang = a0 + (k / 24) * Math.PI * 2;
+            const r = R + h(i, 200 + k) * P.wob * 1.1 + (k > 24 ? 2 : 0);
+            const x = cx + Math.cos(ang) * r, y = cy + Math.sin(ang) * r;
+            k ? g.lineTo(x, y) : g.moveTo(x, y);
+          }
+          g.stroke(); g.restore();
+        }
+      }
+    }
+
+    let raf = 0, timer = 0, lastBoil = 0;
+    function frame(now) {
+      raf = 0;
+      if (!layout()) { raf = requestAnimationFrame(frame); return; }
+      if (!seen) return;
+      let busy = false;
+      if (prog < 1) { if (!t0) t0 = now; prog = Math.min(1, (now - t0) / P.drawMs); busy = true; }
+      for (let i = 0; i < n; i++) {
+        const d = want[i] - lit[i];
+        if (Math.abs(d) > 0.01) { lit[i] += reduced ? d : d * 0.22; busy = true; } else lit[i] = want[i];
+        if (inkAt[i] >= 0 && now - inkAt[i] < P.inkMs) busy = true;
+      }
+      if (!reduced && now - lastBoil > P.boilMs) { boil = (boil % P.boilN) + 1; lastBoil = now; }
+      draw(now);
+      if (busy) raf = requestAnimationFrame(frame);
+      else if (!reduced && onScreen && !document.hidden) timer = setTimeout(kick, P.boilMs); // keep the ink alive
+    }
+    function kick() { clearTimeout(timer); if (!raf) raf = requestAnimationFrame(frame); }
+
+    function setLit(i, on, only) {
+      if (only) for (let k = 0; k < n; k++) want[k] = 0;
+      if (i >= 0) want[i] = on ? 1 : 0;
+      rows.forEach((r, k) => r && r.classList.toggle('lit', want[k] > 0.5));
+      kick();
+    }
+
+    // roles -> marks
+    rows.forEach((r, i) => {
+      if (!r) return;
+      r.addEventListener('mouseenter', () => setLit(i, true, true));
+      r.addEventListener('mouseleave', () => setLit(i, false));
+      r.addEventListener('focusin', () => setLit(i, true, true));
+      r.addEventListener('focusout', () => setLit(i, false));
+      r.addEventListener('pointerdown', (ev) => { if (ev.pointerType !== 'mouse') setLit(i, true, true); });
+    });
+    // marks -> roles
+    const near = (ev) => {
+      const b = cv.getBoundingClientRect(), x = ev.clientX - b.left, y = ev.clientY - b.top;
+      let best = -1, bd = 26;
+      S.forEach((s, i) => { const d = Math.hypot(X(s.u) - x, Y(s.u) - y); if (d < bd) { bd = d; best = i; } });
+      return best;
+    };
+    cv.addEventListener('pointermove', (ev) => { const i = near(ev); cv.style.cursor = i >= 0 ? 'pointer' : ''; setLit(i, true, true); });
+    cv.addEventListener('pointerleave', () => setLit(-1, false, true));
+    cv.addEventListener('click', (ev) => {
+      const i = near(ev);
+      if (i >= 0 && rows[i]) { setLit(i, true, true); rows[i].scrollIntoView({ block: 'center', behavior: reduced ? 'auto' : 'smooth' }); }
+    });
+
+    const refresh = () => { if (layout()) kick(); };
+    if (window.ResizeObserver) new ResizeObserver(refresh).observe(root);
+    window.addEventListener('resize', refresh);
+    window.addEventListener('pageshow', refresh);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) kick(); });
+    const show = () => { seen = true; kick(); };
+    if (window.IntersectionObserver && !reduced) {
+      new IntersectionObserver(([en]) => { onScreen = en.isIntersecting; if (onScreen) show(); }, { threshold: 0.4 }).observe(root);
+    } else show();
+    refresh();
+  }
+</script>

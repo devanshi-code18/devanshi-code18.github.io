@@ -140,11 +140,15 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
 
 /* work page */
 .roles { list-style: none; margin: 0; padding: 0; }
-.role { display: grid; grid-template-columns: 14rem 1fr; gap: 0 2.25rem; align-items: center; padding: 1.5rem 0; border-top: 1px solid var(--line); }
+.career-line { position: relative; width: 100%; height: 7.5rem; margin: 0 0 1.5rem; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent;
+  background: url('/images/ink/career-still.png') center / 100% 100% no-repeat; }
+.career-line.live { background: none; }
+.career-line canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.role { display: grid; grid-template-columns: 9.5rem 1fr; gap: 0 1.5rem; align-items: baseline; padding: 1.25rem 0; border-top: 1px solid var(--line); outline: none; }
+.role.lit h2, .earlier li.lit strong { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .25em; }
 .role .line { margin: .35rem 0 0; max-width: 34rem; text-wrap: pretty; }
 .role:first-child { border-top: 0; padding-top: .5rem; }
-.role img { width: 100%; height: auto; }
-.role .when { margin: 0 0 .25rem; font-size: .9rem; color: var(--muted); }
+.role .when { margin: 0; font-size: .9rem; color: var(--muted); }
 .role h2 { font-weight: 400; font-size: 1.25rem; letter-spacing: .01em; margin: 0 0 .4rem; }
 .role .org, .earlier .org { color: var(--muted); }
 .role .summary { margin: 0 0 .5rem; color: var(--muted); }
@@ -306,9 +310,9 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
   .label { font-size: 1.25rem; }
   .oss-grid, .two-col, .three-col { grid-template-columns: 1fr; gap: 2.5rem; }
   .career > li { grid-template-columns: 1fr; }
-  .role { grid-template-columns: 1fr; gap: 1rem; }
+  .role { grid-template-columns: 1fr; gap: .3rem; }
+  .career-line { height: 6rem; background-image: url('/images/ink/career-still-phone.png'); }
   .oss-card > img { width: 100%; max-width: none; }
-  .role > img { width: 100%; max-width: 16rem; }
   .service-col > img { width: 100%; max-width: 18rem; }
   .earlier li { grid-template-columns: 1fr; }
   .hero-art { margin: 0 0 1.5rem; }
