@@ -25,7 +25,7 @@ const repos = [...new Set(merged.map((p) => p.repo))];
       {repos.map((r) => (
         <div class="repo-group">
           <h3 class="repo-head">
-            {repoLogo(repoName(r)) && <img class="logo logo-lg" src={repoLogo(repoName(r))} alt="" width="160" height="160" />}
+            {repoLogo(repoName(r)) && <img class="logo logo-lg" src={repoLogo(repoName(r))} alt="" width="112" height="112" />}
             <span>{projectName(repoName(r))}</span>
           </h3>
           <ul class="pr-list">

@@ -76,16 +76,16 @@ export const SITE = {
 
   // The Work page, newest first: one line per role. Main roles have a wordless sketch in public/images/work.
   career: [
-    { org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now', img: '/images/work/meta-perf.png',
+    { org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now', img: '/images/work/meta-perf.png', imgW: 512, imgH: 175,
       alt: 'Videos ride a conveyor through a GPU faster once the waiting is removed.',
       line: '23.4% more queries per GPU on a video ranking model; $14.18M a year in GPU savings.' },
-    { org: 'Meta', role: 'Software Engineer', dates: 'Apr 2025 – Jul 2026', img: '/images/work/meta-login.png',
+    { org: 'Meta', role: 'Software Engineer', dates: 'Apr 2025 – Jul 2026', img: '/images/work/meta-login.png', imgW: 512, imgH: 401,
       alt: 'A robot repairs a locked door by itself while people walk through.',
       line: 'Post-training data for Muse Spark 1.2; cut “Can’t Log In” bugs 55%.' },
-    { org: 'Amazon', role: 'SDE Intern', dates: 'Sep – Dec 2024', img: '/images/work/amazon-flags.png',
+    { org: 'Amazon', role: 'SDE Intern', dates: 'Sep – Dec 2024', img: '/images/work/amazon-flags.png', imgW: 512, imgH: 304,
       alt: 'A switch on a control panel turns something on in a warehouse that keeps running.',
       line: 'A feature-flag service used by 50+ logistics engineers.' },
-    { org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024', img: '/images/work/meta-migration.png',
+    { org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024', img: '/images/work/meta-migration.png', imgW: 512, imgH: 167,
       alt: 'A line of people crosses a bridge from an old building to a new locked one.',
       line: 'Moved 64M+ users onto a new login system.' },
     { earlier: true, org: 'Center for Energy Research', role: 'Software Engineering Intern', dates: '2022 – 2024' },

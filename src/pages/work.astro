@@ -7,7 +7,7 @@ const earlier = SITE.career.filter((c) => c.earlier);
 const service = [
   { title: 'Reviewer', img: '/images/work/reviewer.png', alt: 'A stick figure checks a stack of papers with a magnifying glass.', items: SITE.reviewer.map((r) => ({ name: r.venue, href: r.href, what: r.what })) },
   { title: 'Hackathon judge', img: '/images/work/judge.png', alt: 'A stick figure holds up a scorecard in front of a proud team.', items: SITE.judge.map((r) => ({ name: r.venue, href: r.href, what: r.what })) },
-  { title: 'Hackathon wins', img: '/images/work/wins.png', alt: 'Three stick figures cheer around a trophy.', items: SITE.wins.map((w) => ({ name: w.name, href: w.href, what: w.what })) },
+  { title: 'Hackathon wins', img: '/images/work/wins.png', alt: 'A stick figure holds a trophy over their head.', items: SITE.wins.map((w) => ({ name: w.name, href: w.href, what: w.what })) },
 ];
 ---
 <Base title="Work" description={`Where ${SITE.name} has worked and what she built: inference performance at Meta, login reliability, internships at Amazon and Meta; plus peer review and hackathons.`}>
@@ -17,7 +17,7 @@ const service = [
     <ol class="roles">
       {main.map((c) => (
         <li class="role">
-          <img src={c.img} alt={c.alt} width="720" height="540" loading={main.indexOf(c) < 2 ? "eager" : "lazy"} />
+          <img src={c.img} alt={c.alt} width={c.imgW} height={c.imgH} loading={main.indexOf(c) < 2 ? "eager" : "lazy"} />
           <div>
             <p class="when">{c.dates}</p>
             <h2>{c.role}<span class="sep"> · </span><span class="org">{c.org}</span></h2>
@@ -39,7 +39,7 @@ const service = [
       <div class="three-col">
         {service.map((s) => (
           <div class="service-col">
-            <img src={s.img} alt={s.alt} width="720" height="540" loading="lazy" />
+            <img src={s.img} alt={s.alt} width="576" height="384" loading="lazy" />
             <h3 class="sublabel">{s.title}</h3>
             <ul class="service">
               {s.items.map((i) => <li>{i.href ? <a href={i.href}>{i.name}</a> : <strong>{i.name}</strong>}<span>{i.what}</span></li>)}
