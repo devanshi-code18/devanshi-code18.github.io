@@ -12,6 +12,7 @@ export const SITE = {
     { label: 'GitHub', href: 'https://github.com/devanshi-code18' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/djain18' },
     { label: 'X', href: 'https://x.com/_devanshijain' },
+    { label: 'Email', href: 'mailto:devanshijain018@gmail.com' },
     { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=uH_rvw4AAAAJ' },
   ],
   x: '@_devanshijain',
