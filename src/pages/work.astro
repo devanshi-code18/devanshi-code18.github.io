@@ -48,7 +48,7 @@ const service = [
     <h2 class="sublabel">Earlier, at UC San Diego</h2>
     <ul class="earlier">
       {earlier.map((c, k) => (
-        <li data-station={`earlier-${k}`}><span class="when">{c.dates}</span><span><strong>{c.role}</strong>, {c.org}{c.note && <> · <Fragment set:html={c.note} /></>}</span></li>
+        <li data-station={`earlier-${k}`}><span class="when">{c.dates}</span><span>{c.href ? <a class="place" href={c.href}>{c.org}</a> : <strong class="place">{c.org}</strong>}<span class="sep"> · </span>{c.role}{c.note && <><span class="sep"> · </span><Fragment set:html={c.note} /></>}</span></li>
       ))}
     </ul>
 

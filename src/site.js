@@ -84,9 +84,9 @@ export const SITE = {
     { org: 'Amazon', role: 'SDE Intern', dates: 'Sep – Dec 2024', start: 2024.67,
       line: 'A feature-flag service used by 50+ logistics engineers.' },
     { org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024', start: 2024.42,
-      line: 'Moved 64M+ users onto a new login system.' },
-    { earlier: true, org: 'Center for Energy Research', role: 'Software Engineering Intern', dates: '2022 – 2024', start: 2022.0 },
-    { earlier: true, org: 'Flow Physics Lab', role: 'Student Researcher', dates: '2023', start: 2023.0, note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Paper</a>' },
+      line: 'Migrated 64M+ users to a new login system.' },
+    { earlier: true, org: 'Center for Energy Research', href: 'https://cer.ucsd.edu/', role: 'Software Engineer Intern', dates: '2022 – 2024', start: 2022.0 },
+    { earlier: true, org: 'Flow Physics Lab', href: 'https://flowphysics.ucsd.edu/', role: 'Student Researcher', dates: '2023', start: 2023.0, note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Paper</a>' },
     { earlier: true, org: 'RoboSub', role: 'Embedded Systems Lead', dates: '2021 – 2023', start: 2021.67 },
   ],
 
