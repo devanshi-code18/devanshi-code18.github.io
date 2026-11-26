@@ -78,13 +78,13 @@ export const SITE = {
   // hand-inked career line at the top of the page.
   career: [
     { org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now', start: 2026.58,
-      line: '$15M+ a year in GPU inference savings from optimizing video ranking models, including 23.4% more queries per GPU on one.' },
+      line: '$15M+/yr GPU inference savings on video ranking.' },
     { org: 'Meta', role: 'Software Engineer', dates: 'Apr 2025 – Jul 2026', start: 2025.25,
-      line: 'Post-training data for Muse Spark 1.2; cut unstructured account access reports by 55%.' },
+      line: 'Muse Spark 1.2 post-training data; 55% fewer unstructured account access reports.' },
     { org: 'Amazon', role: 'SDE Intern', dates: 'Sep – Dec 2024', start: 2024.67,
-      line: 'A feature-flag service used by 50+ logistics engineers.' },
+      line: 'Feature-flag service for 50+ engineers.' },
     { org: 'Meta', role: 'Software Engineer Intern', dates: 'Jun – Sep 2024', start: 2024.42,
-      line: 'Migrated 64M+ users to a new login system.' },
+      line: 'Login migration for 64M+ users.' },
     { earlier: true, org: 'Center for Energy Research', href: 'https://cer.ucsd.edu/', role: 'Software Engineer Intern', dates: '2022 – 2024', start: 2022.0 },
     { earlier: true, org: 'Flow Physics Lab', href: 'https://flowphysics.ucsd.edu/', role: 'Student Researcher', dates: '2023', start: 2023.0, note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Paper</a>' },
     { earlier: true, org: 'RoboSub', role: 'Embedded Systems Lead', dates: '2021 – 2023', start: 2021.67 },
