@@ -38,8 +38,7 @@ const service = [
         <li class="role" data-station={`role-${k}`} tabindex="-1">
           <p class="when">{c.dates}</p>
           <div class="role-text">
-            <svg class="ink-box" aria-hidden="true"><path pathLength="1" /></svg>
-            <h2>{c.role}<span class="sep"> · </span><span class="org">{c.org}</span></h2>
+            <h2><span class="ink-hl">{c.role}<span class="sep"> · </span><span class="org">{c.org}</span><svg class="ink-ul" aria-hidden="true"><path pathLength="1" /></svg></span></h2>
             <p class="line" set:html={c.line} />
           </div>
         </li>
@@ -49,7 +48,7 @@ const service = [
     <h2 class="sublabel">Earlier, at UC San Diego</h2>
     <ul class="earlier">
       {earlier.map((c, k) => (
-        <li data-station={`earlier-${k}`}><span class="when">{c.dates}</span><span class="role-text"><svg class="ink-box" aria-hidden="true"><path pathLength="1" /></svg>{c.href ? <a class="place" href={c.href}>{c.org}</a> : <strong class="place">{c.org}</strong>}<span class="sep"> · </span>{c.role}{c.note && <><span class="sep"> · </span><Fragment set:html={c.note} /></>}</span></li>
+        <li data-station={`earlier-${k}`}><span class="when">{c.dates}</span><span class="role-text">{c.href ? <a class="place ink-hl" href={c.href}>{c.org}<svg class="ink-ul" aria-hidden="true"><path pathLength="1" /></svg></a> : <strong class="place ink-hl">{c.org}<svg class="ink-ul" aria-hidden="true"><path pathLength="1" /></svg></strong>}<span class="sep"> · </span>{c.role}{c.note && <><span class="sep"> · </span><Fragment set:html={c.note} /></>}</span></li>
       ))}
     </ul>
 
@@ -71,31 +70,28 @@ const service = [
 </Base>
 
 <script>
-  // A hand-inked box around a role's text, drawn in when the role is lit (hovered, tapped,
-  // or picked on the career line). Four pen strokes that overshoot their corners, a little
-  // different for every row.
+  // A quick scribbled pen underline under a role's title, drawn in when the role is lit
+  // (resting the mouse on it, tapping it, or picking its mark on the career line).
+  // One stroke out with a slight wobble, and a short return stroke under its end.
   const rnd = (n) => { const v = Math.sin(n * 127.1 + 311.7) * 43758.5453; return v - Math.floor(v) - 0.5; };
-  function box(svg, seed) {
+  function scribble(svg, seed) {
     const w = svg.clientWidth, h = svg.clientHeight;
     if (w < 4 || h < 4) return;
     svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-    const p = 3, j = (k) => rnd(seed * 31 + k) * 3.2, o = 6;
-    const C = [[p + j(1), p + j(2)], [w - p + j(3), p + j(4)], [w - p + j(5), h - p + j(6)], [p + j(7), h - p + j(8)]];
-    let d = '';
-    for (let s = 0; s < 4; s++) {
-      const [ax, ay] = C[s], [bx, by] = C[(s + 1) % 4];
-      const dx = bx - ax, dy = by - ay, L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
-      const sx = ax - ux * o * (0.4 + rnd(seed + s) * 0.5), sy = ay - uy * o * (0.4 + rnd(seed + s) * 0.5);
-      const ex = bx + ux * o * (0.6 + rnd(seed + s + 9) * 0.6), ey = by + uy * o * (0.6 + rnd(seed + s + 9) * 0.6);
-      const bow = (rnd(seed * 7 + s) < 0 ? -1 : 1) * Math.min(4.5, 1.5 + L * 0.006);
-      const cx = (sx + ex) / 2 - uy * bow, cy = (sy + ey) / 2 + ux * bow;
-      d += `M${sx.toFixed(1)} ${sy.toFixed(1)}Q${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+    const y = h * 0.4, N = Math.max(4, Math.round(w / 40));
+    let d = `M${(1 + rnd(seed) * 2).toFixed(1)} ${(y + rnd(seed + 1) * 1.5).toFixed(1)}`;
+    for (let k = 1; k <= N; k++) {
+      const x = (w - 2) * k / N, cx = (w - 2) * (k - 0.5) / N;
+      d += `Q${cx.toFixed(1)} ${(y + (k % 2 ? 1 : -1) * (1.2 + rnd(seed + k) * 0.8)).toFixed(1)} ${x.toFixed(1)} ${(y + rnd(seed + 10 + k) * 0.9 + k * 0.08).toFixed(1)}`;
     }
+    // the little return stroke, slightly lower, back under the last part
+    const r0 = w - 4 - rnd(seed + 40) * 4, r1 = w * (0.5 + rnd(seed + 41) * 0.15);
+    d += `M${r0.toFixed(1)} ${(h * 0.62).toFixed(1)}Q${((r0 + r1) / 2).toFixed(1)} ${(h * 0.95).toFixed(1)} ${r1.toFixed(1)} ${(h * 0.78).toFixed(1)}`;
     svg.firstElementChild.setAttribute('d', d);
   }
-  const boxes = [...document.querySelectorAll('.ink-box')];
-  const drawAll = () => boxes.forEach((b, i) => box(b, i + 1));
+  const marks = [...document.querySelectorAll('.ink-ul')];
+  const drawAll = () => marks.forEach((m, i) => scribble(m, i + 1));
   drawAll();
-  if (window.ResizeObserver) { const ro = new ResizeObserver(drawAll); boxes.forEach((b) => ro.observe(b)); }
+  if (window.ResizeObserver) { const ro = new ResizeObserver(drawAll); marks.forEach((m) => ro.observe(m)); }
   else window.addEventListener('resize', drawAll);
 </script>

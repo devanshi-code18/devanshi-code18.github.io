@@ -147,10 +147,12 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
 .role { display: grid; grid-template-columns: 9.5rem 1fr; gap: 0 1.5rem; align-items: baseline; padding: 1.25rem 0; border-top: 1px solid var(--line); outline: none; }
 .role-text { position: relative; justify-self: start; }
 .earlier .role-text { display: inline-block; }
-.ink-box { position: absolute; left: -.65rem; top: -.45rem; width: calc(100% + 1.3rem); height: calc(100% + .9rem); overflow: visible; pointer-events: none; }
-.ink-box path { fill: none; stroke: var(--text); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; transition: stroke-dashoffset .45s ease-in-out; }
-.lit .ink-box path { stroke-dashoffset: 0; }
-@media (prefers-reduced-motion: reduce) { .ink-box path { transition: none; } }
+.ink-hl { position: relative; display: inline-block; }
+.ink-ul { position: absolute; left: -3px; bottom: -.55rem; width: calc(100% + 6px); height: .7rem; overflow: visible; pointer-events: none; }
+.ink-ul path { fill: none; stroke: var(--text); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 1; stroke-dashoffset: 1; transition: stroke-dashoffset .5s ease-in-out; }
+.lit .ink-ul path { stroke-dashoffset: 0; }
+.earlier .ink-ul { bottom: -.6rem; }
+@media (prefers-reduced-motion: reduce) { .ink-ul path { transition: none; } }
 .role .line { margin: .35rem 0 0; max-width: 34rem; text-wrap: pretty; }
 .role:first-child { border-top: 0; padding-top: .5rem; }
 .role .when { margin: 0; font-size: .9rem; color: var(--muted); }
