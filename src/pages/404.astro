@@ -1,12 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import { getPosts, fmtDate, smart } from '../lib/posts.js';
+import { SITE } from '../site.js';
 const posts = (await getPosts()).slice(0, 3);
 ---
 <Base title="Not found" noindex>
   <article class="page">
     <h1 class="page-title">Not found</h1>
     <div class="prose"><p>There’s nothing at this address. Try the <a href="/">home page</a> or <a href="/writing/">all writing</a>.</p></div>
+    <img class="lost-art" src="/images/ink/race.png" alt={SITE.heroAlt} width="1200" height="363" loading="lazy" />
     {posts.length > 0 && (
       <section class="group">
         <h2 class="section-label">Recent writing</h2>
