@@ -110,6 +110,8 @@ body:has(.hero) main { display: flex; flex-direction: column; justify-content: c
 a { text-decoration-color: rgba(17, 17, 17, .35); }
 a:hover { color: var(--text); text-decoration-color: currentColor; }
 .empty { color: var(--muted); font-size: 1rem; margin: 0; }
+.empty-art { display: block; width: 100%; max-width: 22rem; height: auto; margin: 0 0 1.25rem; }
+.lost-art { display: block; width: 100%; max-width: 40rem; height: auto; margin: 2.5rem 0 0; }
 
 .block { margin-top: 4.5rem; }
 .label { font-weight: 400; font-size: 1.5rem; letter-spacing: .04em; text-transform: uppercase; margin: 0 0 1.75rem; padding-bottom: .75rem; border-bottom: 1px solid var(--text); }
