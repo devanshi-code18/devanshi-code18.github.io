@@ -37,7 +37,8 @@ const service = [
       {main.map((c, k) => (
         <li class="role" data-station={`role-${k}`} tabindex="-1">
           <p class="when">{c.dates}</p>
-          <div>
+          <div class="role-text">
+            <svg class="ink-box" aria-hidden="true"><path pathLength="1" /></svg>
             <h2>{c.role}<span class="sep"> · </span><span class="org">{c.org}</span></h2>
             <p class="line" set:html={c.line} />
           </div>
@@ -48,7 +49,7 @@ const service = [
     <h2 class="sublabel">Earlier, at UC San Diego</h2>
     <ul class="earlier">
       {earlier.map((c, k) => (
-        <li data-station={`earlier-${k}`}><span class="when">{c.dates}</span><span>{c.href ? <a class="place" href={c.href}>{c.org}</a> : <strong class="place">{c.org}</strong>}<span class="sep"> · </span>{c.role}{c.note && <><span class="sep"> · </span><Fragment set:html={c.note} /></>}</span></li>
+        <li data-station={`earlier-${k}`}><span class="when">{c.dates}</span><span class="role-text"><svg class="ink-box" aria-hidden="true"><path pathLength="1" /></svg>{c.href ? <a class="place" href={c.href}>{c.org}</a> : <strong class="place">{c.org}</strong>}<span class="sep"> · </span>{c.role}{c.note && <><span class="sep"> · </span><Fragment set:html={c.note} /></>}</span></li>
       ))}
     </ul>
 
@@ -68,3 +69,33 @@ const service = [
     </section>
   </article>
 </Base>
+
+<script>
+  // A hand-inked box around a role's text, drawn in when the role is lit (hovered, tapped,
+  // or picked on the career line). Four pen strokes that overshoot their corners, a little
+  // different for every row.
+  const rnd = (n) => { const v = Math.sin(n * 127.1 + 311.7) * 43758.5453; return v - Math.floor(v) - 0.5; };
+  function box(svg, seed) {
+    const w = svg.clientWidth, h = svg.clientHeight;
+    if (w < 4 || h < 4) return;
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    const p = 3, j = (k) => rnd(seed * 31 + k) * 3.2, o = 6;
+    const C = [[p + j(1), p + j(2)], [w - p + j(3), p + j(4)], [w - p + j(5), h - p + j(6)], [p + j(7), h - p + j(8)]];
+    let d = '';
+    for (let s = 0; s < 4; s++) {
+      const [ax, ay] = C[s], [bx, by] = C[(s + 1) % 4];
+      const dx = bx - ax, dy = by - ay, L = Math.hypot(dx, dy) || 1, ux = dx / L, uy = dy / L;
+      const sx = ax - ux * o * (0.4 + rnd(seed + s) * 0.5), sy = ay - uy * o * (0.4 + rnd(seed + s) * 0.5);
+      const ex = bx + ux * o * (0.6 + rnd(seed + s + 9) * 0.6), ey = by + uy * o * (0.6 + rnd(seed + s + 9) * 0.6);
+      const bow = (rnd(seed * 7 + s) < 0 ? -1 : 1) * Math.min(4.5, 1.5 + L * 0.006);
+      const cx = (sx + ex) / 2 - uy * bow, cy = (sy + ey) / 2 + ux * bow;
+      d += `M${sx.toFixed(1)} ${sy.toFixed(1)}Q${cx.toFixed(1)} ${cy.toFixed(1)} ${ex.toFixed(1)} ${ey.toFixed(1)}`;
+    }
+    svg.firstElementChild.setAttribute('d', d);
+  }
+  const boxes = [...document.querySelectorAll('.ink-box')];
+  const drawAll = () => boxes.forEach((b, i) => box(b, i + 1));
+  drawAll();
+  if (window.ResizeObserver) { const ro = new ResizeObserver(drawAll); boxes.forEach((b) => ro.observe(b)); }
+  else window.addEventListener('resize', drawAll);
+</script>
