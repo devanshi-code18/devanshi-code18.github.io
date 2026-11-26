@@ -21,48 +21,48 @@ export const SITE = {
   // Set to your Substack address (e.g. 'https://devanshi.substack.com') to list its posts under Writing too.
   substack: '',
 
-  // Open-source highlights, most impact first: one plain first-person line each (Horace He style),
+  // Open-source highlights, most impact first: one plain line each, no pronouns,
   // with a wordless sketch in public/images/ink.
   oss: [
     {
       img: '/images/ink/awq.png',
       alt: 'One shared dial for three layer sections, then each section with its own dial.',
-      title: 'I fixed AWQ models in vLLM that quietly gave wrong answers (0% → 86% on GSM8K).',
+      title: 'AWQ models in vLLM now give the right answers (0% → 86% on GSM8K).',
       repo: 'vLLM',
       prs: [['#69002', 'https://github.com/vllm-project/vllm/pull/69002']],
     },
     {
       img: '/images/ink/decode-tiles.png',
       alt: 'A big tile sawed apart and glued back together, next to small tiles each finished by its own worker.',
-      title: 'I made int4 decoding up to 8% faster on A100.',
+      title: 'Up to 8% faster int4 decoding on A100.',
       repo: 'Humming',
       prs: [['#218', 'https://github.com/vllm-project/humming/pull/218']],
     },
     {
       img: '/images/ink/checkpoints.png',
       alt: 'Suitcases stuck at a door by old tags; once the tags are cut they slide through.',
-      title: 'I got all 21 official PyTorch quantized checkpoints loading again.',
+      title: 'All 21 official PyTorch quantized checkpoints load again.',
       repo: 'torchao',
       prs: [['#5092', 'https://github.com/pytorch/ao/pull/5092']],
     },
     {
       img: '/images/ink/benchmarks.png',
       alt: 'A race where a runner’s shortcut through a box is crossed out and the honest runner is timed.',
-      title: 'I fixed vLLM benchmarks that were timing the cache, not the model.',
+      title: 'vLLM benchmarks now time the model, not the cache.',
       repo: 'vLLM',
       prs: [['#66701', 'https://github.com/vllm-project/vllm/pull/66701'], ['#66720', 'https://github.com/vllm-project/vllm/pull/66720']],
     },
     {
       img: '/images/ink/fork-safe.png',
       alt: 'A process tree cracked by a heavy weight at the top, next to a clean tree with the weight set aside.',
-      title: 'I stopped torchao from crashing vLLM’s GPU workers on import.',
+      title: 'torchao no longer crashes vLLM’s GPU workers on import.',
       repo: 'torchao',
       prs: [['#5087', 'https://github.com/pytorch/ao/pull/5087'], ['#5088', 'https://github.com/pytorch/ao/pull/5088']],
     },
     {
       img: '/images/ink/tied-weights.png',
       alt: 'Two chained blocks weighed against each other on a balance scale.',
-      title: 'I fixed loading tied-weight models like Phi-4-mini AWQ in Transformers 5.',
+      title: 'Tied-weight models like Phi-4-mini AWQ load in Transformers 5.',
       repo: 'torchao',
       prs: [['#5152', 'https://github.com/pytorch/ao/pull/5152']],
     },
