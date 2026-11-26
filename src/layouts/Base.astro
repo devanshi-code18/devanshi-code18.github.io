@@ -6,7 +6,7 @@ import TabIcon from '../components/TabIcon.astro';
 const { title, description = SITE.description, type = 'website', published, home = false, noindex = false } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.name}` : SITE.name;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
-const ogImage = new URL('/og.png', SITE.url).href;
+const ogImage = new URL('/og-grid.png', SITE.url).href;
 const path = Astro.url.pathname;
 const nav = [
   { href: '/', label: 'Home', icon: 'home', current: path === '/' },
@@ -42,8 +42,8 @@ const nav = [
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${SITE.name}: a hand-drawn sketch of a small GPU outrunning a cart of GPUs`} />
-    <meta name="twitter:image:alt" content={`${SITE.name}: a hand-drawn sketch of a small GPU outrunning a cart of GPUs`} />
+    <meta property="og:image:alt" content={`${SITE.name}: a hand-drawn grid of model weights, a diagonal band of them inked in as quantized blobs`} />
+    <meta name="twitter:image:alt" content={`${SITE.name}: a hand-drawn grid of model weights, a diagonal band of them inked in as quantized blobs`} />
     <meta property="og:site_name" content={SITE.name} />
     {published && <meta property="article:published_time" content={published.toISOString()} />}
     <meta name="twitter:card" content="summary_large_image" />
