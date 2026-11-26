@@ -18,7 +18,7 @@ const { stations } = Astro.props; // [{ u, q, size, row }] in path order, oldest
   if (g) {
     const S = JSON.parse(root.dataset.stations || '[]');
     const n = S.length;
-    const P = { lw: 1.4, wob: 1.0, boilMs: 160, boilN: 3, drawMs: 1500, inkMs: 320 };
+    const P = { lw: 1.4, wob: 1.0, boilMs: 160, boilN: 3, drawMs: 1500, inkMs: 320, hoverMs: 1000 };
     const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     let W = 0, H = 0, boil = 1, prog = reduced ? 1 : 0, t0 = 0, seen = false, onScreen = true;
     const lit = new Float32Array(n), want = new Float32Array(n), inkAt = new Float64Array(n).fill(-1);
@@ -153,10 +153,12 @@ const { stations } = Astro.props; // [{ u, q, size, row }] in path order, oldest
     }
 
     // roles -> marks
+    let hoverT = 0;
     rows.forEach((r, i) => {
       if (!r) return;
-      r.addEventListener('mouseenter', () => setLit(i, true, true));
-      r.addEventListener('mouseleave', () => setLit(i, false));
+      // a mouse has to rest on a role for a moment before it lights, so passing over rows doesn't flash boxes
+      r.addEventListener('mouseenter', () => { clearTimeout(hoverT); hoverT = setTimeout(() => setLit(i, true, true), P.hoverMs); });
+      r.addEventListener('mouseleave', () => { clearTimeout(hoverT); setLit(i, false); });
       r.addEventListener('focusin', () => setLit(i, true, true));
       r.addEventListener('focusout', () => setLit(i, false));
       r.addEventListener('pointerdown', (ev) => { if (ev.pointerType !== 'mouse') setLit(i, true, true); });
