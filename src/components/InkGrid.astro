@@ -2,7 +2,8 @@
 // The home page's main visual: a hand-inked weight matrix. Touch it and the weights
 // near the pointer get "quantized" (2-bit: four drawn states) from open pen squares into
 // solid ink blobs, then relax back as hollow rings, leaving a small trail. A ghost
-// pointer wanders when nobody is touching it. Black ink only, no words.
+// pointer wanders when nobody is touching it. A tap sends an ink ripple across the grid;
+// press and drag to draw marks that stay solid for a few seconds. Black ink only, no words.
 // If scripts don't run, a still picture of the grid shows instead (CSS background).
 ---
 <div class="ink-grid" aria-hidden="true">
@@ -18,12 +19,16 @@
       cell: 28, cellPhone: 24, half: 0.3, lw: 1.4, lwVar: 0.15, wob: 1.1, rot: 3, sizeVar: 0.06,
       over: 1.6, bow: 0.6, radMin: 70, radMax: 130, radK: 0.13, attack: 0.012, relax: 0.00055,
       boilMs: 160, boilN: 3, levels: 3, fillAt: 0.5, stick: 0.03, idleMs: 2500, mineRelax: 0.5,
+      rippleSpeed: 0.36, rippleBand: 0.9, paintR: 0.8, paintMs: 6000,
     };
     const reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     let W = 0, H = 0, o = 28, cols = 0, rows = 0, x0 = 0, y0 = 0, inset = 0, boil = 1;
-    let d = new Float32Array(0), dir = new Int8Array(0), hold = new Float64Array(0), mine = new Uint8Array(0);
+    let d = new Float32Array(0), dir = new Int8Array(0), hold = new Float64Array(0), mine = new Uint8Array(0), rip = new Float32Array(0);
     const ptr = { x: 0, y: 0, last: -1e9, t: 0, vx: 0, vy: 0 };
     let ph = Math.random() * 100, gx = -1e4, gy = -1e4, wasGhost = true;
+    // taps send out an ink ripple; press-and-drag paints marks that stay solid for a while
+    const ripples = [];
+    const pen = { down: false, at: 0, x: 0, y: 0, px: 0, py: 0, moved: 0 };
 
     // Deterministic noise: `h` changes with each ink "boil" frame, `hs` never changes.
     const hb = (e, t, f) => { const n = Math.sin(e * 127.1 + t * 311.7 + f * 74.7) * 43758.5453; return n - Math.floor(n) - 0.5; };
@@ -43,7 +48,7 @@
       inset = Math.max(14, o * 0.7);
       cols = Math.max(1, Math.floor((W - 2 * inset) / o)); rows = Math.max(1, Math.floor(H / o));
       x0 = (W - cols * o) / 2 + o / 2; y0 = (H - rows * o) / 2 + o / 2;
-      d = new Float32Array(cols * rows); dir = new Int8Array(cols * rows); hold = new Float64Array(cols * rows); mine = new Uint8Array(cols * rows);
+      d = new Float32Array(cols * rows); dir = new Int8Array(cols * rows); hold = new Float64Array(cols * rows); mine = new Uint8Array(cols * rows); rip = new Float32Array(cols * rows);
       if (reduced) seedStill();
       root.classList.add('live');
       return true;
@@ -83,7 +88,8 @@
         g.lineWidth = P.lw + hs(i, 90) * 2 * P.lwVar;
         const ee = e * (1 + hs(i, 91) * 2 * P.sizeVar);
         const rotA = (hs(i, 92) * 2 * P.rot * Math.PI) / 180;
-        const q = Math.round(d[i] * P.levels) / P.levels; // 2-bit: four drawn states
+        const fromRip = rip[i] > d[i];
+        const q = Math.round(Math.max(d[i], rip[i]) * P.levels) / P.levels; // 2-bit: four drawn states
         if (q <= 0) {
           const ca = Math.cos(rotA), sa = Math.sin(rotA), w = P.wob;
           const C = [[-1, -1], [1, -1], [1, 1], [-1, 1]].map(([sx, sy], k) => {
@@ -96,12 +102,12 @@
           g.stroke();
           continue;
         }
-        const t = ee * (1 - 0.45 * q);
+        const t = ee * (mine[i] === 2 && hold[i] > now ? 0.82 : 1 - 0.45 * q); // painted marks draw as full blobs
         const pts = shape(cx, cy, t, Math.min(1, q * 1.1), i, rotA);
         g.beginPath(); g.moveTo(pts[0][0], pts[0][1]);
         for (let k = 1; k < pts.length; k++) g.lineTo(pts[k][0], pts[k][1]);
         g.closePath();
-        const relaxing = dir[i] < 0 && hold[i] < now;
+        const relaxing = !fromRip && dir[i] < 0 && hold[i] < now;
         if (relaxing || q < P.fillAt) { g.stroke(); continue; } // hollow rings: the trail
         g.fill(); g.stroke();
       }
@@ -148,12 +154,39 @@
       const k = ghost ? Math.min(1, dt * 0.003) : 1;
       gx += (tx - gx) * k; gy += (ty - gy) * k;
       const R = Math.max(P.radMin, Math.min(P.radMax, W * P.radK));
+      // ripples: a ring of ink that spreads out from a tap, solid at its front with a short
+      // trail of rings behind, fading as it grows. Drawn on top of the weights, not stored in them.
+      const band = o * P.rippleBand, far = Math.hypot(W, H) * 0.75;
+      rip.fill(0);
+      for (let k = ripples.length - 1; k >= 0; k--) {
+        const rp = ripples[k], r = (now - rp.t0) * P.rippleSpeed;
+        if (r > far + band * 2) { ripples.splice(k, 1); continue; }
+        const amp = Math.max(0, 1 - r / far);
+        for (let i = 0; i < cols * rows; i++) {
+          const cx = x0 + (i % cols) * o, cy = y0 + Math.floor(i / cols) * o;
+          const dd = Math.hypot(cx - rp.x, cy - rp.y) - r;
+          const a = (dd > 0 ? 1 - dd / (band * 0.6) : 1 + dd / (band * 1.8)) * amp;
+          if (a > rip[i]) rip[i] = a;
+        }
+      }
+      // painting: cells along the pen's path go solid and stay that way for a while
+      if (pen.down && pen.moved > 6) {
+        const ax = pen.px, ay = pen.py, bx = ptr.x, by = ptr.y, sx = bx - ax, sy = by - ay, L2 = sx * sx + sy * sy || 1;
+        for (let i = 0; i < cols * rows; i++) {
+          const cx = x0 + (i % cols) * o, cy = y0 + Math.floor(i / cols) * o;
+          const t = Math.max(0, Math.min(1, ((cx - ax) * sx + (cy - ay) * sy) / L2));
+          if (Math.hypot(cx - ax - sx * t, cy - ay - sy * t) < o * P.paintR) {
+            d[i] = 1; dir[i] = 1; mine[i] = 2; hold[i] = Math.max(hold[i], now + P.paintMs + (hs(i, 35) + 0.5) * 2000);
+          }
+        }
+        pen.px = bx; pen.py = by;
+      }
       for (let rr = 0; rr < rows; rr++) for (let cc = 0; cc < cols; cc++) {
         const i = rr * cols + cc, dx = x0 + cc * o - gx, dy = y0 + rr * o - gy;
         const tgt = Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / R), cur = d[i];
         if (tgt > cur) {
           d[i] = cur + (tgt - cur) * Math.min(1, dt * P.attack); dir[i] = 1;
-          if (!ghost) mine[i] = 1; // marks the person made fade more slowly
+          if (!ghost && mine[i] !== 2) mine[i] = 1; // marks the person made fade more slowly
           if (cur < 0.9 && d[i] >= 0.9 && hs(i, 33) + 0.5 < P.stick) hold[i] = now + 2500 + (hs(i, 34) + 0.5) * 4000;
         } else if (hold[i] > now) d[i] = Math.max(cur, 1);
         else {
@@ -183,9 +216,29 @@
       if (gx < -1e3 || ev.type === 'pointerdown') { gx = ptr.x; gy = ptr.y; }
       if (!running && !reduced) start();
     };
-    cv.addEventListener('pointermove', mv);
-    cv.addEventListener('pointerdown', mv);
-    cv.addEventListener('pointerleave', (ev) => { if (ev.pointerType === 'mouse') ptr.last = performance.now() - P.idleMs + 400; });
+    cv.addEventListener('pointermove', (ev) => {
+      mv(ev);
+      if (pen.down) pen.moved += Math.hypot(ptr.x - pen.x, ptr.y - pen.y), pen.x = ptr.x, pen.y = ptr.y;
+    });
+    cv.addEventListener('pointerdown', (ev) => {
+      mv(ev);
+      Object.assign(pen, { down: true, at: performance.now(), x: ptr.x, y: ptr.y, px: ptr.x, py: ptr.y, moved: 0 });
+      try { cv.setPointerCapture(ev.pointerId); } catch (e) {}
+    });
+    const lift = (ev) => {
+      if (!pen.down) return;
+      pen.down = false;
+      // a quick tap (not a drag) sends out a ripple
+      if (ev.type === 'pointerup' && pen.moved < 8 && performance.now() - pen.at < 400 && !reduced) {
+        ripples.push({ x: ptr.x, y: ptr.y, t0: performance.now() });
+        if (ripples.length > 4) ripples.shift();
+        ptr.last = performance.now();
+        if (!running) start();
+      }
+    };
+    cv.addEventListener('pointerup', lift);
+    cv.addEventListener('pointercancel', lift);
+    cv.addEventListener('pointerleave', (ev) => { lift(ev); if (ev.pointerType === 'mouse') ptr.last = performance.now() - P.idleMs + 400; });
 
     let last = 0, lastBoil = 0, running = false, onScreen = true;
     function frame(t) {
