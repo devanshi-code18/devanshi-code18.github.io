@@ -87,7 +87,7 @@ export const SITE = {
       line: 'Login migration for 64M+ users.' },
     { earlier: true, org: 'Center for Energy Research', href: 'https://cer.ucsd.edu/', role: 'Software Engineer Intern', dates: '2022 – 2024', start: 2022.0 },
     { earlier: true, org: 'Flow Physics Lab', href: 'https://flowphysics.ucsd.edu/', role: 'Student Researcher', dates: '2023', start: 2023.0, note: '<a href="https://escholarship.org/uc/item/8rs4v3pq">Paper</a>' },
-    { earlier: true, org: 'RoboSub', role: 'Embedded Systems Lead', dates: '2021 – 2023', start: 2021.67 },
+    { earlier: true, org: 'RoboSub', role: 'Embedded Systems Engineer', dates: '2021 – 2023', start: 2021.67 },
   ],
 
   // Peer review and judging. Only roles that are confirmed.
