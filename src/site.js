@@ -78,7 +78,7 @@ export const SITE = {
   // hand-inked career line at the top of the page.
   career: [
     { org: 'Meta', role: 'Systems Engineer II', dates: 'Aug 2026 – now', start: 2026.58,
-      line: '23.4% more queries per GPU on a video ranking model; $14.18M a year in GPU savings.' },
+      line: '$15M+ a year in GPU inference savings from optimizing video ranking models, including 23.4% more queries per GPU on one.' },
     { org: 'Meta', role: 'Software Engineer', dates: 'Apr 2025 – Jul 2026', start: 2025.25,
       line: 'Post-training data for Muse Spark 1.2; cut unstructured account access reports by 55%.' },
     { org: 'Amazon', role: 'SDE Intern', dates: 'Sep – Dec 2024', start: 2024.67,
