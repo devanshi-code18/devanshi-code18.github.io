@@ -447,7 +447,7 @@ html[data-dir="prev"]::view-transition-new(root) { animation: vt-in-left .24s ea
 .figs-js .fig:not(.go) .mv { transform: translate(var(--tx, 0px), var(--ty, 0px)); }
 .figs-js .fig:not(.go) .a .ink { transform: scale(.3); }
 .figs-js .fig:not(.go) .a .pen { stroke-dashoffset: 1; }
-.figs-js .fig:not(.go) * { transition: none !important; }
+.figs-js .fig:not(.go) *, .fig.done * { transition: none !important; }
 .fig .fall { transform-box: fill-box; transform-origin: center; transition: opacity .55s ease-in, transform .65s cubic-bezier(.5, 0, .9, .6); transition-delay: calc(var(--i, 0) * 55ms + var(--d, 0ms)); }
 .fig.go .fall { transform: translate(var(--tx, 0px), var(--ty, 30px)) rotate(var(--rot, 30deg)); }
 .fig .float { transform-box: fill-box; transform-origin: center; animation: fig-bob 4.5s ease-in-out infinite; }

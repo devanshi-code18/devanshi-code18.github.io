@@ -13,9 +13,14 @@ if (!svg) throw new Error(`Missing figure: ${name}`);
 <script>
   const figs = [...document.querySelectorAll('.fig')];
   if (figs.length && document.documentElement.classList.contains('figs-js')) {
-    const go = (el) => { el.classList.add('go'); el.dataset.t = String(performance.now()); };
+    // .done drops the transitions once the play should be over, so a figure always lands on its
+    // finished drawing even when the browser paused animations (Safari does in some views).
+    const go = (el) => {
+      el.classList.add('go'); el.dataset.t = String(performance.now());
+      clearTimeout(el._done); el._done = setTimeout(() => el.classList.add('done'), 2400);
+    };
     const replay = (el) => {
-      el.classList.remove('go');
+      el.classList.remove('go', 'done');
       void el.getBoundingClientRect();
       requestAnimationFrame(() => requestAnimationFrame(() => go(el)));
     };

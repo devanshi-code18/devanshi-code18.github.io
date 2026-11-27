@@ -6,6 +6,9 @@ import rehypeKatex from 'rehype-katex';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 export default defineConfig({
+  // Styles go inside each page, so a page cached or prefetched before a deploy never points at a
+  // stylesheet the deploy removed.
+  build: { inlineStylesheets: 'always' },
   site: 'https://devanshi-code18.github.io',
   trailingSlash: 'always',
   integrations: [sitemap()],
