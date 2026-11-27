@@ -93,10 +93,12 @@ export const SITE = {
     { venue: 'WWW 2027', what: 'LLM and Agents for Recommendation Systems (LARS) Workshop', href: 'https://www2027.thewebconf.org/workshops/#workshop-lars' },
     { venue: 'WSDM 2027', what: 'AutoResearch for IR & RecSys Workshop', href: 'https://www.wsdm-conference.org/2027/accepted-workshops.html' },
   ],
+  // sponsors: the two biggest (SVIC: its Leadership Council tier; Cal Hacks: first two "presented by";
+  // LA AI: largest sponsor prize pools). teams: how many teams she judged (fill in when known).
   judge: [
-    { venue: 'Silicon Valley Innovation Challenge', what: 'San José State University, Nov⁠–⁠Dec 2026', href: 'https://www.sjsu.edu/svic/' },
-    { venue: 'Cal Hacks 13.0', what: 'UC Berkeley, Oct 2026', href: 'https://www.calhacks.io/' },
-    { venue: 'LA AI Hackathon', what: 'UCLA, Oct 2026', href: 'https://la-ai-hackathon-2026.devpost.com/' },
+    { venue: 'Silicon Valley Innovation Challenge', what: 'San José State University, Nov⁠–⁠Dec 2026', href: 'https://www.sjsu.edu/svic/', sponsors: ['Cisco', 'AT&T'], teams: null },
+    { venue: 'Cal Hacks 13.0', what: 'UC Berkeley, Oct 2026', href: 'https://www.calhacks.io/', sponsors: ['Anthropic', 'Amazon’s Annapurna Labs'], teams: null },
+    { venue: 'LA AI Hackathon', what: 'UCLA, Oct 2026', href: 'https://la-ai-hackathon-2026.devpost.com/', sponsors: ['Cognition', 'Creao AI'], teams: null },
   ],
   wins: [
     { name: 'Meta Global Hackathon', what: 'Judges’ Choice, 2026' },
