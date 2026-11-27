@@ -166,9 +166,12 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
 .earlier { list-style: none; margin: 0; padding: 0; }
 .earlier li { display: grid; grid-template-columns: 9.5rem 1fr; gap: 0 1.5rem; padding: .55rem 0; border-top: 1px solid var(--line); font-size: .98rem; }
 .earlier .place { font-weight: 600; }
+.block .earlier li:first-child { border-top: 0; padding-top: 0; }
 .earlier .sep { color: var(--faint); }
 .earlier .when { color: var(--muted); font-size: .9rem; }
-.service-col img { width: 100%; height: auto; margin: 0 0 .75rem; }
+.service-col img { width: 100%; max-width: 18rem; height: auto; margin: 0 0 .75rem; }
+.reviewing { display: grid; grid-template-columns: 16rem 1fr; gap: 0 2.25rem; align-items: start; }
+.reviewing img { width: 100%; height: auto; }
 
 /* career */
 .career { list-style: none; margin: 0; padding: 0; }
@@ -323,6 +326,8 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
   .career-line { height: 6rem; background-image: url('/images/ink/career-still-phone.png'); }
   .oss-card > img { width: 100%; max-width: none; }
   .service-col > img { width: 100%; max-width: 18rem; }
+  .reviewing { grid-template-columns: 1fr; gap: 1rem; }
+  .reviewing img { max-width: 18rem; }
   .earlier li { grid-template-columns: 1fr; }
   .hero-art { margin: 0 0 1.5rem; }
   .ink-grid { height: 12rem; margin: 0 0 2rem; background-image: url('/images/ink/grid-still-phone.png'); }

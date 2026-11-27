@@ -20,6 +20,7 @@ export async function GET() {
     `- [Home](${SITE.url}/)`,
     `- [Work](${new URL('/work/', SITE.url).href})`,
     `- [Open source](${new URL('/open-source/', SITE.url).href})`,
+    `- [Hackathons](${new URL('/hackathons/', SITE.url).href})`,
     `- [All writing](${new URL('/writing/', SITE.url).href})`,
     ...SITE.links.filter((l) => l.label !== 'Google Scholar').map((l) => `- [${l.label}](${l.href})`),
     '',

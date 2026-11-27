@@ -21,13 +21,8 @@ const stations = all.map(({ c, row }, i) => {
   const u = 0.35 * (c.start - tMin) / (tMax - tMin) + 0.65 * ((i + 0.5) / all.length) * 0.94;
   return { u: +u.toFixed(4), q: +q.toFixed(3), size, row };
 });
-const service = [
-  { title: 'Reviewer', img: '/images/work/reviewer.png', alt: 'A stick figure checks a stack of papers with a magnifying glass.', items: SITE.reviewer.map((r) => ({ name: r.venue, href: r.href, what: r.what })) },
-  { title: 'Hackathon judge', img: '/images/work/judge.png', alt: 'A stick figure holds up a scorecard in front of a proud team.', items: SITE.judge.map((r) => ({ name: r.venue, href: r.href, what: r.what })) },
-  { title: 'Hackathon wins', img: '/images/work/wins.png', alt: 'A stick figure holds a trophy over their head.', items: SITE.wins.map((w) => ({ name: w.name, href: w.href, what: w.what })) },
-];
 ---
-<Base title="Work" description={`${SITE.name}: GPU inference savings for video ranking at Meta, Muse Spark post-training data, internships at Amazon and Meta, peer review and hackathons.`}>
+<Base title="Work" description={`${SITE.name}: GPU inference savings for video ranking at Meta, Muse Spark post-training data, internships at Amazon and Meta, and peer review.`}>
   <article class="page">
     <h1 class="page-title">Work</h1>
 
@@ -46,17 +41,12 @@ const service = [
     </ol>
 
     <section class="block">
-      <h2 class="label">Service and awards</h2>
-      <div class="three-col">
-        {service.map((s) => (
-          <div class="service-col">
-            <img src={s.img} alt={s.alt} width="576" height="384" loading="lazy" />
-            <h3 class="sublabel">{s.title}</h3>
-            <ul class="service">
-              {s.items.map((i) => <li>{i.href ? <a href={i.href}>{i.name}</a> : <strong>{i.name}</strong>}<span>{i.what}</span></li>)}
-            </ul>
-          </div>
-        ))}
+      <h2 class="label">Reviewing</h2>
+      <div class="reviewing">
+        <img src="/images/work/reviewer.png" alt="A stick figure checks a stack of papers with a magnifying glass." width="576" height="384" loading="lazy" />
+        <ul class="service">
+          {SITE.reviewer.map((r) => <li>{r.href ? <a href={r.href}>{r.venue}</a> : <strong>{r.venue}</strong>}<span>{r.what}</span></li>)}
+        </ul>
       </div>
     </section>
 

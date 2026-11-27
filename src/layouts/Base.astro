@@ -12,6 +12,7 @@ const nav = [
   { href: '/', label: 'Home', icon: 'home', current: path === '/' },
   { href: '/work/', label: 'Work', icon: 'work', current: path.startsWith('/work') },
   { href: '/open-source/', label: 'Open source', icon: 'open-source', current: path.startsWith('/open-source') },
+  { href: '/hackathons/', label: 'Hackathons', icon: 'hackathons', current: path.startsWith('/hackathons') },
   { href: '/writing/', label: 'Writing', icon: 'writing', current: path.startsWith('/writing') || path.startsWith('/posts/') },
 ];
 ---
@@ -86,9 +87,9 @@ const nav = [
         f();
 
         // Tabs in order. Tapping a tab or swiping sideways slides the next page in from that side.
-        const order = ['/', '/work/', '/open-source/', '/writing/'];
+        const order = ['/', '/work/', '/open-source/', '/hackathons/', '/writing/'];
         const p = location.pathname;
-        const here = p.startsWith('/posts/') ? 3 : order.indexOf(p.endsWith('/') ? p : p + '/');
+        const here = p.startsWith('/posts/') ? 4 : order.indexOf(p.endsWith('/') ? p : p + '/');
         const mark = (d) => { try { sessionStorage.setItem('vt-dir', d); } catch (e) {} };
         document.querySelectorAll('.site-nav a').forEach((a, i) => a.addEventListener('click', () => { if (here >= 0 && i !== here) mark(i > here ? 'next' : 'prev'); }));
         if (here < 0) return;
