@@ -104,6 +104,7 @@ body:has(.hero) main { display: flex; flex-direction: column; justify-content: c
 .ink-grid canvas, .ink-grid img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .ink-grid img { object-fit: contain; }
 .one-liner { max-width: 36rem; margin: 0; color: var(--muted); }
+.one-liner + .one-liner { margin-top: 1em; }
 .one-liner a, .oss-card a, .career a, .service a, .pr-list a, .links a { color: var(--text); }
 .links { display: flex; flex-wrap: wrap; gap: 0 1.25rem; margin: 1.25rem 0 0; font-size: .95rem; }
 .links a { display: inline-block; padding: .3rem 0; }

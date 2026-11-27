@@ -6,7 +6,8 @@ export const SITE = {
   // Used for search results and link previews.
   description: 'Devanshi Jain, systems engineer at Meta working on inference performance for video recommendation models, and open-source contributor to PyTorch and vLLM.',
   // The line under the name on the home page. Plain HTML is fine.
-  oneLiner: 'I’m a systems engineer at Meta, working on inference performance for video recommendation models. I’m an avid open&#8209;source contributor to <a href="https://github.com/search?q=is%3Apr+author%3Adevanshi-code18+org%3Avllm-project&amp;type=pullrequests&amp;s=created&amp;o=desc">vLLM</a> and <a href="https://github.com/search?q=is%3Apr+author%3Adevanshi-code18+org%3Apytorch&amp;type=pullrequests&amp;s=created&amp;o=desc">PyTorch</a>. I studied mathematics and computer science at UC&nbsp;San&nbsp;Diego. You can reach me at devanshijain018 [at] gmail [dot] com.',
+  oneLiner: 'I’m a systems engineer at Meta, working on inference performance for video recommendation models. I’m an avid open&#8209;source contributor to <a href="https://github.com/search?q=is%3Apr+author%3Adevanshi-code18+org%3Avllm-project&amp;type=pullrequests&amp;s=created&amp;o=desc">vLLM</a> and <a href="https://github.com/search?q=is%3Apr+author%3Adevanshi-code18+org%3Apytorch&amp;type=pullrequests&amp;s=created&amp;o=desc">PyTorch</a>. I studied mathematics and computer science at UC&nbsp;San&nbsp;Diego.',
+  contact: 'You can reach me at devanshijain018 [at] gmail [dot] com.',
   heroAlt: 'A small, smiling GPU card with legs sprints ahead carrying a compact neural network, leaving behind a line of GPU cards hauling a giant network on a cart.',
   links: [
     { label: 'GitHub', href: 'https://github.com/devanshi-code18' },
