@@ -1,10 +1,11 @@
 ---
 import { repoLogo, projectName } from '../lib/oss.js';
-// One open-source highlight: a wordless sketch, one line on what I did, and its pull requests.
+import Figure from './Figure.astro';
+// One open-source highlight: a wordless ink figure, one line on what I did, and its pull requests.
 const { item } = Astro.props;
 ---
 <article class="oss-card">
-  <img src={item.img} alt={item.alt} width="720" height="480" loading={item.eager ? "eager" : "lazy"} />
+  <Figure name={item.fig} label={item.alt} />
   <h3>{item.title}</h3>
   <p class="prs">
     <span class="repo">{repoLogo(item.repo) && <img class="logo" src={repoLogo(item.repo)} alt="" width="112" height="112" />}{projectName(item.repo)}</span>

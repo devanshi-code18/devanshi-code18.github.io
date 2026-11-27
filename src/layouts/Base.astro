@@ -53,6 +53,7 @@ const nav = [
     {nav.filter((n) => !n.current).map((n) => <link rel="prefetch" href={n.href} />)}
     <script is:inline>
       // Which way the next page slides in (set by a tap on a tab or a swipe).
+      try { if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('figs-js'); } catch (e) {}
       try { const d = sessionStorage.getItem('vt-dir'); if (d) { document.documentElement.dataset.dir = d; sessionStorage.removeItem('vt-dir'); } } catch (e) {}
     </script>
   </head>

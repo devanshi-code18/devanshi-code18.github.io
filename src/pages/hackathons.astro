@@ -1,19 +1,20 @@
 ---
 import Base from '../layouts/Base.astro';
 import { SITE } from '../site.js';
+import Figure from '../components/Figure.astro';
 
 const groups = [
-  { title: 'Wins', img: '/images/work/wins.png', alt: 'A stick figure holds a trophy over their head.', items: SITE.wins.map((w) => ({ name: w.name, href: w.href, what: w.what, summary: w.summary })) },
-  { title: 'Judging', img: '/images/work/judge.png', alt: 'A stick figure holds up a scorecard in front of a proud team.', items: SITE.judge.map((r) => ({ name: r.venue, href: r.href, what: r.what, summary: [r.teams && `Judged ${r.teams} teams`, r.sponsors && `Sponsored by ${r.sponsors.join(' and ')}`].filter(Boolean).join(' · ') })) },
+  { title: 'Wins', fig: 'wins', alt: 'A podium of pen squares; one ink blob drops onto the top.', items: SITE.wins.map((w) => ({ name: w.name, href: w.href, what: w.what, summary: w.summary })) },
+  { title: 'Judging', fig: 'judge', alt: 'A scorecard of teams and criteria; the scores ink in and the winning row is circled.', items: SITE.judge.map((r) => ({ name: r.venue, href: r.href, what: r.what, summary: [r.teams && `Judged ${r.teams} teams`, r.sponsors && `Sponsored by ${r.sponsors.join(' and ')}`].filter(Boolean).join(' · ') })) },
 ];
 ---
 <Base title="Hackathons" description={`${SITE.name}: hackathon wins (Meta Global Hackathon, TreeHacks, Base × Ohara) and judging (Cal Hacks, LA AI Hackathon, SVIC).`}>
   <article class="page">
     <h1 class="page-title">Hackathons</h1>
     <div class="two-col">
-      {groups.map((g, k) => (
+      {groups.map((g) => (
         <section class="service-col">
-          <img src={g.img} alt={g.alt} width="576" height="384" loading={k < 2 ? 'eager' : 'lazy'} />
+          <Figure name={g.fig} label={g.alt} />
           <h2 class="sublabel">{g.title}</h2>
           <ul class="service">
             {g.items.map((i) => <li>{i.href ? <a href={i.href}>{i.name}</a> : <strong>{i.name}</strong>}<span>{i.what}</span>{i.summary && <span class="sum">{i.summary}</span>}</li>)}

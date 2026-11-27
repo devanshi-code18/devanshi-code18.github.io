@@ -23,46 +23,46 @@ export const SITE = {
   substack: '',
 
   // Open-source highlights, most impact first: one plain line each, no pronouns,
-  // with a wordless sketch in public/images/ink.
+  // with a wordless ink figure in src/figures.
   oss: [
     {
-      img: '/images/ink/awq.png',
-      alt: 'One shared dial for three layer sections, then each section with its own dial.',
+      fig: 'awq',
+      alt: 'One scale shared by three blocks of weights splits into a scale for each block.',
       title: 'AWQ models like Qwen3-8B now give the right answers in vLLM (0% → 86% on GSM8K).',
       repo: 'vLLM',
       prs: [['#69002', 'https://github.com/vllm-project/vllm/pull/69002']],
     },
     {
-      img: '/images/ink/decode-tiles.png',
-      alt: 'A big tile sawed apart and glued back together, next to small tiles each finished by its own worker.',
+      fig: 'decode-tiles',
+      alt: 'Two half-finished halves of a tile slide together and the whole tile inks in.',
       title: 'Up to 8% faster int4 decoding for Qwen3-8B on A100.',
       repo: 'Humming',
       prs: [['#218', 'https://github.com/vllm-project/humming/pull/218']],
     },
     {
-      img: '/images/ink/checkpoints.png',
-      alt: 'Suitcases stuck at a door by old tags; once the tags are cut they slide through.',
+      fig: 'checkpoints',
+      alt: 'Twenty-one squares, fifteen crossed out; the crossed-out ones ink in.',
       title: 'All 21 official PyTorch quantized checkpoints load again.',
       repo: 'torchao',
       prs: [['#5092', 'https://github.com/pytorch/ao/pull/5092']],
     },
     {
-      img: '/images/ink/benchmarks.png',
-      alt: 'A race where a runner’s shortcut through a box is crossed out and the honest runner is timed.',
+      fig: 'benchmarks',
+      alt: 'A warmup row and a measured row stop sharing one cache, and the measured row fills in.',
       title: 'vLLM benchmarks now time the model, not the cache.',
       repo: 'vLLM',
       prs: [['#66701', 'https://github.com/vllm-project/vllm/pull/66701'], ['#66720', 'https://github.com/vllm-project/vllm/pull/66720']],
     },
     {
-      img: '/images/ink/fork-safe.png',
-      alt: 'A process tree cracked by a heavy weight at the top, next to a clean tree with the weight set aside.',
+      fig: 'fork-safe',
+      alt: 'A process tree: the inked parent goes clean, and its four broken workers ink in.',
       title: 'torchao no longer crashes vLLM’s GPU workers on import.',
       repo: 'torchao',
       prs: [['#5087', 'https://github.com/pytorch/ao/pull/5087'], ['#5088', 'https://github.com/pytorch/ao/pull/5088']],
     },
     {
-      img: '/images/ink/tied-weights.png',
-      alt: 'Two chained blocks weighed against each other on a balance scale.',
+      fig: 'tied-weights',
+      alt: 'Two matching weight grids go from not equal to equal, tied by a line.',
       title: 'Tied-weight models like Phi-4-mini AWQ load in Transformers 5.',
       repo: 'torchao',
       prs: [['#5152', 'https://github.com/pytorch/ao/pull/5152']],
@@ -89,9 +89,12 @@ export const SITE = {
   // Peer review and judging. Only roles that are confirmed.
   reviewer: [
     { venue: 'CPAL 2027', what: 'Conference on Parsimony and Learning, Proceedings Track (PMLR)', href: 'https://cpal.cc/' },
-    { venue: 'AAAI 2027', what: 'Deployable AI (DAI) Workshop', href: 'https://dai-workshop.github.io/' },
-    { venue: 'WWW 2027', what: 'LLM and Agents for Recommendation Systems (LARS) Workshop', href: 'https://www2027.thewebconf.org/workshops/#workshop-lars' },
-    { venue: 'WSDM 2027', what: 'AutoResearch for IR & RecSys Workshop', href: 'https://www.wsdm-conference.org/2027/accepted-workshops.html' },
+    { venue: 'AAAI 2027', href: 'https://aaai.org/conference/aaai/aaai-27/', workshops: [
+      ['Deployable AI (DAI) Workshop', 'https://dai-workshop.github.io/'],
+      ['Trustworthy Evolution of AI Agents (Trust4RSI-Agent) Workshop', 'https://trust4rsi-agent.github.io/AAAI2027/'],
+    ] },
+    { venue: 'WWW 2027', href: 'https://www2027.thewebconf.org/', workshops: [['LLM and Agents for Recommendation Systems (LARS) Workshop', 'https://www2027.thewebconf.org/workshops/#workshop-lars']] },
+    { venue: 'WSDM 2027', href: 'https://www.wsdm-conference.org/2027/', workshops: [['AutoResearch for IR & RecSys Workshop', 'https://www.wsdm-conference.org/2027/accepted-workshops.html']] },
   ],
   // sponsors: the two biggest (SVIC: its Leadership Council tier; Cal Hacks: first two "presented by";
   // LA AI: largest sponsor prize pools). teams: how many teams she judged (fill in when known).
