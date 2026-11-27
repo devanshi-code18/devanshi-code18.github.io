@@ -2,10 +2,11 @@
 import Base from '../layouts/Base.astro';
 import { SITE } from '../site.js';
 import Figure from '../components/Figure.astro';
+import InkFig from '../components/InkFig.astro';
 
 const groups = [
   { title: 'Wins', fig: 'wins', alt: 'A podium of pen squares; one ink blob drops onto the top.', items: SITE.wins.map((w) => ({ name: w.name, href: w.href, what: w.what, summary: w.summary })) },
-  { title: 'Judging', fig: 'judge', alt: 'Three laptops showing demos; a rosette ribbon lands on one.', items: SITE.judge.map((r) => ({ name: r.venue, href: r.href, what: r.what, summary: [r.teams && `Judged ${r.teams} teams`, r.sponsors && `Sponsored by ${r.sponsors.join(' and ')}`].filter(Boolean).join(' · ') })) },
+  { title: 'Judging', fig: 'judge', ink: true, alt: 'A judging table with a laptop showing a demo and a prize rosette, and a score sheet whose boxes get ticked one by one.', items: SITE.judge.map((r) => ({ name: r.venue, href: r.href, what: r.what, summary: [r.teams && `Judged ${r.teams} teams`, r.sponsors && `Sponsored by ${r.sponsors.join(' and ')}`].filter(Boolean).join(' · ') })) },
 ];
 ---
 <Base title="Hackathons" description={`${SITE.name}: hackathon wins (Meta Global Hackathon, TreeHacks, Base × Ohara) and judging (Cal Hacks, LA AI Hackathon, SVIC).`}>
@@ -14,7 +15,7 @@ const groups = [
     <div class="two-col">
       {groups.map((g) => (
         <section class="service-col">
-          <Figure name={g.fig} label={g.alt} />
+          {g.ink ? <InkFig name={g.fig} label={g.alt} /> : <Figure name={g.fig} label={g.alt} />}
           <h2 class="sublabel">{g.title}</h2>
           <ul class="service">
             {g.items.map((i) => <li>{i.href ? <a href={i.href}>{i.name}</a> : <strong>{i.name}</strong>}<span>{i.what}</span>{i.summary && <span class="sum">{i.summary}</span>}</li>)}

@@ -23,46 +23,46 @@ export const SITE = {
   substack: '',
 
   // Open-source highlights, most impact first: one plain line each, no pronouns,
-  // with a wordless ink figure in src/figures.
+  // with a hand-inked figure that keeps moving (src/components/InkFig.astro).
   oss: [
     {
       fig: 'awq',
-      alt: 'Three blocks of weights with different ranges each get their own dial instead of one shared dial, and the X becomes a check.',
+      alt: 'Three slabs of model weights, each with its own small dial whose needle settles, and a check mark.',
       title: 'AWQ models like Qwen3-8B now give the right answers in vLLM (0% → 86% on GSM8K).',
       repo: 'vLLM',
       prs: [['#69002', 'https://github.com/vllm-project/vllm/pull/69002']],
     },
     {
       fig: 'decode-tiles',
-      alt: 'A GPU chip stops splitting its output tile in two, and one more token streams out.',
+      alt: 'A GPU on a circuit board with a stream of tiles flowing out of it, with speed lines.',
       title: 'Up to 8% faster int4 decoding for Qwen3-8B on A100.',
       repo: 'Humming',
       prs: [['#218', 'https://github.com/vllm-project/humming/pull/218']],
     },
     {
       fig: 'checkpoints',
-      alt: 'Checkpoint files held back by a stale tag; the tag falls off and a file drops into the model.',
+      alt: 'Scissors snip the old tag off a tied stack of files, and the files drop into an open box.',
       title: 'All 21 official PyTorch quantized checkpoints load again.',
       repo: 'torchao',
       prs: [['#5092', 'https://github.com/pytorch/ao/pull/5092']],
     },
     {
       fig: 'benchmarks',
-      alt: 'A stopwatch stops timing the cache drum and times the model chip, and its dial shows the real time.',
+      alt: 'A stopwatch with a sweeping hand times a chip on the track, while a database cylinder is crossed out.',
       title: 'vLLM benchmarks now time the model, not the cache.',
       repo: 'vLLM',
       prs: [['#66701', 'https://github.com/vllm-project/vllm/pull/66701'], ['#66720', 'https://github.com/vllm-project/vllm/pull/66720']],
     },
     {
       fig: 'fork-safe',
-      alt: 'A parent process lets go of the GPU, and its four cracked worker windows each get their own chip.',
+      alt: 'One process branches into four, and each of the four has its own GPU chip that lights up in turn.',
       title: 'torchao no longer crashes vLLM’s GPU workers on import.',
       repo: 'torchao',
       prs: [['#5087', 'https://github.com/pytorch/ao/pull/5087'], ['#5088', 'https://github.com/pytorch/ao/pull/5088']],
     },
     {
       fig: 'tied-weights',
-      alt: 'A balance scale holding two matching weight blocks levels out, and a chain ties the blocks together.',
+      alt: 'A balance scale gently rocking, with two identical weight blocks on its pans and a chain between them.',
       title: 'Tied-weight models like Phi-4-mini AWQ load in Transformers 5.',
       repo: 'torchao',
       prs: [['#5152', 'https://github.com/pytorch/ao/pull/5152']],

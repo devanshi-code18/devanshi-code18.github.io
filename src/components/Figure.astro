@@ -8,7 +8,7 @@ const { name, label, class: cls = '' } = Astro.props;
 const svg = svgs[`../figures/${name}.svg`];
 if (!svg) throw new Error(`Missing figure: ${name}`);
 ---
-<div class={`fig ${cls}`.trim()} role="img" aria-label={label} set:html={svg} />
+<div class={`fig fig-${name} ${cls}`.trim()} role="img" aria-label={label} set:html={svg} />
 
 <script>
   const figs = [...document.querySelectorAll('.fig')];

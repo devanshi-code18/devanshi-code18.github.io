@@ -124,7 +124,7 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
 .oss-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0 2.25rem; }
 @media (max-width: 52rem) { .oss-grid { grid-template-columns: 1fr 1fr; } }
 .oss-card { display: grid; grid-row: span 3; grid-template-rows: subgrid; row-gap: 0; padding-bottom: 3rem; }
-.oss-card > .fig { margin: 0 0 1rem; max-width: 20rem; }
+.oss-card > .fig, .oss-card > .figr { margin: 0 0 1rem; max-width: 20rem; }
 .oss-card h3 { font-weight: 400; font-size: 1.1rem; line-height: 1.3; margin: 0 0 .5rem; text-wrap: balance; }
 .oss-card p { margin: 0 0 .6rem; font-size: .95rem; line-height: 1.55; }
 .oss-card code, .career code { font-family: var(--mono); font-size: .85em; background: var(--code-bg); padding: .05em .3em; border-radius: 3px; }
@@ -169,9 +169,9 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
 .block .earlier li:first-child { border-top: 0; padding-top: 0; }
 .earlier .sep { color: var(--faint); }
 .earlier .when { color: var(--muted); font-size: .9rem; }
-.service-col .fig { max-width: 18rem; margin: 0 0 .75rem; }
+.service-col .fig, .service-col .figr { max-width: 18rem; margin: 0 0 .75rem; }
 .reviewing { display: grid; grid-template-columns: 16rem 1fr; gap: 0 2.25rem; align-items: start; }
-.reviewing .fig { width: 100%; }
+.reviewing .fig, .reviewing .figr { width: 100%; }
 
 /* career */
 .career { list-style: none; margin: 0; padding: 0; }
@@ -328,7 +328,7 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
   .role { grid-template-columns: 1fr; gap: .3rem; }
   .career-line { height: 6rem; background-image: url('/images/ink/career-still-phone.png'); }
   .reviewing { grid-template-columns: 1fr; gap: 1rem; }
-  .reviewing .fig { max-width: 18rem; }
+  .reviewing .fig, .reviewing .figr { max-width: 18rem; }
   .earlier li { grid-template-columns: 1fr; }
   .hero-art { margin: 0 0 1.5rem; }
   .ink-grid { height: 12rem; margin: 0 0 2rem; background-image: url('/images/ink/grid-still-phone.png'); }
@@ -453,3 +453,35 @@ html[data-dir="prev"]::view-transition-new(root) { animation: vt-in-left .24s ea
 .fig .float { transform-box: fill-box; transform-origin: center; animation: fig-bob 4.5s ease-in-out infinite; }
 @keyframes fig-bob { 50% { transform: translate(4px, -5px) rotate(6deg); } }
 @media (prefers-reduced-motion: reduce) { .fig .float { animation: none; } }
+
+/* Hand-inked figures that keep moving (src/components/InkFig.astro): a still drawing with a few
+   parts laid back on top and animated on a loop, plus pen strokes that draw themselves in. */
+.figr { position: relative; width: 100%; }
+.figr img { display: block; }
+.figr .base { width: 100%; height: auto; }
+.figr .part { position: absolute; height: auto; transform-origin: var(--ox, 50%) var(--oy, 50%); }
+.figr .ov { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.figr .ov path { fill: none; stroke: var(--text); stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1 1; stroke-dashoffset: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .figr-awq .part { animation: fr-dial 4.2s ease-in-out infinite; animation-delay: calc(var(--k) * .6s); }
+  .figr-decode-tiles .part { animation: fr-token 1.5s ease-in-out infinite; animation-delay: calc(var(--k) * .11s); }
+  .figr-checkpoints .p0 { animation: fr-snip 2.8s ease-in-out infinite; }
+  .figr-checkpoints .p1 { animation: fr-bob 2.8s ease-in-out infinite; }
+  .figr-benchmarks .part { animation: fr-spin 4s linear infinite; }
+  .figr-fork-safe .part { animation: fr-pulse 2.4s ease-in-out infinite; animation-delay: calc(var(--k) * .3s); }
+  .figr-tied-weights .base { transform-origin: 50% 9%; animation: fr-rock 4.6s ease-in-out infinite; }
+  .figr-judge .ov path { animation: fr-pen 4.8s ease-in-out infinite; animation-delay: calc(var(--k) * .45s); }
+  .figr-reviewer .ov path { animation: fr-pen 5.2s ease-in-out infinite; animation-delay: calc(var(--k) * .9s); }
+  .fig-wins.done .a.mv { animation: fr-drop 3.6s cubic-bezier(.3, .9, .4, 1) infinite; }
+  .fig-wins.done .a:not(.mv) { animation: fr-rays 3.6s ease infinite; }
+}
+@keyframes fr-dial { 0%, 50%, 100% { transform: rotate(0); } 9% { transform: rotate(-40deg); } 19% { transform: rotate(22deg); } 28% { transform: rotate(-10deg); } 36% { transform: rotate(4deg); } 43% { transform: rotate(-1.5deg); } }
+@keyframes fr-token { 0%, 45%, 100% { transform: none; } 18% { transform: translateX(14%) scale(1.14); } }
+@keyframes fr-snip { 0%, 36%, 100% { transform: rotate(0); } 9% { transform: rotate(-12deg); } 18% { transform: rotate(0); } 27% { transform: rotate(-12deg); } }
+@keyframes fr-bob { 0%, 30%, 100% { transform: none; } 62% { transform: translateY(4%); } }
+@keyframes fr-spin { to { transform: rotate(360deg); } }
+@keyframes fr-pulse { 0%, 34%, 100% { transform: none; } 13% { transform: scale(1.4); } }
+@keyframes fr-rock { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(2deg); } 75% { transform: rotate(-2deg); } }
+@keyframes fr-pen { 0% { stroke-dashoffset: 1; opacity: 1; } 14% { stroke-dashoffset: 0; } 72% { stroke-dashoffset: 0; opacity: 1; } 84%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes fr-drop { 0% { transform: translateY(-34px); opacity: 0; } 10% { opacity: 1; } 26% { transform: none; } 32% { transform: translateY(-5px); } 38% { transform: none; } 82% { transform: none; opacity: 1; } 94%, 100% { transform: none; opacity: 0; } }
+@keyframes fr-rays { 0%, 30% { opacity: 0; } 38%, 80% { opacity: 1; } 92%, 100% { opacity: 0; } }

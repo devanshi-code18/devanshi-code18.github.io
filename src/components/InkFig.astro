@@ -1,0 +1,31 @@
+---
+// A hand-inked figure that keeps moving: a still drawing (public/images/fig/<name>.png) with
+// small parts cut out of it and laid back on top, so CSS can animate them on a loop (a dial
+// that settles, tokens streaming, scissors snipping, a stopwatch hand sweeping...). Some
+// figures add pen strokes that draw themselves in (ticks on a score sheet, review notes).
+// Parts and their pivots come from src/figures/raster.json (made by the figure pipeline).
+// With reduced motion everything stays still, fully drawn.
+import figs from '../figures/raster.json';
+const { name, label, class: cls = '' } = Astro.props;
+const f = figs[name];
+if (!f) throw new Error(`Missing figure: ${name}`);
+
+// pen strokes drawn on top, in the figure's own pixels; --k staggers them
+const tick = (cx, cy, k) => `<path pathLength="1" style="--k:${k}" d="M${cx - 6} ${cy - 1} L${cx - 1} ${cy + 5} L${cx + 9} ${cy - 9}"/>`;
+const overlays = {
+  judge: [tick(376, 95, 0), tick(373, 125, 1), tick(370, 154, 2), tick(368, 183, 3)].join(''),
+  reviewer: [
+    `<path pathLength="1" style="--k:0" d="M206 172 C 150 170 132 180 136 189 C 140 199 200 201 252 197 C 286 194 292 182 270 176 C 252 171 226 171 214 173"/>`,
+    `<path pathLength="1" style="--k:1" d="M292 281 q 11 -5 22 0 t 22 0 t 22 0 t 22 0"/>`,
+    `<path pathLength="1" style="--k:2" d="M116 236 l 9 -9 M120 240 l 9 -9"/>`,
+  ].join(''),
+};
+---
+<div class={`figr figr-${name} ${cls}`.trim()} role="img" aria-label={label}>
+  <img class="base" src={f.base} alt="" width={f.w} height={f.h} loading="lazy" decoding="async" />
+  {f.parts.map((p, i) => (
+    <img class={`part p${i}`} src={p.src} alt="" loading="lazy" decoding="async"
+      style={`left:${p.x}%;top:${p.y}%;width:${p.w}%;--ox:${p.ox}%;--oy:${p.oy}%;--k:${i}`} />
+  ))}
+  {overlays[name] && <svg class="ov" viewBox={`0 0 ${f.w} ${f.h}`} aria-hidden="true" set:html={overlays[name]} />}
+</div>

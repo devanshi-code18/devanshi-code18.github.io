@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import { SITE } from '../site.js';
 import CareerLine from '../components/CareerLine.astro';
-import Figure from '../components/Figure.astro';
+import InkFig from '../components/InkFig.astro';
 
 const main = SITE.career.filter((c) => !c.earlier);
 const earlier = SITE.career.filter((c) => c.earlier);
@@ -44,7 +44,7 @@ const stations = all.map(({ c, row }, i) => {
     <section class="block">
       <h2 class="label">Reviewing</h2>
       <div class="reviewing">
-        <Figure name="reviewer" label="A stack of two-column papers; review notes and a check mark are penned onto the top one." />
+        <InkFig name="reviewer" label="A stack of two-column papers with a fountain pen; review notes get circled and underlined on the top page." />
         <ul class="service">
           {SITE.reviewer.map((r) => <li>{r.href ? <a href={r.href}>{r.venue}</a> : <strong>{r.venue}</strong>}{r.what && <span>{r.what}</span>}{r.workshops && r.workshops.map(([name, href]) => <span class="sub"><a href={href}>{name}</a></span>)}</li>)}
         </ul>

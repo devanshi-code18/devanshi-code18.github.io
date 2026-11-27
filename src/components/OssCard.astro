@@ -1,11 +1,11 @@
 ---
 import { repoLogo, projectName } from '../lib/oss.js';
-import Figure from './Figure.astro';
+import InkFig from './InkFig.astro';
 // One open-source highlight: a wordless ink figure, one line on what I did, and its pull requests.
 const { item } = Astro.props;
 ---
 <article class="oss-card">
-  <Figure name={item.fig} label={item.alt} />
+  <InkFig name={item.fig} label={item.alt} />
   <h3>{item.title}</h3>
   <p class="prs">
     <span class="repo">{repoLogo(item.repo) && <img class="logo" src={repoLogo(item.repo)} alt="" width="112" height="112" />}{projectName(item.repo)}</span>
