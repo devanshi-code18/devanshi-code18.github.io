@@ -45,13 +45,6 @@ const service = [
       ))}
     </ol>
 
-    <h2 class="sublabel">Earlier, at UC San Diego</h2>
-    <ul class="earlier">
-      {earlier.map((c, k) => (
-        <li data-station={`earlier-${k}`}><span class="when">{c.dates}</span><span class="role-text">{c.href ? <a class="place ink-hl" href={c.href}>{c.org}<svg class="ink-ul" aria-hidden="true"><path pathLength="1" /></svg></a> : <strong class="place ink-hl">{c.org}<svg class="ink-ul" aria-hidden="true"><path pathLength="1" /></svg></strong>}<span class="sep"> · </span>{c.role}{c.note && <><span class="sep"> · </span><Fragment set:html={c.note} /></>}</span></li>
-      ))}
-    </ul>
-
     <section class="block">
       <h2 class="label">Service and awards</h2>
       <div class="three-col">
@@ -65,6 +58,15 @@ const service = [
           </div>
         ))}
       </div>
+    </section>
+
+    <section class="block">
+      <h2 class="label">Earlier, at UC San Diego</h2>
+      <ul class="earlier">
+        {earlier.map((c, k) => (
+          <li data-station={`earlier-${k}`}><span class="when">{c.dates}</span><span class="role-text">{c.href ? <a class="place ink-hl" href={c.href}>{c.org}<svg class="ink-ul" aria-hidden="true"><path pathLength="1" /></svg></a> : <strong class="place ink-hl">{c.org}<svg class="ink-ul" aria-hidden="true"><path pathLength="1" /></svg></strong>}<span class="sep"> · </span>{c.role}{c.note && <><span class="sep"> · </span><Fragment set:html={c.note} /></>}</span></li>
+        ))}
+      </ul>
     </section>
   </article>
 </Base>
