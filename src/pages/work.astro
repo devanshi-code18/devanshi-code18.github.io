@@ -44,7 +44,7 @@ const stations = all.map(({ c, row }, i) => {
     <section class="block">
       <h2 class="label">Reviewing</h2>
       <div class="reviewing">
-        <Figure name="reviewer" label="A page of text under a magnifying glass; a check mark draws in inside the lens." />
+        <Figure name="reviewer" label="A stack of two-column papers; review notes and a check mark are penned onto the top one." />
         <ul class="service">
           {SITE.reviewer.map((r) => <li>{r.href ? <a href={r.href}>{r.venue}</a> : <strong>{r.venue}</strong>}{r.what && <span>{r.what}</span>}{r.workshops && r.workshops.map(([name, href]) => <span class="sub"><a href={href}>{name}</a></span>)}</li>)}
         </ul>

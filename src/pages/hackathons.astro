@@ -5,7 +5,7 @@ import Figure from '../components/Figure.astro';
 
 const groups = [
   { title: 'Wins', fig: 'wins', alt: 'A podium of pen squares; one ink blob drops onto the top.', items: SITE.wins.map((w) => ({ name: w.name, href: w.href, what: w.what, summary: w.summary })) },
-  { title: 'Judging', fig: 'judge', alt: 'A scorecard of teams and criteria; the scores ink in and the winning row is circled.', items: SITE.judge.map((r) => ({ name: r.venue, href: r.href, what: r.what, summary: [r.teams && `Judged ${r.teams} teams`, r.sponsors && `Sponsored by ${r.sponsors.join(' and ')}`].filter(Boolean).join(' · ') })) },
+  { title: 'Judging', fig: 'judge', alt: 'Three laptops showing demos; a rosette ribbon lands on one.', items: SITE.judge.map((r) => ({ name: r.venue, href: r.href, what: r.what, summary: [r.teams && `Judged ${r.teams} teams`, r.sponsors && `Sponsored by ${r.sponsors.join(' and ')}`].filter(Boolean).join(' · ') })) },
 ];
 ---
 <Base title="Hackathons" description={`${SITE.name}: hackathon wins (Meta Global Hackathon, TreeHacks, Base × Ohara) and judging (Cal Hacks, LA AI Hackathon, SVIC).`}>
