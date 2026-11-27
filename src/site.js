@@ -88,13 +88,13 @@ export const SITE = {
 
   // Peer review and judging. Only roles that are confirmed.
   reviewer: [
-    { venue: 'CPAL 2027', what: 'Conference on Parsimony and Learning, Proceedings Track (PMLR)', href: 'https://cpal.cc/' },
-    { venue: 'AAAI 2027', href: 'https://aaai.org/conference/aaai/aaai-27/', workshops: [
+    { venue: 'Conference on Parsimony and Learning (CPAL 2027)', what: 'Proceedings Track (PMLR)', href: 'https://cpal.cc/' },
+    { venue: 'AAAI Conference on Artificial Intelligence (AAAI 2027)', href: 'https://aaai.org/conference/aaai/aaai-27/', workshops: [
       ['Deployable AI (DAI) Workshop', 'https://dai-workshop.github.io/'],
       ['Trustworthy Evolution of AI Agents (Trust4RSI-Agent) Workshop', 'https://trust4rsi-agent.github.io/AAAI2027/'],
     ] },
-    { venue: 'WWW 2027', href: 'https://www2027.thewebconf.org/', workshops: [['LLM and Agents for Recommendation Systems (LARS) Workshop', 'https://www2027.thewebconf.org/workshops/#workshop-lars']] },
-    { venue: 'WSDM 2027', href: 'https://www.wsdm-conference.org/2027/', workshops: [['AutoResearch for IR & RecSys Workshop', 'https://www.wsdm-conference.org/2027/accepted-workshops.html']] },
+    { venue: 'ACM Web Conference (WWW 2027)', href: 'https://www2027.thewebconf.org/', workshops: [['LLM and Agents for Recommendation Systems (LARS) Workshop', 'https://www2027.thewebconf.org/workshops/#workshop-lars']] },
+    { venue: 'ACM International Conference on Web Search and Data Mining (WSDM 2027)', href: 'https://www.wsdm-conference.org/2027/', workshops: [['AutoResearch for IR & RecSys Workshop', 'https://www.wsdm-conference.org/2027/accepted-workshops.html']] },
   ],
   // sponsors: the two biggest (SVIC: its Leadership Council tier; Cal Hacks: first two "presented by";
   // LA AI: largest sponsor prize pools). teams: how many teams she judged (fill in when known).
