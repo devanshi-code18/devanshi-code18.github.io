@@ -89,7 +89,7 @@ export const SITE = {
   // Peer review and judging. Only roles that are confirmed.
   reviewer: [
     { venue: 'Conference on Parsimony and Learning (CPAL 2027)', what: 'Proceedings Track (PMLR)', href: 'https://cpal.cc/' },
-    { venue: 'Conference of the Association for the Advancement of Artificial Intelligence (AAAI 2027)', href: 'https://aaai.org/conference/aaai/aaai-27/', workshops: [
+    { venue: 'Conference of the Association for the Advancement of Artificial Intelligence 2027', href: 'https://aaai.org/conference/aaai/aaai-27/', workshops: [
       ['Deployable AI (DAI) Workshop', 'https://dai-workshop.github.io/'],
       ['Trustworthy Evolution of AI Agents (Trust4RSI-Agent) Workshop', 'https://trust4rsi-agent.github.io/AAAI2027/'],
     ] },
