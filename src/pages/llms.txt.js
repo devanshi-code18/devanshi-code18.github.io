@@ -21,7 +21,7 @@ export async function GET() {
     `- [Work](${new URL('/work/', SITE.url).href})`,
     `- [Open source](${new URL('/open-source/', SITE.url).href})`,
     `- [All writing](${new URL('/writing/', SITE.url).href})`,
-    ...SITE.links.map((l) => `- [${l.label}](${l.href})`),
+    ...SITE.links.filter((l) => l.label !== 'Google Scholar').map((l) => `- [${l.label}](${l.href})`),
     '',
   ];
   return new Response(lines.join('\n'), { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });

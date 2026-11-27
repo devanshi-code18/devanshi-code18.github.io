@@ -6,7 +6,7 @@ import { getWriting } from '../../lib/writing.js';
 const writing = await getWriting();
 const years = [...new Set(writing.map((p) => p.date.getUTCFullYear()))];
 ---
-<Base title="Writing" description="Posts by Devanshi Jain on ML inference systems.">
+<Base title="Writing" description="Writing by Devanshi Jain on ML inference systems. First post coming soon.">
   <article class="page">
     <h1 class="page-title">Writing</h1>
     {writing.length === 0 && (
