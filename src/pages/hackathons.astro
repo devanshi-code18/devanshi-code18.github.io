@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import { SITE } from '../site.js';
 
 const groups = [
-  { title: 'Wins', img: '/images/work/wins.png', alt: 'A stick figure holds a trophy over their head.', items: SITE.wins.map((w) => ({ name: w.name, href: w.href, what: w.what })) },
+  { title: 'Wins', img: '/images/work/wins.png', alt: 'A stick figure holds a trophy over their head.', items: SITE.wins.map((w) => ({ name: w.name, href: w.href, what: w.what, summary: w.summary })) },
   { title: 'Judging', img: '/images/work/judge.png', alt: 'A stick figure holds up a scorecard in front of a proud team.', items: SITE.judge.map((r) => ({ name: r.venue, href: r.href, what: r.what })) },
 ];
 ---
@@ -16,7 +16,7 @@ const groups = [
           <img src={g.img} alt={g.alt} width="576" height="384" loading={k < 2 ? 'eager' : 'lazy'} />
           <h2 class="sublabel">{g.title}</h2>
           <ul class="service">
-            {g.items.map((i) => <li>{i.href ? <a href={i.href}>{i.name}</a> : <strong>{i.name}</strong>}<span>{i.what}</span></li>)}
+            {g.items.map((i) => <li>{i.href ? <a href={i.href}>{i.name}</a> : <strong>{i.name}</strong>}<span>{i.what}</span>{i.summary && <span class="sum">{i.summary}</span>}</li>)}
           </ul>
         </section>
       ))}

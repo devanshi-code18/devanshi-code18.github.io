@@ -199,6 +199,7 @@ a:hover { color: var(--text); text-decoration-color: currentColor; }
 .service li:first-child { border-top: 0; padding-top: 0; }
 .service a, .service strong { font-weight: 400; display: block; }
 .service span { display: block; font-size: .92rem; color: var(--muted); line-height: 1.45; }
+.service .sum { color: var(--text); font-size: .95rem; line-height: 1.5; margin-top: .3rem; text-wrap: pretty; }
 
 /* every pull request */
 .repo-group + .repo-group { margin-top: 1.5rem; }

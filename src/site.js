@@ -100,7 +100,8 @@ export const SITE = {
   ],
   wins: [
     { name: 'Meta Global Hackathon', what: 'Judges’ Choice, 2026' },
-    { name: 'Base × Ohara Buildathon', what: 'Prize winner, 2025' },
-    { name: 'TreeHacks 2025', what: '2nd prize, Liquid AI track', href: 'https://devpost.com/software/optimized-convolution-kernels-for-edge-ai' },
+    { name: 'Base × Ohara Buildathon', what: 'Prize winner, 2025', summary: 'An RSVP and voting app on Base, built in under 2 hours with Ohara’s AI agents: stake USDC to commit, get it back on showing up.' },
+    { name: 'TreeHacks 2025', what: '2nd prize, Liquid AI Edge AI track · solo', href: 'https://devpost.com/software/optimized-convolution-kernels-for-edge-ai',
+      summary: 'ExecuTorch convolution operators for phones that pick a direct or FFT kernel by filter size, for faster on‑device inference.' },
   ],
 };
